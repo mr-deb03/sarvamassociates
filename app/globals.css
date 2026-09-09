@@ -1,0 +1,394 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Sarvam Associates — design tokens
+
+   Quiet luxury + institutional precision + human advisory.
+   Every token here is also a real CSS custom property, so inline SVG, motion
+   values and meta[theme-color] can read them without importing anything.
+   ========================================================================== */
+
+@theme {
+  /* ------------------------------------------------------------------ *
+   * COLOUR — target ratio: 70% ivory · 20% dark · 8% sand · 2% champagne
+   * ------------------------------------------------------------------ */
+
+  /* Warm neutrals — the dominant 70%. Ivory replaces pure white entirely. */
+  --color-ivory: #f5f1e8;
+  --color-sand: #e8e1d4;
+  --color-line: #d8d2c5;
+
+  /* Dark — the structural 20%. Never pure black. */
+  --color-charcoal: #101a19;
+  --color-forest: #182625;
+  /* One step up from forest, for raised panels inside dark sections. */
+  --color-forest-600: #24302e;
+
+  /* Text */
+  /* Paragraph text on light. Softened charcoal, 10.6:1 on ivory. */
+  --color-body: #2e3a38;
+  /* Metadata and hints ONLY — 4.45:1 on ivory, which is below AA for body
+     copy. The palette specifies this value, so it is kept exactly, and its use
+     is confined to genuinely secondary text as the design system directs. */
+  --color-muted: #68716e;
+
+  /* Champagne — the rare 2%. Accent lines, active states, tiny details. */
+  --color-champagne: #b89b63;
+  --color-champagne-light: #d4bc8a;
+  /* Champagne is 2.37:1 on ivory and must never carry text there. This
+     darkened tone is the only champagne permitted as text on a light ground
+     (5.0:1). On dark grounds, plain --color-champagne is fine at 6.6:1. */
+  --color-champagne-ink: #7a6433;
+
+  /* Semantic — both restrained, never bright. */
+  --color-positive: #52705f;
+  --color-error: #a65b55;
+
+  /* ------------------------------------------------------------------ *
+   * TYPE
+   * ------------------------------------------------------------------ */
+
+  --font-display: var(--font-cormorant), "Times New Roman", Georgia, serif;
+  --font-sans: var(--font-manrope), system-ui, -apple-system, sans-serif;
+
+  /* Display scale. Fluid by design — never a shrunk desktop size. */
+  --text-display-hero: clamp(3.25rem, 6.5vw, 6.5rem);
+  --text-display-hero--line-height: 0.96;
+  --text-display-hero--letter-spacing: -0.035em;
+  --text-display-hero--font-weight: 500;
+
+  --text-display-lg: clamp(2.5rem, 4.5vw, 4.75rem);
+  --text-display-lg--line-height: 1.02;
+  --text-display-lg--letter-spacing: -0.028em;
+  --text-display-lg--font-weight: 500;
+
+  --text-display-md: clamp(1.875rem, 3vw, 3.25rem);
+  --text-display-md--line-height: 1.1;
+  --text-display-md--letter-spacing: -0.022em;
+  --text-display-md--font-weight: 500;
+
+  --text-display-sm: clamp(1.5rem, 2.2vw, 2.125rem);
+  --text-display-sm--line-height: 1.18;
+  --text-display-sm--letter-spacing: -0.018em;
+  --text-display-sm--font-weight: 500;
+
+  /* Interface scale. */
+  --text-card: 1.375rem;
+  --text-card--line-height: 1.25;
+  --text-card--letter-spacing: -0.012em;
+  --text-card--font-weight: 600;
+
+  --text-body-lg: clamp(1.0625rem, 1.2vw, 1.25rem);
+  --text-body-lg--line-height: 1.65;
+
+  --text-base: 1rem;
+  --text-base--line-height: 1.7;
+
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.55;
+
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.5;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-eyebrow--letter-spacing: 0.15em;
+  --text-eyebrow--font-weight: 600;
+
+  /* Statistics get their own institutional voice — sans, tight, tabular. */
+  --text-stat: clamp(2.5rem, 5vw, 5.5rem);
+  --text-stat--line-height: 0.92;
+  --text-stat--letter-spacing: -0.045em;
+  --text-stat--font-weight: 700;
+
+  --text-stat-sm: clamp(1.875rem, 3vw, 2.75rem);
+  --text-stat-sm--line-height: 1;
+  --text-stat-sm--letter-spacing: -0.038em;
+  --text-stat-sm--font-weight: 700;
+
+  /* ------------------------------------------------------------------ *
+   * FORM — restrained rounding; established, not playful.
+   * ------------------------------------------------------------------ */
+
+  --radius-input: 10px;
+  --radius-card: 14px;
+  --radius-panel: 24px;
+  --radius-pill: 999px;
+
+  /* Elevation is nearly absent by design. Hierarchy comes from type and
+     space, not from shadows. */
+  --shadow-raise: 0 1px 2px rgb(16 26 25 / 0.03);
+  --shadow-lift: 0 1px 2px rgb(16 26 25 / 0.03), 0 8px 24px rgb(16 26 25 / 0.05);
+  --shadow-float: 0 2px 6px rgb(16 26 25 / 0.04), 0 20px 56px rgb(16 26 25 / 0.09);
+
+  /* ------------------------------------------------------------------ *
+   * MOTION — calm, expensive, intentional. 200–500ms.
+   * ------------------------------------------------------------------ */
+
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ivory);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Display face defaults. Sizing always comes from an explicit text-* token
+     so no heading is left at a browser default. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-champagne);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-champagne) 28%, transparent);
+    color: var(--color-charcoal);
+  }
+}
+
+/* ==========================================================================
+   Layout primitives
+   ========================================================================== */
+
+/* Content column: 1280px max, 64px desktop gutter → 1408px outer.
+   Every section uses this. No section invents its own width. */
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1.5rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 4rem;
+  }
+}
+
+/* Long-form editorial measure — 45–75 characters. */
+@utility container-prose {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 44rem;
+  padding-inline: 1.5rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Vertical rhythm. Generous by default — premium design needs breathing room. */
+@utility section-sm {
+  padding-block: 3rem;
+  @media (width >= 48rem) {
+    padding-block: 5rem;
+  }
+}
+
+@utility section {
+  padding-block: 4.5rem;
+  @media (width >= 48rem) {
+    padding-block: 7.5rem;
+  }
+}
+
+@utility section-lg {
+  padding-block: 6rem;
+  @media (width >= 48rem) {
+    padding-block: 10rem;
+  }
+}
+
+/* Paragraph measure helpers. */
+@utility measure {
+  max-width: 40rem;
+}
+
+@utility measure-wide {
+  max-width: 46rem;
+}
+
+/* ==========================================================================
+   Detail utilities
+   ========================================================================== */
+
+/* Tabular figures. Required on every rupee value and animated number —
+   proportional digits reflow their container on each frame otherwise. */
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* The champagne hairline that precedes an eyebrow label. This is the accent's
+   main job on the site: a quiet detail, never a headline colour. */
+@utility accent-rule {
+  display: inline-block;
+  width: 2rem;
+  height: 1px;
+  background-color: var(--color-champagne);
+  vertical-align: middle;
+}
+
+/* Barely-there paper texture. Pure CSS, no request, no layout cost. */
+@utility grain {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* Animated underline for inline editorial links. */
+@utility link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.4s var(--ease-editorial);
+
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+/* ==========================================================================
+   Keyframes — run during first paint, no JS gate, cannot delay LCP.
+   ========================================================================== */
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Scroll reveals — CSS-first, progressively enhanced.
+
+   Content is VISIBLE BY DEFAULT. The hidden state applies only once the inline
+   bootstrap script has added `.js` to <html>, and only when the user has not
+   asked for reduced motion.
+
+   That ordering is load-bearing. A JS-first reveal leaves every below-the-fold
+   section — disclaimers and risk blocks included — invisible to anyone whose
+   JavaScript is slow, blocked or broken. On a site with mandatory risk
+   disclosure that is not an acceptable failure mode.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal],
+  html.js [data-reveal-item] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.7s var(--ease-editorial),
+      transform 0.7s var(--ease-editorial);
+  }
+
+  /* A stagger parent reveals its children, not itself. */
+  html.js [data-reveal="stagger"] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  html.js [data-reveal][data-revealed],
+  html.js [data-reveal][data-revealed] [data-reveal-item] {
+    opacity: 1;
+    transform: none;
+  }
+
+  html.js [data-reveal][data-revealed] [data-reveal-item]:nth-child(1) {
+    transition-delay: 0.04s;
+  }
+  html.js [data-reveal][data-revealed] [data-reveal-item]:nth-child(2) {
+    transition-delay: 0.12s;
+  }
+  html.js [data-reveal][data-revealed] [data-reveal-item]:nth-child(3) {
+    transition-delay: 0.2s;
+  }
+  html.js [data-reveal][data-revealed] [data-reveal-item]:nth-child(4) {
+    transition-delay: 0.28s;
+  }
+  html.js [data-reveal][data-revealed] [data-reveal-item]:nth-child(5) {
+    transition-delay: 0.36s;
+  }
+  html.js [data-reveal][data-revealed] [data-reveal-item]:nth-child(6) {
+    transition-delay: 0.44s;
+  }
+  html.js [data-reveal][data-revealed] [data-reveal-item]:nth-child(n + 7) {
+    transition-delay: 0.5s;
+  }
+
+  .hero-label {
+    animation: fadeSlideIn 0.7s var(--ease-editorial) both;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion — the CSS half of the answer. The JS half is
+   <MotionConfig reducedMotion="user"> in app/providers.tsx.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
