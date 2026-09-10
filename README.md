@@ -199,6 +199,22 @@ that must never ship: guaranteed/assured returns, "risk-free", "100% safe",
 Advisor", "capital guarantee". It is a regression guard — the corrections below
 are easy to undo during a copy edit.
 
+### A trap worth knowing about
+
+The mobile menu panel is **portalled to `document.body`**, and that is
+load-bearing rather than tidiness.
+
+Once the page scrolls, `HeaderShell` applies `backdrop-blur-xl`. An element
+with a `backdrop-filter` becomes the containing block for every
+`position: fixed` descendant — so with the panel nested inside `<header>`, its
+`fixed inset-0` resolved against the 80px-tall header instead of the viewport.
+The menu opened into an 80px strip, which read as "the menu stopped working
+after scrolling".
+
+The same applies to `filter`, `transform`, `perspective`, `contain: paint` and
+`will-change`. If you ever add one of those to an ancestor, anything `fixed`
+inside it will silently start positioning against that ancestor.
+
 ### 4. Reveals degrade to visible
 
 Scroll animations are CSS-first (`globals.css`), not JS-first. Content is
