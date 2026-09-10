@@ -48,7 +48,7 @@ export function LegalPage({
         crumbs={[{ label: crumb }]}
       />
 
-      <section className="bg-ivory section-sm">
+      <section className="bg-paper section-sm">
         <div className="container-page">
           <div className="mx-auto max-w-3xl">
             <p className="text-muted border-line mb-10 border-b pb-6 text-xs tracking-[0.08em] uppercase">
@@ -58,7 +58,7 @@ export function LegalPage({
             <div className="space-y-10">
               {sections.map((section) => (
                 <section key={section.heading}>
-                  <h2 className="font-display text-charcoal text-xl font-semibold lg:text-2xl">
+                  <h2 className="font-display text-navy text-xl font-semibold lg:text-2xl">
                     {section.heading}
                   </h2>
 

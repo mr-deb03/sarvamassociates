@@ -38,8 +38,8 @@ export function RiskMeter({
               i < meta.level
                 ? meta.pipClassName
                 : onDark
-                  ? "bg-ivory/12"
-                  : "bg-charcoal/10",
+                  ? "bg-paper/12"
+                  : "bg-navy/10",
             )}
           />
         ))}
@@ -49,7 +49,7 @@ export function RiskMeter({
         <span
           className={cn(
             "text-xs font-medium",
-            onDark ? "text-ivory/60" : "text-muted",
+            onDark ? "text-paper/60" : "text-muted",
           )}
         >
           {meta.label} risk

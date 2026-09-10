@@ -47,7 +47,7 @@ export function SipCalculator() {
   const gain = value - invested;
 
   return (
-    <div className="border-line rounded-card border bg-ivory p-6 lg:p-9">
+    <div className="border-line rounded-card border bg-card p-6 lg:p-9">
       {/* Mode */}
       <div
         role="group"
@@ -66,8 +66,8 @@ export function SipCalculator() {
             className={cn(
               "rounded-sm px-5 py-2 text-sm font-medium transition-colors",
               mode === m
-                ? "bg-charcoal text-ivory"
-                : "text-body hover:text-charcoal",
+                ? "bg-navy text-paper"
+                : "text-body hover:text-navy",
             )}
           >
             {m === "sip" ? "Monthly SIP" : "Lump sum"}
@@ -114,31 +114,31 @@ export function SipCalculator() {
         </div>
 
         {/* Output */}
-        <div className="bg-charcoal grain relative isolate flex flex-col justify-center overflow-hidden rounded-card p-7 lg:p-8">
-          <p className="text-ivory/40 text-xs tracking-[0.12em] uppercase">
+        <div className="bg-navy grain relative isolate flex flex-col justify-center overflow-hidden rounded-card p-7 lg:p-8">
+          <p className="text-paper/40 text-xs tracking-[0.12em] uppercase">
             Illustrative value after {years} year{years === 1 ? "" : "s"}
           </p>
 
-          <p className="font-sans text-stat-sm text-ivory tnum mt-3">
+          <p className="font-sans text-stat-sm text-paper tnum mt-3">
             {formatInr(value)}
           </p>
 
-          <dl className="border-ivory/12 mt-7 space-y-3 border-t pt-6">
+          <dl className="border-paper/12 mt-7 space-y-3 border-t pt-6">
             <div className="flex items-baseline justify-between gap-4">
-              <dt className="text-ivory/50 text-sm">You would have invested</dt>
-              <dd className="text-ivory text-sm font-semibold tabular-nums">
+              <dt className="text-paper/50 text-sm">You would have invested</dt>
+              <dd className="text-paper text-sm font-semibold tabular-nums">
                 {formatInr(invested)}
               </dd>
             </div>
             <div className="flex items-baseline justify-between gap-4">
-              <dt className="text-ivory/50 text-sm">Illustrative growth</dt>
-              <dd className="text-ivory text-sm font-semibold tnum">
+              <dt className="text-paper/50 text-sm">Illustrative growth</dt>
+              <dd className="text-paper text-sm font-semibold tnum">
                 {formatInr(gain)}
               </dd>
             </div>
           </dl>
 
-          <p className="text-ivory/40 mt-6 text-xs leading-relaxed">
+          <p className="text-paper/40 mt-6 text-xs leading-relaxed">
             This assumes a steady {rate}% every year for {years} years. Real
             markets do not behave that way — they rise and fall, sometimes for
             years at a time. Treat this as arithmetic, not a forecast.
@@ -173,12 +173,12 @@ function Slider({
   return (
     <div>
       <div className="mb-2 flex items-baseline justify-between gap-4">
-        <label htmlFor={id} className="text-charcoal text-sm font-medium">
+        <label htmlFor={id} className="text-navy text-sm font-medium">
           {label}
         </label>
         <output
           htmlFor={id}
-          className="font-display text-charcoal text-lg font-bold tabular-nums"
+          className="font-display text-navy text-lg font-bold tabular-nums"
         >
           {display}
         </output>
@@ -192,7 +192,7 @@ function Slider({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="accent-charcoal bg-line h-1.5 w-full cursor-pointer appearance-none rounded-full"
+        className="accent-navy bg-line h-1.5 w-full cursor-pointer appearance-none rounded-full"
       />
 
       {hint && <p className="text-muted mt-2 text-xs">{hint}</p>}

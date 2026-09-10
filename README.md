@@ -8,7 +8,7 @@ Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 · Motion.
 
 ```bash
 npm run dev      # http://localhost:3000
-npm run build    # 44 routes, all prerendered
+npm run build    # 49 routes, all prerendered
 npm run check    # claim guard + typecheck + lint  ← run before every commit
 ```
 
@@ -28,43 +28,101 @@ supplied. Each is a single constant.
 
 ---
 
+## Brand assets
+
+Both supplied PNGs live untouched in `public/image/`. Everything else there is
+derived by `npm run build:assets`
+([scripts/build-brand-assets.mjs](scripts/build-brand-assets.mjs)), so it is
+reproducible — re-run it if either original is replaced.
+
+| File | Origin | Used for |
+|---|---|---|
+| `sarvam_logo.png` | supplied | source for the icons |
+| `sarvam_main.png` | supplied | header logo |
+| `icon-512.png` | derived | favicon |
+| `apple-icon.png` | derived | iOS home screen |
+| `sarvam-main-onnavy.png` | derived | footer logo |
+
+Three things the derivation handles:
+
+- **The icon original is 3157×2481 and 119 KB** — not square, and far too heavy
+  for a tab icon. Underneath the transparent padding the mark is a true
+  2063×2063 square, so it trims cleanly and resizes to 512.
+- **iOS composites transparent icons onto black**, which would bury the navy
+  half of the mark, so `apple-icon` is flattened onto paper.
+- **The wordmark is `#00387A` — the footer's own ground.** The supplied logo is
+  invisible there. The reversed version recolours navy to paper by a hue test
+  (navy has B>R, orange has R>B), which catches every anti-aliased edge pixel
+  and leaves the orange alone. Alpha is preserved, so edges stay clean.
+
+  It is generated, not official. If you have a proper reversed logo, drop it in
+  as `sarvam-main-onnavy.png` and it takes over with no code change.
+
+The logo renders through `next/image` with no `sizes` attribute — a fixed-size
+logo only needs a 1x/2x srcset, and setting `sizes` makes Next emit candidates
+up to 3840w for a 945px source. Served as webp; both logos together are 8 KB.
+
+---
+
 ## Design system
 
-Quiet luxury + institutional precision + human advisory. Every token lives in
-the `@theme` block in [app/globals.css](app/globals.css); nothing is
-hard-coded in a component.
+Every token lives in the `@theme` block in
+[app/globals.css](app/globals.css); nothing is hard-coded in a component.
 
-### Palette — and the ratio that matters
+### Palette — taken from the live brand
+
+The colours are the brand's own, extracted from the rendered stylesheet at
+**sarvamassociates.com**, whose theme declares `--navy #00387a`,
+`--navy2 #002d63`, `--gold #f26522`, `--text #1a2e4a`, `--muted #4a6a8f`,
+`--border #dde8f5`, `--bg #f4f8ff`, `--card #ffffff`.
+
+Two of those names mislead: `--gold` is a vivid **orange**, and `--green` is
+aliased to the same value. The token here is called `accent`, after what it
+does rather than what the source calls it.
 
 | Role | Token | Value |
 |---|---|---|
-| Page ground (≈70%) | `ivory` | `#F5F1E8` |
-| Tinted sections (≈8%) | `sand` | `#E8E1D4` |
-| Hairlines | `line` | `#D8D2C5` |
-| Dark sections (≈20%) | `charcoal` / `forest` | `#101A19` / `#182625` |
-| Paragraph text | `body` | `#2E3A38` (10.6:1 on ivory) |
-| Metadata only | `muted` | `#68716E` |
-| **Accent (≈2%)** | `champagne` | `#B89B63` |
-| Positive / error | `positive` / `error` | `#52705F` / `#A65B55` |
+| Page ground | `paper` | `#F4F8FF` |
+| Card surfaces | `card` | `#FFFFFF` |
+| Alternating sections | `mist` | `#E5EEF6` |
+| Hairlines | `line` | `#DDE8F5` |
+| Dark sections | `navy` / `navy-deep` | `#00387A` / `#002D63` |
+| Paragraph text | `body` | `#1A2E4A` (12.9:1 on paper) |
+| Metadata | `muted` | `#4A6A8F` (5.3:1 — AA, unlike the previous palette) |
+| **Accent** | `accent` | `#F26522` |
+| Accent as text | `accent-ink` | `#A63C09` |
+| Accent on dark | `accent-light` | `#FDE8D8` |
+| Positive / error | `positive` / `error` | `#1B6B52` / `#B3261E` |
 
-**The 2% is a real budget, not a vibe.** Site-wide there are ~28 champagne
-classes, and each one is an accent line, an active state, or a tiny detail:
-the hairline before every eyebrow, the nav's active-route underline, the
-process timeline's fill, the INDICATIVE chip, focus rings, and the two contact
-icons in the footer and closing CTA.
+`positive` and `error` are the only invented values — the source theme has no
+distinct success or error colour, and the reds in its stylesheet are
+WooCommerce defaults rather than brand.
 
-Champagne is explicitly **not** used for buttons, headlines, statistics, icon
-plates or card borders. The primary CTA is charcoal-on-ivory (inverted inside
-dark sections). If the site can be described as "gold and black", something has
-regressed.
+### The accent is a budget, not a mood
 
-Two contrast rules are load-bearing:
+Site-wide there are ~28 accent classes, and each is an accent line, an active
+state, or a small detail: the hairline before every eyebrow, the nav's
+active-route underline, the process timeline's fill, the INDICATIVE chip, focus
+rings, and the contact icons in the footer and closing CTA.
 
-- `champagne` measures **2.4:1 on ivory** and must never carry text there. Use
-  `champagne-ink` (`#7A6433`, 5.0:1) on light grounds; plain `champagne` is
-  fine on dark (6.6:1).
-- `muted` is 4.45:1 — below AA for body copy. It is for metadata only.
-  Paragraphs and disclaimers use `body`.
+Orange is deliberately **not** used for buttons, headlines, statistics or card
+borders. The primary CTA is navy-on-paper, inverted inside dark sections. The
+live site does use orange CTAs, but white-on-`#F26522` is **3.15:1** — below AA
+— so that one allocation was not copied. If you want the orange button back,
+`accent` background with `navy` text measures 5.2:1 and is the accessible way
+to get it.
+
+Three contrast rules are load-bearing, all of them measured against the ground
+each colour actually lands on:
+
+- `accent` is **2.96:1 on paper** — below AA and below even the 3:1 large-text
+  floor. It must never carry text on a light ground. Use `accent-ink`.
+- `accent-ink` is checked against the *composited chip tint* (4.7:1), not
+  against flat paper (6.0:1). The 14% accent wash behind a chip darkens the
+  ground enough to matter; an earlier value passed on paper and failed in the
+  chip.
+- On navy, plain `accent` is 3.6:1 — fine for icons, not for words. Text on
+  navy uses `paper` or `accent-light`.
 
 ### Type
 
@@ -80,8 +138,13 @@ never an ad-hoc `text-[clamp(...)]`.
 Statistics are Manrope 700, tight and tabular; the serif is for statements, not
 figures.
 
+The live site uses **Montserrat** throughout. That was left in place rather than
+copied — the brief that set this typography was explicit and separate from the
+colour request. Switching is a two-line change in
+[app/fonts.ts](app/fonts.ts) if you want the sites to match on type as well.
+
 > **Gotcha worth knowing.** `tailwind-merge` classifies any unfamiliar `text-*`
-> as a colour, so `cn("text-display-lg", "text-charcoal")` silently dropped the
+> as a colour, so `cn("text-display-lg", "text-navy")` silently dropped the
 > size and flattened every section heading to body text. The custom sizes are
 > registered with `extendTailwindMerge` in [lib/utils.ts](lib/utils.ts). Add
 > any new `--text-*` token to that list too.
@@ -93,7 +156,7 @@ raw `py-*`. Width comes from `container-page` (1280px + 64px desktop gutter);
 no section invents its own.
 
 Light and dark alternate deliberately —
-ivory → sand → ivory → **dark** → ivory → **dark** → ivory → sand → **dark**.
+paper → mist → paper → **navy** → paper → **navy** → paper → mist → **navy**.
 Dark sections are reserved for institutional access, the process, the closing
 CTA and the footer.
 
@@ -173,8 +236,26 @@ Source files are preserved in `_source/` and excluded from the build.
    wording is removed sitewide; an entity cannot generally be both a
    fee-charging RIA and a commission-earning distributor, and no RIA number
    exists in any source.
-3. **CA services link out** to sarvamassociates.com. The source supplies names
-   and URLs but no page content, and empty routes are worse than none.
+3. **CA services are real pages on this site** — `/services` plus four detail
+   routes. Their copy is Sarvam's own, taken from the service pages on
+   sarvamassociates.com (including the five audit sub-pages) and rewritten for
+   hierarchy and readability. Nothing about them is invented. All four now
+   resolve internally; no nav, footer or homepage link leaves the site.
+
+### Two omissions on the CA service pages
+
+Both are cases where the source copy is Sarvam's own but has aged, and
+republishing it as current would be worse than leaving it out. Both are marked
+in [lib/content/services.ts](lib/content/services.ts).
+
+| Omitted | Why |
+|---|---|
+| GST thresholds of **₹20 lakh / ₹10 lakh**, and **"GSTR 1, 2, 3"** as the three monthly returns | GSTR-2 and GSTR-3 were suspended, and the goods threshold has since risen in most states. Registration triggers are described qualitatively instead, with a visible note that current limits are confirmed per client. |
+| Turnaround commitments on the direct-tax page | The source publishes contradictory SLAs across its packages — queries answered "within a week" in one tier and "within 24 hrs" in another. Reproducing either would create a commitment the practice may not have set deliberately. Turnaround is agreed per engagement. |
+
+The list of cases where GST registration is compulsory regardless of turnover
+**is** reproduced — inter-state supply, casual taxable persons, reverse charge,
+non-residents, e-commerce, TDS deductors and the rest are all still accurate.
 
 ### Claims corrected from source
 
@@ -223,10 +304,10 @@ both a card and the filter without the two ever drifting.
 
 ## Verified
 
-- `npm run check` and `npm run build` both exit 0 — 44 routes prerendered, zero
+- `npm run check` and `npm run build` both exit 0 — 49 routes prerendered, zero
   TypeScript errors, zero lint warnings
 - Zero hydration errors
-- Zero broken internal links (2,336 hrefs crawled across 39 pages)
+- Zero broken internal links (3,295 hrefs crawled across 44 pages)
 - No horizontal scroll at 320 / 375 / 390 / 414 / 768 / 1024 / 1280 / 1440 /
   1920 px
 - Header verified at the 1024 and 1280 breakpoints

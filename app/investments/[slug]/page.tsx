@@ -75,7 +75,7 @@ export default async function CategoryPage({
         </ButtonLink>
       </PageHero>
 
-      <section className="bg-ivory section-sm">
+      <section className="bg-paper section-sm">
         <div className="container-page">
           <Reveal preset="stagger" tall>
             <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -113,7 +113,7 @@ function OtherCategories({ currentSlug }: { currentSlug: string }) {
   );
 
   return (
-    <section className="bg-sand border-line border-t section-sm">
+    <section className="bg-mist border-line border-t section-sm">
       <div className="container-page">
         <h2 className="text-muted mb-6 text-xs font-medium tracking-[0.14em] uppercase">
           Other categories

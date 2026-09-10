@@ -37,7 +37,7 @@ export default function ContactPage() {
         crumbs={[{ label: "Contact" }]}
       />
 
-      <section className="bg-ivory section-sm">
+      <section className="bg-paper section-sm">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-[1.3fr_0.85fr] lg:gap-16">
             <div>
@@ -46,8 +46,8 @@ export default function ContactPage() {
 
             <aside className="space-y-8">
               {/* Contact details */}
-              <div className="border-line rounded-card border bg-ivory p-7">
-                <h2 className="font-display text-charcoal text-lg font-semibold">
+              <div className="border-line rounded-card border bg-card p-7">
+                <h2 className="font-display text-navy text-lg font-semibold">
                   Reach us directly
                 </h2>
 
@@ -55,7 +55,7 @@ export default function ContactPage() {
                   <div className="flex gap-3.5">
                     <span
                       aria-hidden
-                      className="bg-charcoal/[0.05] text-charcoal grid size-9 shrink-0 place-items-center rounded-full"
+                      className="bg-navy/[0.05] text-navy grid size-9 shrink-0 place-items-center rounded-full"
                     >
                       <MapPin strokeWidth={1.75} className="size-4" />
                     </span>
@@ -76,7 +76,7 @@ export default function ContactPage() {
                   <div className="flex gap-3.5">
                     <span
                       aria-hidden
-                      className="bg-charcoal/[0.05] text-charcoal grid size-9 shrink-0 place-items-center rounded-full"
+                      className="bg-navy/[0.05] text-navy grid size-9 shrink-0 place-items-center rounded-full"
                     >
                       <Mail strokeWidth={1.75} className="size-4" />
                     </span>
@@ -87,7 +87,7 @@ export default function ContactPage() {
                       <dd className="mt-1 text-sm">
                         <a
                           href={`mailto:${COMPANY.email}`}
-                          className="text-charcoal link-underline"
+                          className="text-navy link-underline"
                         >
                           {COMPANY.email}
                         </a>
@@ -99,7 +99,7 @@ export default function ContactPage() {
                     <div className="flex gap-3.5">
                       <span
                         aria-hidden
-                        className="bg-charcoal/[0.05] text-charcoal grid size-9 shrink-0 place-items-center rounded-full"
+                        className="bg-navy/[0.05] text-navy grid size-9 shrink-0 place-items-center rounded-full"
                       >
                         <Clock strokeWidth={1.75} className="size-4" />
                       </span>
@@ -110,7 +110,7 @@ export default function ContactPage() {
                         <dd className="mt-1 text-sm">
                           <a
                             href={`tel:${COMPANY.phone.replace(/\s/g, "")}`}
-                            className="text-charcoal link-underline"
+                            className="text-navy link-underline"
                           >
                             {COMPANY.phone}
                           </a>
@@ -122,8 +122,8 @@ export default function ContactPage() {
               </div>
 
               {/* What happens next */}
-              <div className="bg-charcoal grain relative isolate overflow-hidden rounded-card p-7">
-                <h2 className="font-display text-ivory text-lg font-semibold">
+              <div className="bg-navy grain relative isolate overflow-hidden rounded-card p-7">
+                <h2 className="font-display text-paper text-lg font-semibold">
                   What happens next
                 </h2>
 
@@ -132,15 +132,15 @@ export default function ContactPage() {
                     <li key={step.step} className="flex gap-3.5">
                       <span
                         aria-hidden
-                        className="font-display text-ivory/45 w-6 shrink-0 text-sm font-bold tabular-nums"
+                        className="font-display text-paper/45 w-6 shrink-0 text-sm font-bold tabular-nums"
                       >
                         {String(step.step).padStart(2, "0")}
                       </span>
                       <div>
-                        <h3 className="text-ivory text-sm font-medium">
+                        <h3 className="text-paper text-sm font-medium">
                           {step.title}
                         </h3>
-                        <p className="text-ivory/45 mt-0.5 text-xs leading-relaxed">
+                        <p className="text-paper/45 mt-0.5 text-xs leading-relaxed">
                           {step.description}
                         </p>
                       </div>

@@ -84,7 +84,7 @@ export default function DisclaimerPage() {
         {
           heading: "Third-party links",
           paragraphs: [
-            `This website links to ${COMPANY.legacySite} and to third-party social media profiles. We are not responsible for the content, accuracy or availability of any external site.`,
+            "This website links to third-party social media profiles. We are not responsible for the content, accuracy or availability of any external site.",
           ],
         },
       ]}

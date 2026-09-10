@@ -29,7 +29,7 @@ export function MobileCta() {
     <div
       className={cn(
         "fixed inset-x-0 bottom-0 z-40 px-4 pt-10 pb-4 lg:hidden",
-        "from-ivory via-ivory/90 bg-gradient-to-t to-transparent",
+        "from-paper via-paper/90 bg-gradient-to-t to-transparent",
         "transition-all duration-400 ease-[var(--ease-editorial)]",
         visible
           ? "translate-y-0 opacity-100"
@@ -38,7 +38,7 @@ export function MobileCta() {
     >
       <Link
         href="/contact"
-        className="bg-charcoal text-ivory rounded-pill flex h-13 items-center justify-center px-8 text-sm font-medium shadow-[var(--shadow-float)]"
+        className="bg-navy text-paper rounded-pill flex h-13 items-center justify-center px-8 text-sm font-medium shadow-[var(--shadow-float)]"
       >
         Talk to an Advisor
       </Link>

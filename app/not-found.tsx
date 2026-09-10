@@ -2,18 +2,18 @@ import { ButtonLink } from "@/components/ui/Button";
 
 export default function NotFound() {
   return (
-    <section className="bg-charcoal grain relative isolate flex min-h-[70svh] items-center overflow-hidden">
+    <section className="bg-navy grain relative isolate flex min-h-[70svh] items-center overflow-hidden">
 
       <div className="container-page relative py-32 text-center">
-        <p className="font-sans text-stat text-ivory/30 tnum">
+        <p className="font-sans text-stat text-paper/30 tnum">
           404
         </p>
 
-        <h1 className="font-display text-ivory mt-4 text-[clamp(1.9rem,4vw,3rem)] font-semibold">
+        <h1 className="font-display text-paper mt-4 text-[clamp(1.9rem,4vw,3rem)] font-semibold">
           That page isn&rsquo;t here.
         </h1>
 
-        <p className="text-ivory/55 mx-auto mt-4 max-w-md text-base leading-relaxed">
+        <p className="text-paper/55 mx-auto mt-4 max-w-md text-base leading-relaxed">
           The link may be out of date, or the page may have moved. The main
           sections are all one click away.
         </p>

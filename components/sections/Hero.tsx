@@ -27,7 +27,7 @@ export function Hero() {
       <div className="container-page relative z-2 pt-40 pb-20 lg:pt-52 lg:pb-28">
         <Eyebrow className="mb-10">{HERO.eyebrow}</Eyebrow>
 
-        <h1 className="font-display text-display-hero text-charcoal max-w-[19ch]">
+        <h1 className="font-display text-display-hero text-navy max-w-[19ch]">
           <span className="block italic">{HERO.headlineLead}</span>
           <span className="block">{HERO.headlineTail}</span>
         </h1>
@@ -43,7 +43,7 @@ export function Hero() {
             <p className="text-muted mt-6 flex items-center gap-3 text-sm">
               <span
                 aria-hidden
-                className="bg-champagne size-1.5 shrink-0 rounded-full"
+                className="bg-accent size-1.5 shrink-0 rounded-full"
               />
               {HERO.trustLine}
             </p>

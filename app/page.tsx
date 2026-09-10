@@ -40,8 +40,8 @@ export default function HomePage() {
       <Comparison />
       <Testimonials allowPlaceholders />
 
-      {/* Ivory, not sand — Testimonials directly above is already sand, and
-          two sand sections in a row erase the light/tinted alternation. */}
+      {/* Paper, not mist — Testimonials directly above is already mist, and two
+          mist sections in a row erase the light/tinted alternation. */}
       <section className="section">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.4fr] lg:gap-20">
@@ -53,7 +53,7 @@ export default function HomePage() {
               />
               <Link
                 href="/faq"
-                className="link-underline text-champagne-ink mt-6 inline-block text-sm font-medium"
+                className="link-underline text-accent-ink mt-6 inline-block text-sm font-medium"
               >
                 Read all questions
               </Link>

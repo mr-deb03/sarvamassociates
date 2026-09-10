@@ -1,5 +1,5 @@
 import { CATEGORIES } from "./categories";
-import { SERVICES } from "./homepage";
+import { SERVICES, serviceHref } from "./services";
 
 export interface NavLink {
   label: string;
@@ -59,13 +59,13 @@ export const NAV_GROUPS: NavGroup[] = [
   },
   {
     label: "Services",
-    href: "/#services",
+    href: "/services",
     links: SERVICES.map((s) => ({
       label: s.name,
-      href: s.href,
+      href: serviceHref(s.slug),
       description: s.description,
-      external: s.external,
     })),
+    footer: { label: "All CA services", href: "/services" },
   },
 ];
 
@@ -94,11 +94,10 @@ export const FOOTER_COLUMNS: { title: string; links: NavLink[] }[] = [
   },
   {
     title: "CA Services",
-    links: SERVICES.map((s) => ({
-      label: s.name,
-      href: s.href,
-      external: s.external,
-    })),
+    links: [
+      ...SERVICES.map((s) => ({ label: s.name, href: serviceHref(s.slug) })),
+      { label: "All services", href: "/services" },
+    ],
   },
   {
     title: "Company",

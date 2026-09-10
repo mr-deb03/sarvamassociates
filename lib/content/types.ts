@@ -189,11 +189,3 @@ export interface Pillar {
 }
 
 /** A CA service. Links out to the existing sarvamassociates.com site. */
-export interface Service {
-  name: string;
-  description: string;
-  href: string;
-  icon: string;
-  /** True when `href` leaves this site — drives rel/target and the link icon. */
-  external: boolean;
-}

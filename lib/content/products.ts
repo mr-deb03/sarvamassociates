@@ -254,9 +254,9 @@ export const PRODUCTS: Product[] = [
     badge: "Multi-Asset",
     name: "Multi-Asset Funds",
     summary:
-      "Balanced allocation across equity, debt, champagne and international assets for a smoother ride.",
+      "Balanced allocation across equity, debt, accent and international assets for a smoother ride.",
     overview: [
-      "A multi-asset fund holds several asset classes at once, and rebalances between them inside the fund. When equity falls, champagne or debt often does not, and the blend cushions the fall.",
+      "A multi-asset fund holds several asset classes at once, and rebalances between them inside the fund. When equity falls, accent or debt often does not, and the blend cushions the fall.",
       "The trade-off is symmetrical and worth stating plainly: the same blend that softens the falls also caps the rises. These funds are chosen for a steadier path, not a higher destination.",
     ],
     minInvestment: { amount: 5000, cadence: "one-time", label: "₹5,000" },
@@ -282,14 +282,14 @@ export const PRODUCTS: Product[] = [
     ],
     details: [
       { label: "Minimum", value: "₹5,000" },
-      { label: "Assets", value: "Equity, debt, champagne, international" },
+      { label: "Assets", value: "Equity, debt, accent, international" },
       { label: "Rebalancing", value: "Managed inside the fund" },
     ],
     disclaimerIds: ["mf-market-risk", "past-performance", "distributor-role"],
     seo: {
-      title: "Multi-Asset Funds — equity, debt, champagne and international",
+      title: "Multi-Asset Funds — equity, debt, accent and international",
       description:
-        "Multi-asset funds blending equity, debt, champagne and international exposure for a steadier path. From ₹5,000. Subject to market risk.",
+        "Multi-asset funds blending equity, debt, accent and international exposure for a steadier path. From ₹5,000. Subject to market risk.",
     },
   },
   {

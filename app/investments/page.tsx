@@ -38,7 +38,7 @@ export default function InvestmentsPage() {
         crumbs={[{ label: "Investments" }]}
       />
 
-      <section className="bg-ivory section-sm">
+      <section className="bg-paper section-sm">
         <div className="container-page">
           <ProductFinder products={products} />
 

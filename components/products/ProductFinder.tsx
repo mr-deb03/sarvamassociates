@@ -45,9 +45,9 @@ export function ProductFinder({ products }: { products: Product[] }) {
 
   return (
     <div>
-      <div className="border-line rounded-card border bg-ivory p-6 lg:p-8">
+      <div className="border-line rounded-card border bg-card p-6 lg:p-8">
         <div className="mb-6 flex items-center justify-between gap-4">
-          <h2 className="text-charcoal flex items-center gap-2.5 text-base font-semibold">
+          <h2 className="text-navy flex items-center gap-2.5 text-base font-semibold">
             <SlidersHorizontal strokeWidth={1.75} aria-hidden className="text-muted size-4" />
             Narrow it down
           </h2>
@@ -56,7 +56,7 @@ export function ProductFinder({ products }: { products: Product[] }) {
             <button
               type="button"
               onClick={reset}
-              className="text-muted hover:text-charcoal flex items-center gap-1 text-xs font-medium transition-colors"
+              className="text-muted hover:text-navy flex items-center gap-1 text-xs font-medium transition-colors"
             >
               <X strokeWidth={1.75} aria-hidden className="size-3.5" />
               Clear filters
@@ -111,7 +111,7 @@ export function ProductFinder({ products }: { products: Product[] }) {
       </div>
 
       <p aria-live="polite" className="text-muted mt-8 text-sm">
-        Showing <span className="text-charcoal font-semibold">{filtered.length}</span>{" "}
+        Showing <span className="text-navy font-semibold">{filtered.length}</span>{" "}
         of {products.length} solutions
       </p>
 
@@ -125,7 +125,7 @@ export function ProductFinder({ products }: { products: Product[] }) {
         </ul>
       ) : (
         <div className="border-line mt-5 rounded-card border border-dashed p-12 text-center">
-          <p className="font-display text-charcoal text-xl font-semibold">
+          <p className="font-display text-navy text-xl font-semibold">
             Nothing matches that combination
           </p>
           <p className="text-body mx-auto mt-2 max-w-md text-sm leading-relaxed">
@@ -136,7 +136,7 @@ export function ProductFinder({ products }: { products: Product[] }) {
           <button
             type="button"
             onClick={reset}
-            className="text-champagne-ink link-underline mt-5 text-sm font-medium"
+            className="text-accent-ink link-underline mt-5 text-sm font-medium"
           >
             Clear all filters
           </button>
@@ -180,8 +180,8 @@ function FilterChip({
       className={cn(
         "rounded-input px-3 py-1.5 text-xs font-medium transition-all duration-200",
         selected
-          ? "bg-charcoal text-ivory"
-          : "border-line text-body hover:border-charcoal/30 hover:text-charcoal border bg-transparent",
+          ? "bg-navy text-paper"
+          : "border-line text-body hover:border-navy/30 hover:text-navy border bg-transparent",
       )}
     >
       {children}

@@ -36,13 +36,13 @@ export default function CalculatorsPage() {
         crumbs={[{ label: "Calculators" }]}
       />
 
-      <section className="bg-ivory section-sm">
+      <section className="bg-paper section-sm">
         <div className="container-page">
           {/* Framing sits ABOVE the tool, not below it */}
           <div className="border-error/30 bg-error/[0.05] mb-8 flex items-start gap-3 rounded-card border p-5">
             <Info strokeWidth={1.75} aria-hidden className="text-error mt-0.5 size-5 shrink-0" />
             <div>
-              <h2 className="text-charcoal text-sm font-semibold">
+              <h2 className="text-navy text-sm font-semibold">
                 Read this before you read the number
               </h2>
               <p className="text-body mt-1.5 text-sm leading-relaxed">

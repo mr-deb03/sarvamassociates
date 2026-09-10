@@ -11,24 +11,24 @@ export function Footer() {
   const disclaimers = getDisclaimers(FOOTER_DISCLAIMER_IDS);
 
   return (
-    <footer className="bg-charcoal text-ivory grain relative isolate">
+    <footer className="bg-navy text-paper grain relative isolate">
       <div className="container-page relative section">
         <div className="grid gap-16 lg:grid-cols-[1.5fr_repeat(4,1fr)] lg:gap-12">
           {/* Brand */}
           <div>
-            <Logo onDark />
+            <Logo onDark variant="footer" />
 
-            <p className="text-ivory/55 measure mt-8 max-w-xs text-sm">
+            <p className="text-paper/55 measure mt-8 max-w-xs text-sm">
               A Mumbai practice that has handled tax and compliance for 15+
               years — now bringing the same relationship to how you invest.
             </p>
 
-            <address className="text-ivory/55 mt-8 space-y-3 text-sm not-italic">
+            <address className="text-paper/55 mt-8 space-y-3 text-sm not-italic">
               <span className="flex items-start gap-3">
                 <MapPin
                   aria-hidden
                   strokeWidth={1.5}
-                  className="text-champagne mt-1 size-4 shrink-0"
+                  className="text-accent mt-1 size-4 shrink-0"
                 />
                 <span>
                   {COMPANY.addressLines.map((line) => (
@@ -40,19 +40,19 @@ export function Footer() {
               </span>
               <a
                 href={`mailto:${COMPANY.email}`}
-                className="hover:text-ivory flex items-center gap-3 transition-colors"
+                className="hover:text-paper flex items-center gap-3 transition-colors"
               >
                 <Mail
                   aria-hidden
                   strokeWidth={1.5}
-                  className="text-champagne size-4 shrink-0"
+                  className="text-accent size-4 shrink-0"
                 />
                 {COMPANY.email}
               </a>
               {COMPANY.phone && (
                 <a
                   href={`tel:${COMPANY.phone.replace(/\s/g, "")}`}
-                  className="hover:text-ivory block transition-colors"
+                  className="hover:text-paper block transition-colors"
                 >
                   {COMPANY.phone}
                 </a>
@@ -69,7 +69,7 @@ export function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${COMPANY.name} on ${social.name}`}
-                      className="border-ivory/15 text-ivory/55 hover:border-ivory/40 hover:text-ivory grid size-10 place-items-center rounded-pill border transition-colors duration-300"
+                      className="border-paper/15 text-paper/55 hover:border-paper/40 hover:text-paper grid size-10 place-items-center rounded-pill border transition-colors duration-300"
                     >
                       <Icon aria-hidden className="size-4" />
                     </a>
@@ -82,7 +82,7 @@ export function Footer() {
           {/* Link columns */}
           {FOOTER_COLUMNS.map((column) => (
             <nav key={column.title} aria-label={column.title}>
-              <h2 className="text-eyebrow text-ivory/40 mb-5 uppercase">
+              <h2 className="text-eyebrow text-paper/40 mb-5 uppercase">
                 {column.title}
               </h2>
               <ul className="space-y-3">
@@ -93,7 +93,7 @@ export function Footer() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-ivory/60 hover:text-ivory inline-flex items-center gap-1.5 text-sm transition-colors duration-300"
+                        className="text-paper/60 hover:text-paper inline-flex items-center gap-1.5 text-sm transition-colors duration-300"
                       >
                         {link.label}
                         <ArrowUpRight aria-hidden strokeWidth={1.5} className="size-3" />
@@ -101,7 +101,7 @@ export function Footer() {
                     ) : (
                       <Link
                         href={link.href}
-                        className="text-ivory/60 hover:text-ivory text-sm transition-colors duration-300"
+                        className="text-paper/60 hover:text-paper text-sm transition-colors duration-300"
                       >
                         {link.label}
                       </Link>
@@ -115,21 +115,21 @@ export function Footer() {
       </div>
 
       {/* Regulatory block — readable size, never 10px grey on black. */}
-      <div className="border-ivory/10 relative border-t">
+      <div className="border-paper/10 relative border-t">
         <div className="container-page py-12">
-          <h2 className="text-eyebrow text-ivory/40 mb-6 uppercase">
+          <h2 className="text-eyebrow text-paper/40 mb-6 uppercase">
             Important information
           </h2>
 
           <div className="grid gap-x-16 gap-y-4 md:grid-cols-2">
             {disclaimers.map((d) => (
-              <p key={d.id} className="text-ivory/55 text-xs">
+              <p key={d.id} className="text-paper/55 text-xs">
                 {d.body}
               </p>
             ))}
           </div>
 
-          <p className="text-ivory/55 mt-5 text-xs">
+          <p className="text-paper/55 mt-5 text-xs">
             {REGISTRATIONS.roleStatement}
             {REGISTRATIONS.hasArn && ` ${REGISTRATIONS.arn}.`} Products are
             manufactured and issued by {PARTNER.legalName} and other product
@@ -139,9 +139,9 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-ivory/10 relative border-t">
+      <div className="border-paper/10 relative border-t">
         <div className="container-page flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-ivory/40 text-xs">
+          <p className="text-paper/40 text-xs">
             © {year} {COMPANY.name}. All rights reserved.
           </p>
           <ul className="flex flex-wrap gap-x-7 gap-y-2">
@@ -153,7 +153,7 @@ export function Footer() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-ivory/40 hover:text-ivory text-xs transition-colors duration-300"
+                  className="text-paper/40 hover:text-paper text-xs transition-colors duration-300"
                 >
                   {link.label}
                 </Link>

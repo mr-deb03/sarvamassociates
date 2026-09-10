@@ -3,46 +3,68 @@
 /* ==========================================================================
    Sarvam Associates — design tokens
 
-   Quiet luxury + institutional precision + human advisory.
-   Every token here is also a real CSS custom property, so inline SVG, motion
-   values and meta[theme-color] can read them without importing anything.
+   The palette is the brand's own, lifted from the live site at
+   sarvamassociates.com. Its theme declares:
+
+     --navy #00387a   --navy2 #002d63   --gold #f26522   --green-light #fde8d8
+     --text #1a2e4a   --muted #4a6a8f   --border #dde8f5
+     --bg   #f4f8ff   --card  #ffffff
+
+   Two notes on that source, since the names mislead. What the theme calls
+   "gold" is a vivid orange, and "green" is aliased to the same value — so the
+   token here is named `accent`, after what it does rather than what the
+   stylesheet calls it.
+
+   Every token is also a real CSS custom property, so inline SVG, motion values
+   and meta[theme-color] can read them without importing anything.
    ========================================================================== */
 
 @theme {
   /* ------------------------------------------------------------------ *
-   * COLOUR — target ratio: 70% ivory · 20% dark · 8% sand · 2% champagne
+   * COLOUR
+   * Grounds: paper (page) · card (surfaces) · mist (alternating sections)
+   * Structure: navy · navy-deep
+   * Accent: the brand orange, used for detail, never for large fills
    * ------------------------------------------------------------------ */
 
-  /* Warm neutrals — the dominant 70%. Ivory replaces pure white entirely. */
-  --color-ivory: #f5f1e8;
-  --color-sand: #e8e1d4;
-  --color-line: #d8d2c5;
+  /* Light grounds. `paper` is the page; `card` is white, so surfaces separate
+     from the ground without needing a shadow. */
+  --color-paper: #f4f8ff;
+  --color-card: #ffffff;
+  --color-mist: #e5eef6;
+  --color-line: #dde8f5;
 
-  /* Dark — the structural 20%. Never pure black. */
-  --color-charcoal: #101a19;
-  --color-forest: #182625;
-  /* One step up from forest, for raised panels inside dark sections. */
-  --color-forest-600: #24302e;
+  /* Structural dark. */
+  --color-navy: #00387a;
+  --color-navy-deep: #002d63;
+  /* One step up from navy, for raised panels and glows inside dark sections.
+     Derived — the source theme has no equivalent. */
+  --color-navy-600: #0a4a93;
 
-  /* Text */
-  /* Paragraph text on light. Softened charcoal, 10.6:1 on ivory. */
-  --color-body: #2e3a38;
-  /* Metadata and hints ONLY — 4.45:1 on ivory, which is below AA for body
-     copy. The palette specifies this value, so it is kept exactly, and its use
-     is confined to genuinely secondary text as the design system directs. */
-  --color-muted: #68716e;
+  /* Text. Both are the brand's own values and both clear AA on paper:
+     body 12.9:1, muted 5.3:1 — so unlike the previous palette, `muted` is
+     safe for small print as well as metadata. */
+  --color-body: #1a2e4a;
+  --color-muted: #4a6a8f;
 
-  /* Champagne — the rare 2%. Accent lines, active states, tiny details. */
-  --color-champagne: #b89b63;
-  --color-champagne-light: #d4bc8a;
-  /* Champagne is 2.37:1 on ivory and must never carry text there. This
-     darkened tone is the only champagne permitted as text on a light ground
-     (5.0:1). On dark grounds, plain --color-champagne is fine at 6.6:1. */
-  --color-champagne-ink: #7a6433;
+  /* Brand accent. */
+  --color-accent: #f26522;
+  --color-accent-light: #fde8d8;
+  /* The brand orange is 2.96:1 on paper — below AA, and below even the 3:1
+     large-text floor. It must never carry text on a light ground. This
+     darkened tone is the only accent permitted as text there. It is set against
+     the worst ground it actually lands on — the composited chip tint, where it
+     is 4.8:1 — rather than against flat paper, where it is 6.0:1. On navy,
+     plain --color-accent is 3.6:1: fine for icons and large text, not for
+     small copy. */
+  --color-accent-ink: #a63c09;
 
-  /* Semantic — both restrained, never bright. */
-  --color-positive: #52705f;
-  --color-error: #a65b55;
+  /* Semantic. The source theme defines no distinct success or error colour —
+     its `--green` points at the orange, and the reds present are WooCommerce
+     defaults rather than brand. These are chosen to sit in the cool palette;
+     both clear AA on paper (6.0:1 and 6.1:1). */
+  --color-positive: #1b6b52;
+  --color-error: #b3261e;
 
   /* ------------------------------------------------------------------ *
    * TYPE
@@ -117,9 +139,9 @@
 
   /* Elevation is nearly absent by design. Hierarchy comes from type and
      space, not from shadows. */
-  --shadow-raise: 0 1px 2px rgb(16 26 25 / 0.03);
-  --shadow-lift: 0 1px 2px rgb(16 26 25 / 0.03), 0 8px 24px rgb(16 26 25 / 0.05);
-  --shadow-float: 0 2px 6px rgb(16 26 25 / 0.04), 0 20px 56px rgb(16 26 25 / 0.09);
+  --shadow-raise: 0 1px 2px rgb(0 40 90 / 0.03);
+  --shadow-lift: 0 1px 2px rgb(0 40 90 / 0.03), 0 8px 24px rgb(0 40 90 / 0.05);
+  --shadow-float: 0 2px 6px rgb(0 40 90 / 0.04), 0 20px 56px rgb(0 40 90 / 0.09);
 
   /* ------------------------------------------------------------------ *
    * MOTION — calm, expensive, intentional. 200–500ms.
@@ -140,7 +162,7 @@
   }
 
   body {
-    background-color: var(--color-ivory);
+    background-color: var(--color-paper);
     color: var(--color-body);
     font-family: var(--font-sans);
     font-synthesis-weight: none;
@@ -163,14 +185,14 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-champagne);
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
     border-radius: 2px;
   }
 
   ::selection {
-    background-color: color-mix(in oklab, var(--color-champagne) 28%, transparent);
-    color: var(--color-charcoal);
+    background-color: color-mix(in oklab, var(--color-accent) 28%, transparent);
+    color: var(--color-navy);
   }
 }
 
@@ -248,13 +270,13 @@
   font-feature-settings: "tnum";
 }
 
-/* The champagne hairline that precedes an eyebrow label. This is the accent's
+/* The accent hairline that precedes an eyebrow label. This is the accent's
    main job on the site: a quiet detail, never a headline colour. */
 @utility accent-rule {
   display: inline-block;
   width: 2rem;
   height: 1px;
-  background-color: var(--color-champagne);
+  background-color: var(--color-accent);
   vertical-align: middle;
 }
 

@@ -25,10 +25,10 @@ export function CtaSection({
   secondary?: { label: string; href: string };
 }) {
   return (
-    <section className="bg-charcoal grain section relative isolate overflow-hidden">
+    <section className="bg-navy grain section relative isolate overflow-hidden">
       <span
         aria-hidden
-        className="absolute top-1/2 left-1/2 size-[70vw] max-w-[56rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,var(--color-forest-600)_0%,transparent_64%)] opacity-70"
+        className="absolute top-1/2 left-1/2 size-[70vw] max-w-[56rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,var(--color-navy-600)_0%,transparent_64%)] opacity-70"
       />
 
       <div className="container-page relative">
@@ -37,9 +37,9 @@ export function CtaSection({
             {eyebrow}
           </Eyebrow>
 
-          <h2 className="font-display text-display-lg text-ivory">{title}</h2>
+          <h2 className="font-display text-display-lg text-paper">{title}</h2>
 
-          <p className="text-body-lg text-ivory/65 measure-wide mx-auto mt-8">
+          <p className="text-body-lg text-paper/65 measure-wide mx-auto mt-8">
             {body}
           </p>
 
@@ -64,16 +64,16 @@ export function CtaSection({
             )}
           </div>
 
-          <div className="text-ivory/50 mt-14 flex flex-col items-center justify-center gap-4 text-sm sm:flex-row sm:gap-10">
+          <div className="text-paper/50 mt-14 flex flex-col items-center justify-center gap-4 text-sm sm:flex-row sm:gap-10">
             <a
               href={`mailto:${COMPANY.email}`}
-              className="hover:text-ivory flex items-center gap-2.5 transition-colors"
+              className="hover:text-paper flex items-center gap-2.5 transition-colors"
             >
-              <Mail aria-hidden strokeWidth={1.5} className="text-champagne size-4" />
+              <Mail aria-hidden strokeWidth={1.5} className="text-accent size-4" />
               {COMPANY.email}
             </a>
             <span className="flex items-center gap-2.5">
-              <MapPin aria-hidden strokeWidth={1.5} className="text-champagne size-4" />
+              <MapPin aria-hidden strokeWidth={1.5} className="text-accent size-4" />
               {COMPANY.address.locality}, {COMPANY.address.city}
             </span>
           </div>

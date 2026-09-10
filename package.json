@@ -9,7 +9,8 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "check:claims": "node scripts/check-claims.mjs",
-    "check": "npm run check:claims && npm run typecheck && npm run lint"
+    "check": "npm run check:claims && npm run typecheck && npm run lint",
+    "build:assets": "node scripts/build-brand-assets.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

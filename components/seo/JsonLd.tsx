@@ -1,5 +1,6 @@
 import { COMPANY, PARTNER } from "@/lib/content/company";
 import type { Faq, Product } from "@/lib/content/types";
+import type { Service } from "@/lib/content/services";
 import { SITE, SITE_URL } from "@/lib/seo";
 
 /**
@@ -100,6 +101,29 @@ export function ProductJsonLd({ product }: { product: Product }) {
         ...(product.disclaimerIds.includes("nuvama-facilitation") && {
           brand: { "@type": "Organization", name: PARTNER.legalName },
         }),
+      }}
+    />
+  );
+}
+
+/**
+ * Service schema for a CA service page.
+ *
+ * `provider` cross-references the Organization node by @id rather than
+ * repeating the org block — same principle as the disclaimer registry.
+ */
+export function ServiceJsonLd({ service }: { service: Service }) {
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: service.name,
+        description: service.seo.description,
+        url: `${SITE_URL}/services/${service.slug}`,
+        serviceType: service.name,
+        provider: { "@id": ORG_ID },
+        areaServed: { "@type": "City", name: "Mumbai" },
       }}
     />
   );

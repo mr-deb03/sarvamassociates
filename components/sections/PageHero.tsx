@@ -32,7 +32,7 @@ export function PageHero({
     <section className="grain relative isolate overflow-hidden">
       <span
         aria-hidden
-        className="absolute -top-[30%] -right-[10%] size-[55vw] max-w-[44rem] rounded-full bg-[radial-gradient(circle,var(--color-sand)_0%,transparent_65%)] opacity-70"
+        className="absolute -top-[30%] -right-[10%] size-[55vw] max-w-[44rem] rounded-full bg-[radial-gradient(circle,var(--color-mist)_0%,transparent_65%)] opacity-70"
       />
 
       <div className="container-page relative pt-36 pb-16 lg:pt-44 lg:pb-24">
@@ -40,7 +40,7 @@ export function PageHero({
           <nav aria-label="Breadcrumb" className="mb-10">
             <ol className="text-muted flex flex-wrap items-center gap-2 text-xs">
               <li>
-                <Link href="/" className="hover:text-charcoal transition-colors">
+                <Link href="/" className="hover:text-navy transition-colors">
                   Home
                 </Link>
               </li>
@@ -54,13 +54,13 @@ export function PageHero({
                   {crumb.href ? (
                     <Link
                       href={crumb.href}
-                      className="hover:text-charcoal transition-colors"
+                      className="hover:text-navy transition-colors"
                     >
                       {crumb.label}
                     </Link>
                   ) : (
                     <span
-                      className="text-charcoal"
+                      className="text-navy"
                       aria-current={i === crumbs.length - 1 ? "page" : undefined}
                     >
                       {crumb.label}
@@ -75,7 +75,7 @@ export function PageHero({
         <div className="max-w-4xl">
           {eyebrow && <Eyebrow className="mb-7">{eyebrow}</Eyebrow>}
 
-          <h1 className="font-display text-display-lg text-charcoal">{title}</h1>
+          <h1 className="font-display text-display-lg text-navy">{title}</h1>
 
           {lede && (
             <p className="text-body-lg text-body measure-wide mt-8">{lede}</p>

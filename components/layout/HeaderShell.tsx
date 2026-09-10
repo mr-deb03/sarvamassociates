@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
  * Wraps rather than absorbs: the nav itself is server-rendered and passes
  * through as `children`, so only this short scroll listener reaches the client.
  *
- * Every hero on the site now sits on ivory, so the header is dark-on-light in
- * both states — transparent at the top, then an ivory veil with a hairline
+ * Every hero on the site now sits on paper, so the header is dark-on-light in
+ * both states — transparent at the top, then an paper veil with a hairline
  * once the page moves.
  */
 export function HeaderShell({ children }: { children: ReactNode }) {
@@ -30,7 +30,7 @@ export function HeaderShell({ children }: { children: ReactNode }) {
         "transition-[background-color,border-color,backdrop-filter] duration-400",
         "ease-[var(--ease-editorial)]",
         scrolled
-          ? "border-line/70 bg-ivory/85 border-b backdrop-blur-xl"
+          ? "border-line/70 bg-paper/85 border-b backdrop-blur-xl"
           : "border-b border-transparent bg-transparent",
       )}
     >

@@ -19,7 +19,7 @@ export function TrustStrip() {
         <ul className="divide-line grid divide-y sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:divide-x">
           {TRUST_CHIPS.map((chip) => (
             <li key={chip.strong} className="py-8 lg:px-8 lg:first:pl-0 lg:last:pr-0">
-              <p className="text-charcoal text-sm font-semibold tracking-[0.01em]">
+              <p className="text-navy text-sm font-semibold tracking-[0.01em]">
                 {chip.strong}
               </p>
               <p className="text-muted mt-1.5 text-sm">{chip.rest}</p>

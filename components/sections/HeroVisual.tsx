@@ -9,11 +9,11 @@ import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
  * The previous version put a gold line chart beside the headline. Both halves
  * of that were wrong for this design language: a chart sitting next to a
  * headline about beating FD returns reads as a performance claim, and a
- * champagne curve at that size spends the entire 2% accent budget in one
+ * accent curve at that size spends the entire 2% accent budget in one
  * element.
  *
  * What replaces it is atmosphere only — two very soft warm-neutral washes that
- * give the ivory ground some depth. The hero's impact comes from the type.
+ * give the paper ground some depth. The hero's impact comes from the type.
  *
  * Parallax is ~10px, gated on a fine pointer so it never runs on touch, and
  * skipped entirely under reduced motion. Financial sites must feel stable.
@@ -50,11 +50,11 @@ export function HeroBackdrop() {
     >
       <motion.div
         style={{ x: driftX, y: driftY }}
-        className="absolute -top-[20%] -right-[15%] size-[70vw] max-w-[60rem] rounded-full bg-[radial-gradient(circle,var(--color-sand)_0%,transparent_66%)] opacity-70"
+        className="absolute -top-[20%] -right-[15%] size-[70vw] max-w-[60rem] rounded-full bg-[radial-gradient(circle,var(--color-mist)_0%,transparent_66%)] opacity-70"
       />
       <motion.div
         style={{ x: counterX }}
-        className="absolute -bottom-[30%] -left-[20%] size-[55vw] max-w-[48rem] rounded-full bg-[radial-gradient(circle,var(--color-sand)_0%,transparent_62%)] opacity-50"
+        className="absolute -bottom-[30%] -left-[20%] size-[55vw] max-w-[48rem] rounded-full bg-[radial-gradient(circle,var(--color-mist)_0%,transparent_62%)] opacity-50"
       />
     </div>
   );

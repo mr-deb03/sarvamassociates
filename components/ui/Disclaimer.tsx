@@ -37,7 +37,7 @@ export function Disclaimer({
         variant === "panel" &&
           cn(
             "rounded-card border p-6 sm:p-8",
-            onDark ? "border-ivory/12 bg-ivory/[0.035]" : "border-line bg-sand",
+            onDark ? "border-paper/12 bg-paper/[0.035]" : "border-line bg-mist",
           ),
         className,
       )}
@@ -46,7 +46,7 @@ export function Disclaimer({
         <p
           className={cn(
             "text-eyebrow mb-4 flex items-center gap-2.5 uppercase",
-            onDark ? "text-ivory/50" : "text-muted",
+            onDark ? "text-paper/50" : "text-muted",
           )}
         >
           <Info aria-hidden strokeWidth={1.75} className="size-3.5" />
@@ -60,7 +60,7 @@ export function Disclaimer({
             key={d.id}
             className={cn(
               "measure-wide text-xs",
-              onDark ? "text-ivory/60" : "text-body/85",
+              onDark ? "text-paper/60" : "text-body/85",
             )}
           >
             {d.body}
@@ -98,7 +98,7 @@ export function RisksBlock({
       <h3
         className={cn(
           "font-display text-display-sm mb-6 flex items-center gap-3",
-          onDark ? "text-ivory" : "text-charcoal",
+          onDark ? "text-paper" : "text-navy",
         )}
       >
         <TriangleAlert
@@ -115,7 +115,7 @@ export function RisksBlock({
             key={risk}
             className={cn(
               "flex gap-3.5 text-sm",
-              onDark ? "text-ivory/75" : "text-body",
+              onDark ? "text-paper/75" : "text-body",
             )}
           >
             <span

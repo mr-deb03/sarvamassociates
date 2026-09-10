@@ -56,7 +56,7 @@ export function SectionHeader({
           className={cn(
             "font-display",
             SIZES[size],
-            onDark ? "text-ivory" : "text-charcoal",
+            onDark ? "text-paper" : "text-navy",
           )}
         >
           {title}
@@ -67,7 +67,7 @@ export function SectionHeader({
             className={cn(
               "text-body-lg measure-wide mt-7",
               centered && "mx-auto",
-              onDark ? "text-ivory/65" : "text-body",
+              onDark ? "text-paper/65" : "text-body",
             )}
           >
             {lede}

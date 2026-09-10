@@ -25,7 +25,7 @@ export function FaqList({
     <div
       className={cn(
         "border-t",
-        onDark ? "divide-ivory/10 border-ivory/10 divide-y" : "divide-line border-line divide-y",
+        onDark ? "divide-paper/10 border-paper/10 divide-y" : "divide-line border-line divide-y",
         className,
       )}
     >
@@ -36,7 +36,7 @@ export function FaqList({
               "flex cursor-pointer list-none items-start justify-between gap-8 py-6",
               "[&::-webkit-details-marker]:hidden",
               "transition-colors duration-300",
-              onDark ? "text-ivory hover:text-champagne" : "text-charcoal hover:text-champagne-ink",
+              onDark ? "text-paper hover:text-accent-light" : "text-navy hover:text-accent-ink",
             )}
           >
             <span className="font-display text-display-sm">{faq.question}</span>
@@ -46,7 +46,7 @@ export function FaqList({
               className={cn(
                 "mt-1.5 size-5 shrink-0 transition-transform duration-400 ease-[var(--ease-editorial)]",
                 "group-open:rotate-45",
-                onDark ? "text-ivory/45" : "text-muted",
+                onDark ? "text-paper/45" : "text-muted",
               )}
             />
           </summary>
@@ -54,7 +54,7 @@ export function FaqList({
           <p
             className={cn(
               "measure-wide pb-7 text-base",
-              onDark ? "text-ivory/65" : "text-body",
+              onDark ? "text-paper/65" : "text-body",
             )}
           >
             {faq.answer}

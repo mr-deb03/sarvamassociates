@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
  * Pointer devices open on hover; keyboard and touch open on click. Escape
  * closes and returns focus to the trigger. A pointerdown outside closes.
  *
- * The active-route indicator is the one nav element allowed champagne — it is
+ * The active-route indicator is the one nav element allowed accent — it is
  * a single hairline, which is exactly the "small accent line / active state"
  * the accent is reserved for.
  */
@@ -95,13 +95,13 @@ export function DesktopNav() {
           aria-current={isActive(link.href) ? "page" : undefined}
           className={cn(
             "relative px-3.5 py-2 text-sm font-medium tracking-[0.01em] whitespace-nowrap transition-colors duration-300",
-            "after:bg-champagne after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-px",
+            "after:bg-accent after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-px",
             "after:origin-left after:scale-x-0 after:transition-transform",
             "after:duration-400 after:ease-[var(--ease-editorial)]",
             "hover:after:scale-x-100",
             isActive(link.href)
-              ? "text-charcoal after:scale-x-100"
-              : "text-body hover:text-charcoal",
+              ? "text-navy after:scale-x-100"
+              : "text-body hover:text-navy",
           )}
         >
           {link.label}
@@ -142,12 +142,12 @@ function NavGroupItem({
         className={cn(
           "relative flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium tracking-[0.01em] whitespace-nowrap",
           "transition-colors duration-300",
-          "after:bg-champagne after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-px",
+          "after:bg-accent after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-px",
           "after:origin-left after:transition-transform after:duration-400",
           "after:ease-[var(--ease-editorial)]",
           active || open
-            ? "text-charcoal after:scale-x-100"
-            : "text-body hover:text-charcoal after:scale-x-0",
+            ? "text-navy after:scale-x-100"
+            : "text-body hover:text-navy after:scale-x-0",
         )}
       >
         {group.label}
@@ -166,7 +166,7 @@ function NavGroupItem({
         hidden={!open}
         className="absolute top-full left-0 w-[min(30rem,calc(100vw-3rem))] pt-4"
       >
-        <div className="border-line bg-ivory rounded-card border p-2 shadow-[var(--shadow-float)]">
+        <div className="border-line bg-card rounded-card border p-2 shadow-[var(--shadow-float)]">
           <ul>
             {group.links.map((link) => (
               <li key={link.href}>
@@ -179,7 +179,7 @@ function NavGroupItem({
             <div className="border-line mt-2 border-t pt-2">
               <Link
                 href={group.footer.href}
-                className="text-charcoal hover:bg-sand flex items-center gap-1.5 rounded-input px-4 py-3 text-sm font-medium transition-colors"
+                className="text-navy hover:bg-mist flex items-center gap-1.5 rounded-input px-4 py-3 text-sm font-medium transition-colors"
               >
                 {group.footer.label}
                 <ArrowUpRight aria-hidden strokeWidth={1.75} className="size-3.5" />
@@ -199,7 +199,7 @@ function NavPanelLink({
 }) {
   const content = (
     <>
-      <span className="text-charcoal flex items-center gap-1.5 text-sm font-medium">
+      <span className="text-navy flex items-center gap-1.5 text-sm font-medium">
         {link.label}
         {link.external && (
           <ArrowUpRight aria-hidden strokeWidth={1.75} className="text-muted size-3.5" />
@@ -212,7 +212,7 @@ function NavPanelLink({
   );
 
   const className =
-    "block rounded-input px-4 py-3 transition-colors duration-300 hover:bg-sand";
+    "block rounded-input px-4 py-3 transition-colors duration-300 hover:bg-mist";
 
   return link.external ? (
     <a href={link.href} target="_blank" rel="noopener noreferrer" className={className}>

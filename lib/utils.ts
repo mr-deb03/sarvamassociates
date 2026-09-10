@@ -7,7 +7,7 @@ import { extendTailwindMerge } from "tailwind-merge";
  * Out of the box it recognises `text-sm`, `text-lg` and friends as font sizes
  * and treats every other `text-*` as a colour. Our scale uses names it has
  * never seen — `text-display-lg`, `text-stat`, `text-eyebrow` — so it files
- * them under colour, and any `text-charcoal` in the same call silently wins.
+ * them under colour, and any `text-navy` in the same call silently wins.
  *
  * That is not a hypothetical: it flattened every section heading on the site to
  * body size before it was caught. Registering the names puts them in the

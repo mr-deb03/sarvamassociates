@@ -19,6 +19,16 @@ export const metadata: Metadata = {
   applicationName: SITE.name,
   authors: [{ name: SITE.name }],
   formatDetection: { telephone: false },
+  // Both derived from public/image/sarvam_logo.png by
+  // scripts/build-brand-assets.mjs. The supplied original is 3157×2481 and
+  // 119 KB — far too heavy for a tab icon, and not square, so it would be
+  // squashed. icon-512 is the mark trimmed to its true square and resized;
+  // apple-icon is flattened onto paper because iOS composites transparent
+  // icons onto black, which would bury the navy half of the mark.
+  icons: {
+    icon: [{ url: "/image/icon-512.png", sizes: "512x512", type: "image/png" }],
+    apple: [{ url: "/image/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   openGraph: {
     type: "website",
     siteName: SITE.name,
@@ -29,9 +39,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // Warm ivory — the browser chrome should match the page ground, not the
+  // Warm paper — the browser chrome should match the page ground, not the
   // dark sections further down.
-  themeColor: "#F5F1E8",
+  themeColor: "#F4F8FF",
   colorScheme: "light",
 };
 
@@ -69,7 +79,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
         <a
           href="#main"
-          className="focus:bg-champagne focus:text-charcoal sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-200 focus:rounded-sm focus:px-4 focus:py-2 focus:text-sm focus:font-medium"
+          className="focus:bg-navy focus:text-paper sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-200 focus:rounded-sm focus:px-4 focus:py-2 focus:text-sm focus:font-medium"
         >
           Skip to content
         </a>

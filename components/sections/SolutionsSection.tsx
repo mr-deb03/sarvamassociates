@@ -15,12 +15,12 @@ import { formatMinimum } from "@/lib/content/display";
  * than typed by hand, so a change to a product minimum updates the card
  * automatically and the two can never disagree.
  *
- * Cards sit on sand and are ivory, so the surface separation comes from the
+ * Cards sit on mist and are paper, so the surface separation comes from the
  * ground rather than from shadows.
  */
 export function SolutionsSection() {
   return (
-    <section className="bg-sand section">
+    <section className="bg-mist section">
       <div className="container-page">
         <Reveal>
           <SectionHeader
@@ -53,14 +53,14 @@ export function SolutionsSection() {
                 <RevealItem key={category.slug} as="li">
                   <Link
                     href={href}
-                    className="group border-line bg-ivory rounded-card hover:border-charcoal/25 flex h-full flex-col border p-8 transition-[border-color,transform] duration-400 ease-[var(--ease-editorial)] hover:-translate-y-0.5"
+                    className="group border-line bg-card rounded-card hover:border-navy/25 flex h-full flex-col border p-8 transition-[border-color,transform] duration-400 ease-[var(--ease-editorial)] hover:-translate-y-0.5"
                   >
                     <CategoryIcon
                       name={category.icon}
-                      className="text-charcoal size-6"
+                      className="text-navy size-6"
                     />
 
-                    <h3 className="font-display text-display-sm text-charcoal mt-8">
+                    <h3 className="font-display text-display-sm text-navy mt-8">
                       {category.name}
                     </h3>
                     <p className="text-body mt-3 mb-8 text-sm">
@@ -72,12 +72,12 @@ export function SolutionsSection() {
                         {cheapest ? (
                           <>
                             From{" "}
-                            <span className="text-charcoal font-semibold">
+                            <span className="text-navy font-semibold">
                               {formatMinimum(cheapest)}
                             </span>
                           </>
                         ) : (
-                          <span className="text-charcoal font-semibold">
+                          <span className="text-navy font-semibold">
                             On enquiry
                           </span>
                         )}
@@ -86,7 +86,7 @@ export function SolutionsSection() {
                       <ArrowRight
                         aria-hidden
                         strokeWidth={1.75}
-                        className="text-muted group-hover:text-charcoal size-4 transition-all duration-400 ease-[var(--ease-editorial)] group-hover:translate-x-1"
+                        className="text-muted group-hover:text-navy size-4 transition-all duration-400 ease-[var(--ease-editorial)] group-hover:translate-x-1"
                       />
                     </div>
                   </Link>

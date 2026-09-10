@@ -100,7 +100,7 @@ export default async function ProductPage({
         <dl className="border-line mt-14 grid gap-8 border-t pt-10 sm:grid-cols-3">
           <div>
             <dt className="text-eyebrow text-muted uppercase">Minimum</dt>
-            <dd className="font-sans text-stat-sm text-charcoal tnum mt-3">
+            <dd className="font-sans text-stat-sm text-navy tnum mt-3">
               {formatMinimum(product.minInvestment)}
             </dd>
           </div>
@@ -120,7 +120,7 @@ export default async function ProductPage({
       </PageHero>
 
       {/* ---------- Overview ---------- */}
-      <section className="bg-ivory section">
+      <section className="bg-paper section">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-[0.85fr_1.3fr] lg:gap-20">
             <Reveal>
@@ -141,7 +141,7 @@ export default async function ProductPage({
       </section>
 
       {/* ---------- Benefits ---------- */}
-      <section className="bg-sand section">
+      <section className="bg-mist section">
         <div className="container-page">
           <Reveal>
             <SectionHeader
@@ -156,7 +156,7 @@ export default async function ProductPage({
                 <RevealItem
                   key={benefit}
                   as="li"
-                  className="border-line flex gap-3.5 rounded-card border bg-ivory p-6"
+                  className="border-line flex gap-3.5 rounded-card border bg-card p-6"
                 >
                   <span
                     aria-hidden
@@ -176,7 +176,7 @@ export default async function ProductPage({
 
       {/* ---------- How it works ---------- */}
       {product.howItWorks && (
-        <section className="bg-charcoal grain relative isolate overflow-hidden section">
+        <section className="bg-navy grain relative isolate overflow-hidden section">
           <div className="container-page relative">
             <Reveal>
               <SectionHeader
@@ -192,14 +192,14 @@ export default async function ProductPage({
                   <RevealItem key={step.title} as="li">
                     <span
                       aria-hidden
-                      className="font-sans text-ivory/35 block text-sm tabular-nums"
+                      className="font-sans text-paper/35 block text-sm tabular-nums"
                     >
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <h3 className="text-ivory border-ivory/20 mt-3 border-t pt-4 text-base font-semibold">
+                    <h3 className="text-paper border-paper/20 mt-3 border-t pt-4 text-base font-semibold">
                       {step.title}
                     </h3>
-                    <p className="text-ivory/50 mt-2 text-sm leading-relaxed">
+                    <p className="text-paper/50 mt-2 text-sm leading-relaxed">
                       {step.description}
                     </p>
                   </RevealItem>
@@ -212,14 +212,14 @@ export default async function ProductPage({
 
       {/* ---------- Key details ---------- */}
       {product.details && product.details.length > 0 && (
-        <section className="bg-ivory section">
+        <section className="bg-paper section">
           <div className="container-page">
             <Reveal>
               <SectionHeader eyebrow="Key details" title="The specifics" />
             </Reveal>
 
             <Reveal className="mt-10">
-              <div className="border-line overflow-hidden rounded-card border bg-ivory">
+              <div className="border-line overflow-hidden rounded-card border bg-card">
                 <dl className="divide-line divide-y">
                   {product.details.map((detail) => (
                     <div
@@ -229,7 +229,7 @@ export default async function ProductPage({
                       <dt className="text-muted text-xs font-medium tracking-[0.08em] uppercase sm:pt-0.5">
                         {detail.label}
                       </dt>
-                      <dd className="text-charcoal flex flex-wrap items-center gap-2.5 text-sm">
+                      <dd className="text-navy flex flex-wrap items-center gap-2.5 text-sm">
                         <span className="font-medium">{detail.value}</span>
                         {detail.indicative && (
                           <Chip tone="indicative">Indicative</Chip>
@@ -245,7 +245,7 @@ export default async function ProductPage({
       )}
 
       {/* ---------- Audience ---------- */}
-      <section className="bg-sand section">
+      <section className="bg-mist section">
         <div className="container-page">
           <Reveal>
             <SectionHeader
@@ -261,11 +261,11 @@ export default async function ProductPage({
                 <RevealItem
                   key={persona}
                   as="li"
-                  className="border-line flex items-start gap-4 rounded-card border bg-ivory p-6"
+                  className="border-line flex items-start gap-4 rounded-card border bg-card p-6"
                 >
                   <span
                     aria-hidden
-                    className="bg-charcoal/[0.05] text-charcoal grid size-9 shrink-0 place-items-center rounded-full"
+                    className="bg-navy/[0.05] text-navy grid size-9 shrink-0 place-items-center rounded-full"
                   >
                     <UserRound strokeWidth={1.75} className="size-4" />
                   </span>
@@ -280,7 +280,7 @@ export default async function ProductPage({
       </section>
 
       {/* ---------- Risks — full width, body size, above the CTA ---------- */}
-      <section className="bg-ivory section">
+      <section className="bg-paper section">
         <div className="container-page">
           <Reveal>
             <RisksBlock risks={product.risks} />
@@ -294,7 +294,7 @@ export default async function ProductPage({
 
       {/* ---------- FAQ ---------- */}
       {product.faqs && product.faqs.length > 0 && (
-        <section className="bg-sand section">
+        <section className="bg-mist section">
           <div className="container-page">
             <div className="grid gap-12 lg:grid-cols-[0.85fr_1.3fr] lg:gap-20">
               <Reveal>
@@ -313,7 +313,7 @@ export default async function ProductPage({
 
       {/* ---------- Related ---------- */}
       {related.length > 0 && (
-        <section className="bg-ivory border-line border-t section-sm">
+        <section className="bg-paper border-line border-t section-sm">
           <div className="container-page">
             <h2 className="text-muted mb-8 text-xs font-medium tracking-[0.14em] uppercase">
               Also in {category.name}

@@ -8,7 +8,7 @@ import { motion, useScroll, useSpring, useTransform } from "motion/react";
  *
  * The rail is absolutely positioned behind server-rendered step markup that
  * passes through as `children` — the steps themselves never move, never
- * animate, and never enter the client bundle. Only the champagne fill is
+ * animate, and never enter the client bundle. Only the accent fill is
  * driven by scroll.
  *
  * Geometry matches the step markers: on desktop they sit at the top of each
@@ -44,22 +44,22 @@ export function TimelineProgress({ children }: { children: ReactNode }) {
       */}
       <div
         aria-hidden
-        className="bg-ivory/12 absolute top-[1.125rem] right-[calc(25%-3rem)] left-[1.125rem] hidden h-px lg:block"
+        className="bg-paper/12 absolute top-[1.125rem] right-[calc(25%-3rem)] left-[1.125rem] hidden h-px lg:block"
       >
         <motion.div
           style={{ scaleX: scale }}
-          className="bg-champagne h-full origin-left"
+          className="bg-accent h-full origin-left"
         />
       </div>
 
       {/* Mobile: vertical rail down the left */}
       <div
         aria-hidden
-        className="bg-ivory/12 absolute top-4 bottom-4 left-[1.125rem] w-px lg:hidden"
+        className="bg-paper/12 absolute top-4 bottom-4 left-[1.125rem] w-px lg:hidden"
       >
         <motion.div
           style={{ scaleY: scale }}
-          className="bg-champagne h-full w-full origin-top"
+          className="bg-accent h-full w-full origin-top"
         />
       </div>
 

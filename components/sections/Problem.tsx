@@ -16,7 +16,7 @@ export function Problem() {
       <div className="container-page">
         <Reveal>
           <Eyebrow className="mb-8">{PROBLEM.eyebrow}</Eyebrow>
-          <h2 className="font-display text-display-lg text-charcoal max-w-[20ch]">
+          <h2 className="font-display text-display-lg text-navy max-w-[20ch]">
             {PROBLEM.heading}
           </h2>
         </Reveal>
@@ -24,7 +24,7 @@ export function Problem() {
         <div className="mt-16 grid gap-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-24">
           <Reveal>
             <p className="text-body-lg text-body">{PROBLEM.body}</p>
-            <p className="font-display text-display-sm text-charcoal mt-10">
+            <p className="font-display text-display-sm text-navy mt-10">
               {PROBLEM.close}
             </p>
           </Reveal>
@@ -43,7 +43,7 @@ export function Problem() {
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-display text-display-sm text-charcoal w-40 shrink-0">
+                  <span className="font-display text-display-sm text-navy w-40 shrink-0">
                     {link.label}
                   </span>
                   <span className="text-body min-w-[14rem] flex-1 text-sm">

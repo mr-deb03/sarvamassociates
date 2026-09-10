@@ -10,8 +10,8 @@ import { cn } from "@/lib/utils";
    for a micro-interaction would ship JS and create a hydration island on every
    CTA on the site, for an effect CSS does natively.
 
-   Champagne is NOT a button colour. The primary CTA is deep charcoal on ivory;
-   inverting to ivory-on-charcoal inside dark sections. Gold buttons would blow
+   Champagne is NOT a button colour. The primary CTA is deep navy on paper;
+   inverting to paper-on-navy inside dark sections. Gold buttons would blow
    the 2% accent budget on their own.
    ========================================================================== */
 
@@ -40,14 +40,14 @@ const BASE =
 const SOLID = "rounded-pill";
 
 const VARIANTS: Record<Variant, string> = {
-  primary: `${SOLID} bg-charcoal text-ivory hover:bg-forest`,
-  primaryOnDark: `${SOLID} bg-ivory text-charcoal hover:bg-sand`,
-  secondary: `${SOLID} border border-line bg-transparent text-charcoal hover:border-charcoal/35 hover:bg-charcoal/[0.04]`,
-  secondaryOnDark: `${SOLID} border border-ivory/20 bg-transparent text-ivory/85 hover:border-ivory/45 hover:text-ivory`,
+  primary: `${SOLID} bg-navy text-paper hover:bg-navy-deep`,
+  primaryOnDark: `${SOLID} bg-paper text-navy hover:bg-mist`,
+  secondary: `${SOLID} border border-line bg-transparent text-navy hover:border-navy/35 hover:bg-navy/[0.04]`,
+  secondaryOnDark: `${SOLID} border border-paper/20 bg-transparent text-paper/85 hover:border-paper/45 hover:text-paper`,
   tertiary:
-    "text-charcoal hover:text-champagne-ink px-0 underline-offset-[6px] hover:underline",
+    "text-navy hover:text-accent-ink px-0 underline-offset-[6px] hover:underline",
   tertiaryOnDark:
-    "text-ivory/80 hover:text-champagne px-0 underline-offset-[6px] hover:underline",
+    "text-paper/80 hover:text-accent-light px-0 underline-offset-[6px] hover:underline",
 };
 
 /** Heights follow the 48–56px CTA spec; sm is for dense contexts only. */

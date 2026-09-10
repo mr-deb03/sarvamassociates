@@ -13,7 +13,7 @@ export interface RiskMeta {
   label: string;
   /** Position on the scale, 1-based. Derived from RISK_BANDS order. */
   level: number;
-  /** Text + surface classes, AA-contrast checked on ivory. */
+  /** Text + surface classes, AA-contrast checked on paper. */
   className: string;
   /** Fill colour for the meter pips. */
   pipClassName: string;
@@ -37,7 +37,7 @@ const RISK_LABELS: Record<RiskBand, string> = {
 const RISK_CLASSES: Record<RiskBand, { chip: string; pip: string }> = {
   low: { chip: "bg-positive/10 text-positive", pip: "bg-positive" },
   "moderately-low": { chip: "bg-positive/10 text-positive", pip: "bg-positive" },
-  moderate: { chip: "bg-charcoal/[0.06] text-muted", pip: "bg-muted" },
+  moderate: { chip: "bg-navy/[0.06] text-muted", pip: "bg-muted" },
   "moderately-high": { chip: "bg-error/10 text-error", pip: "bg-error/70" },
   high: { chip: "bg-error/12 text-error", pip: "bg-error/85" },
   "very-high": { chip: "bg-error/15 text-error", pip: "bg-error" },

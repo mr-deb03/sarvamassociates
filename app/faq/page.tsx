@@ -47,7 +47,7 @@ export default function FaqPage() {
         crumbs={[{ label: "FAQ" }]}
       />
 
-      <section className="bg-ivory section">
+      <section className="bg-paper section">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-[0.75fr_1.45fr] lg:gap-20">
             <Reveal>
@@ -61,7 +61,7 @@ export default function FaqPage() {
       </section>
 
       {productFaqs.length > 0 && (
-        <section className="bg-sand section">
+        <section className="bg-mist section">
           <div className="container-page">
             <Reveal>
               <SectionHeader
@@ -74,7 +74,7 @@ export default function FaqPage() {
               {productFaqs.map((product) => (
                 <Reveal key={product.slug} tall>
                   <div className="grid gap-6 lg:grid-cols-[0.75fr_1.45fr] lg:gap-20">
-                    <h3 className="font-display text-charcoal text-xl font-semibold">
+                    <h3 className="font-display text-navy text-xl font-semibold">
                       {product.name}
                     </h3>
                     <FaqList faqs={product.faqs ?? []} />

@@ -26,15 +26,15 @@ export function ProductCard({
     <Link
       href={`/products/${product.slug}`}
       className={cn(
-        "group border-line bg-ivory rounded-card flex h-full flex-col border p-8",
+        "group border-line bg-card rounded-card flex h-full flex-col border p-8",
         "transition-[border-color,transform] duration-400 ease-[var(--ease-editorial)]",
-        "hover:border-charcoal/25 hover:-translate-y-0.5",
+        "hover:border-navy/25 hover:-translate-y-0.5",
         className,
       )}
     >
       <p className="text-eyebrow text-muted uppercase">{product.badge}</p>
 
-      <h3 className="font-display text-display-sm text-charcoal mt-4">
+      <h3 className="font-display text-display-sm text-navy mt-4">
         {product.name}
       </h3>
 
@@ -51,7 +51,7 @@ export function ProductCard({
         <div className="border-line flex items-center justify-between border-t pt-5">
           <span className="text-muted text-xs">
             {product.minInvestment ? "From " : ""}
-            <span className="text-charcoal font-semibold">
+            <span className="text-navy font-semibold">
               {formatMinimum(product.minInvestment)}
             </span>
           </span>
@@ -59,7 +59,7 @@ export function ProductCard({
           <ArrowRight
             aria-hidden
             strokeWidth={1.75}
-            className="text-muted group-hover:text-charcoal size-4 transition-all duration-400 ease-[var(--ease-editorial)] group-hover:translate-x-1"
+            className="text-muted group-hover:text-navy size-4 transition-all duration-400 ease-[var(--ease-editorial)] group-hover:translate-x-1"
           />
         </div>
       </div>

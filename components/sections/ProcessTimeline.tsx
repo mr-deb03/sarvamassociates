@@ -8,7 +8,7 @@ import { TimelineProgress } from "./TimelineProgress";
  * The four-step process. Horizontal on desktop, vertical on mobile.
  *
  * Step content is entirely server-rendered; only the progress rail behind it is
- * scroll-linked. The rail is the site's other sanctioned champagne moment — a
+ * scroll-linked. The rail is the site's other sanctioned accent moment — a
  * single hairline that fills as you read, which is exactly what the accent is
  * reserved for.
  *
@@ -16,7 +16,7 @@ import { TimelineProgress } from "./TimelineProgress";
  */
 export function ProcessTimeline({ compact = false }: { compact?: boolean }) {
   return (
-    <section className="bg-forest grain section relative isolate overflow-hidden">
+    <section className="bg-navy-deep grain section relative isolate overflow-hidden">
       <div className="container-page relative">
         <Reveal>
           <SectionHeader
@@ -44,15 +44,19 @@ export function ProcessTimeline({ compact = false }: { compact?: boolean }) {
                   >
                     <span
                       aria-hidden
-                      className="border-champagne/50 bg-forest text-champagne absolute top-0 left-0 z-1 grid size-9 place-items-center rounded-pill border text-xs tabular-nums lg:left-0"
+                      // The ring stays brand orange, but the numeral inside it
+                      // uses the pale accent tint: #F26522 on navy-deep is
+                      // 4.28:1, just under AA for 13px text, while the tint is
+                      // 11.4:1 and still reads as part of the accent family.
+                      className="border-accent/50 bg-navy-deep text-accent-light absolute top-0 left-0 z-1 grid size-9 place-items-center rounded-pill border text-xs tabular-nums lg:left-0"
                     >
                       {String(step.step).padStart(2, "0")}
                     </span>
 
-                    <h3 className="font-display text-ivory text-display-sm">
+                    <h3 className="font-display text-paper text-display-sm">
                       {step.title}
                     </h3>
-                    <p className="text-ivory/60 measure mt-3 text-sm">
+                    <p className="text-paper/60 measure mt-3 text-sm">
                       {step.description}
                     </p>
                   </RevealItem>
@@ -67,7 +71,7 @@ export function ProcessTimeline({ compact = false }: { compact?: boolean }) {
             <ButtonLink href="/contact" variant="primaryOnDark" size="lg" withArrow>
               Book your free consultation
             </ButtonLink>
-            <p className="text-ivory/50 mt-6 text-sm">
+            <p className="text-paper/50 mt-6 text-sm">
               15 minutes. No commitment. No sales script.
             </p>
           </Reveal>

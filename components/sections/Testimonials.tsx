@@ -35,7 +35,7 @@ export function Testimonials({
   // A designed empty state rather than a blank gap.
   if (items.length === 0) {
     return (
-      <section className="bg-sand section">
+      <section className="bg-mist section">
         <div className="container-page">
           <SectionHeader
             eyebrow="Client stories"
@@ -50,7 +50,7 @@ export function Testimonials({
   const [featured, ...rest] = items;
 
   return (
-    <section className="bg-sand section">
+    <section className="bg-mist section">
       <div className="container-page">
         <Reveal>
           <SectionHeader
@@ -64,7 +64,7 @@ export function Testimonials({
             <p className="border-line text-body flex max-w-3xl items-start gap-3 border-l-2 py-1 pl-5 text-xs">
               <Info aria-hidden strokeWidth={1.75} className="text-muted mt-0.5 size-4 shrink-0" />
               <span>
-                <strong className="text-charcoal font-semibold">
+                <strong className="text-navy font-semibold">
                   Illustrative content.
                 </strong>{" "}
                 The quotes below are placeholder copy supplied for design
@@ -78,12 +78,12 @@ export function Testimonials({
         {/* Featured quote, set large and editorial. */}
         {featured && (
           <Reveal className="mt-14">
-            <figure className="border-charcoal max-w-4xl border-t pt-12">
-              <blockquote className="font-display text-display-md text-charcoal italic">
+            <figure className="border-navy max-w-4xl border-t pt-12">
+              <blockquote className="font-display text-display-md text-navy italic">
                 {featured.quote}
               </blockquote>
               <figcaption className="mt-8 flex items-baseline gap-3 text-sm">
-                <span className="text-charcoal font-semibold">
+                <span className="text-navy font-semibold">
                   {featured.author}
                 </span>
                 <span className="text-muted">{featured.context}</span>
@@ -110,15 +110,15 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <figure
       className={cn(
-        "border-line bg-ivory rounded-card flex h-full flex-col border p-7",
+        "border-line bg-card rounded-card flex h-full flex-col border p-7",
         "transition-[border-color,transform] duration-400 ease-[var(--ease-editorial)]",
-        "hover:border-charcoal/25 hover:-translate-y-0.5",
+        "hover:border-navy/25 hover:-translate-y-0.5",
       )}
     >
       <blockquote className="text-body text-sm">{testimonial.quote}</blockquote>
 
       <figcaption className="border-line mt-auto border-t pt-5">
-        <span className="text-charcoal block text-sm font-semibold">
+        <span className="text-navy block text-sm font-semibold">
           {testimonial.author}
         </span>
         <span className="text-muted mt-1 block text-xs">

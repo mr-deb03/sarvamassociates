@@ -8,7 +8,8 @@ export function Header() {
   return (
     <HeaderShell>
       <div className="container-page flex h-20 items-center justify-between gap-8">
-        <Logo />
+        {/* priority: the header logo is in the first viewport on every route. */}
+        <Logo priority />
         <DesktopNav />
 
         <div className="flex items-center gap-4">

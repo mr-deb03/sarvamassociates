@@ -66,7 +66,7 @@ export default function HowItWorksPage() {
 
       <ProcessTimeline compact />
 
-      <section className="bg-ivory section">
+      <section className="bg-paper section">
         <div className="container-page">
           <Reveal>
             <SectionHeader
@@ -82,9 +82,9 @@ export default function HowItWorksPage() {
                 <RevealItem
                   key={item.title}
                   as="li"
-                  className="border-line rounded-card border bg-ivory p-6"
+                  className="border-line rounded-card border bg-card p-6"
                 >
-                  <h3 className="text-charcoal text-base font-semibold">
+                  <h3 className="text-navy text-base font-semibold">
                     {item.title}
                   </h3>
                   <p className="text-body mt-2 text-sm leading-relaxed">

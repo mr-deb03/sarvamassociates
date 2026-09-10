@@ -106,7 +106,7 @@ export function ConsultationForm() {
     return (
       <div
         role="status"
-        className="border-line rounded-card border bg-ivory p-8 text-center lg:p-12"
+        className="border-line rounded-card border bg-card p-8 text-center lg:p-12"
       >
         <span
           aria-hidden
@@ -115,20 +115,20 @@ export function ConsultationForm() {
           <Check className="size-7" strokeWidth={2.5} />
         </span>
 
-        <h3 className="font-display text-charcoal mt-6 text-2xl font-semibold">
+        <h3 className="font-display text-navy mt-6 text-2xl font-semibold">
           Thank you — we&rsquo;ve got it.
         </h3>
 
         <p className="text-body mx-auto mt-3 max-w-md text-sm leading-relaxed">
           {submitted?.name ? `${submitted.name.split(" ")[0]}, one` : "One"} of
           our advisors will get in touch by{" "}
-          <span className="text-charcoal font-medium">
+          <span className="text-navy font-medium">
             {CONTACT_METHOD_LABELS[
               submitted?.preferredContact ?? "phone"
             ].toLowerCase()}
           </span>{" "}
           during your{" "}
-          <span className="text-charcoal font-medium">
+          <span className="text-navy font-medium">
             {CALLBACK_LABELS[submitted?.callbackWindow ?? "anytime"].toLowerCase()}
           </span>{" "}
           window, usually within one working day. The first conversation is
@@ -139,7 +139,7 @@ export function ConsultationForm() {
           Need us sooner? Email{" "}
           <a
             href={`mailto:${COMPANY.email}`}
-            className="text-champagne-ink link-underline"
+            className="text-accent-ink link-underline"
           >
             {COMPANY.email}
           </a>
@@ -153,7 +153,7 @@ export function ConsultationForm() {
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className="border-line rounded-card border bg-ivory p-6 lg:p-9"
+      className="border-line rounded-card border bg-card p-6 lg:p-9"
     >
       {/* Progress */}
       <div className="mb-8">
@@ -165,7 +165,7 @@ export function ConsultationForm() {
             <button
               type="button"
               onClick={back}
-              className="text-muted hover:text-charcoal flex items-center gap-1 text-xs font-medium transition-colors"
+              className="text-muted hover:text-navy flex items-center gap-1 text-xs font-medium transition-colors"
             >
               <ArrowLeft strokeWidth={1.75} aria-hidden className="size-3.5" />
               Back
@@ -175,7 +175,7 @@ export function ConsultationForm() {
 
         <div className="bg-line h-0.5 w-full overflow-hidden rounded-full">
           <div
-            className="bg-champagne h-full rounded-full transition-[width] duration-500 ease-[var(--ease-editorial)]"
+            className="bg-accent h-full rounded-full transition-[width] duration-500 ease-[var(--ease-editorial)]"
             style={{ width: `${((step + 1) / STEP_TITLES.length) * 100}%` }}
           />
         </div>
@@ -185,7 +185,7 @@ export function ConsultationForm() {
         <h3
           ref={headingRef}
           tabIndex={-1}
-          className="font-display text-charcoal mb-6 text-xl font-semibold outline-none lg:text-2xl"
+          className="font-display text-navy mb-6 text-xl font-semibold outline-none lg:text-2xl"
         >
           {STEP_TITLES[step]}
         </h3>
@@ -199,18 +199,18 @@ export function ConsultationForm() {
                 <label
                   key={value}
                   className={cn(
-                    "border-line hover:border-charcoal/30 flex cursor-pointer items-center gap-3 rounded-input border p-4 transition-colors",
-                    "has-checked:border-charcoal has-checked:bg-sand",
-                    "has-focus-visible:outline has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-champagne",
+                    "border-line hover:border-navy/30 flex cursor-pointer items-center gap-3 rounded-input border p-4 transition-colors",
+                    "has-checked:border-navy has-checked:bg-mist",
+                    "has-focus-visible:outline has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent",
                   )}
                 >
                   <input
                     type="radio"
                     value={value}
                     {...register("interest")}
-                    className="accent-charcoal size-4"
+                    className="accent-navy size-4"
                   />
-                  <span className="text-charcoal text-sm font-medium">
+                  <span className="text-navy text-sm font-medium">
                     {INTEREST_LABELS[value]}
                   </span>
                 </label>
@@ -284,7 +284,7 @@ export function ConsultationForm() {
         {step === 2 && (
           <div className="space-y-6">
             <fieldset>
-              <legend className="text-charcoal mb-2.5 block text-sm font-medium">
+              <legend className="text-navy mb-2.5 block text-sm font-medium">
                 Preferred way to reach you
               </legend>
               <div className="flex flex-wrap gap-2">
@@ -292,9 +292,9 @@ export function ConsultationForm() {
                   <label
                     key={method}
                     className={cn(
-                      "border-line hover:border-charcoal/30 cursor-pointer rounded-input border px-4 py-2 text-sm transition-colors",
-                      "has-checked:border-charcoal has-checked:bg-sand has-checked:text-charcoal has-checked:font-medium",
-                      "has-focus-visible:outline has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-champagne",
+                      "border-line hover:border-navy/30 cursor-pointer rounded-input border px-4 py-2 text-sm transition-colors",
+                      "has-checked:border-navy has-checked:bg-mist has-checked:text-navy has-checked:font-medium",
+                      "has-focus-visible:outline has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent",
                       "text-body",
                     )}
                   >
@@ -311,7 +311,7 @@ export function ConsultationForm() {
             </fieldset>
 
             <fieldset>
-              <legend className="text-charcoal mb-2.5 block text-sm font-medium">
+              <legend className="text-navy mb-2.5 block text-sm font-medium">
                 Best time to call
               </legend>
               <div className="grid gap-2 sm:grid-cols-2">
@@ -319,16 +319,16 @@ export function ConsultationForm() {
                   <label
                     key={window}
                     className={cn(
-                      "border-line hover:border-charcoal/30 flex cursor-pointer items-center gap-3 rounded-input border p-3.5 transition-colors",
-                      "has-checked:border-charcoal has-checked:bg-sand",
-                      "has-focus-visible:outline has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-champagne",
+                      "border-line hover:border-navy/30 flex cursor-pointer items-center gap-3 rounded-input border p-3.5 transition-colors",
+                      "has-checked:border-navy has-checked:bg-mist",
+                      "has-focus-visible:outline has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent",
                     )}
                   >
                     <input
                       type="radio"
                       value={window}
                       {...register("callbackWindow")}
-                      className="accent-charcoal size-4"
+                      className="accent-navy size-4"
                     />
                     <span className="text-body text-sm">
                       {CALLBACK_LABELS[window]}
@@ -358,7 +358,7 @@ export function ConsultationForm() {
                 type="checkbox"
                 {...register("consent")}
                 aria-invalid={Boolean(errors.consent)}
-                className="accent-charcoal mt-0.5 size-4 shrink-0"
+                className="accent-navy mt-0.5 size-4 shrink-0"
               />
               <span className="text-body text-xs leading-relaxed">
                 I&rsquo;m happy for Sarvam Associates to contact me about this
@@ -419,10 +419,10 @@ export function ConsultationForm() {
 
 function inputClass(hasError: boolean) {
   return cn(
-    "w-full rounded-input border bg-ivory px-4 py-3 text-sm text-charcoal",
+    "w-full rounded-input border bg-card px-4 py-3 text-sm text-navy",
     "placeholder:text-muted/70 transition-colors",
-    "focus:outline-none focus:ring-2 focus:ring-charcoal/15",
-    hasError ? "border-error focus:border-error" : "border-line focus:border-charcoal",
+    "focus:outline-none focus:ring-2 focus:ring-navy/15",
+    hasError ? "border-error focus:border-error" : "border-line focus:border-navy",
   );
 }
 
@@ -443,7 +443,7 @@ function Field({
     <div>
       <label
         htmlFor={htmlFor}
-        className="text-charcoal mb-1.5 flex items-baseline justify-between gap-3 text-sm font-medium"
+        className="text-navy mb-1.5 flex items-baseline justify-between gap-3 text-sm font-medium"
       >
         {label}
         {hint && <span className="text-muted text-xs font-normal">{hint}</span>}

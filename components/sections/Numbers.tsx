@@ -42,7 +42,7 @@ export function Numbers() {
                 as="li"
                 className="py-10 sm:px-10 sm:first:pl-0 sm:last:pr-0"
               >
-                <StatValue stat={stat} className="text-charcoal" />
+                <StatValue stat={stat} className="text-navy" />
                 <p className="text-body mt-4 text-sm">{stat.label}</p>
                 <p className="text-muted mt-1 text-xs">Sarvam Associates</p>
               </RevealItem>
@@ -53,13 +53,13 @@ export function Numbers() {
         {/* Platform and product figures. */}
         <Reveal preset="stagger" className="mt-6" tall>
           {/* The 1px gaps are the dividers, so the grid's own background has to
-              be the line colour — sand on sand shows nothing. */}
+              be the line colour — mist on mist shows nothing. */}
           <ul className="bg-line rounded-panel grid gap-px overflow-hidden sm:grid-cols-2 lg:grid-cols-4">
             {NUMBERS.map((stat) => (
               <RevealItem
                 key={stat.id}
                 as="li"
-                className="bg-sand flex flex-col p-8 lg:p-10"
+                className="bg-mist flex flex-col p-8 lg:p-10"
               >
                 {stat.indicative && (
                   <Chip tone="indicative" className="mb-6 self-start">
@@ -69,14 +69,14 @@ export function Numbers() {
 
                 <StatValue
                   stat={stat}
-                  className="text-charcoal"
+                  className="text-navy"
                   size="text-stat-sm"
                 />
 
                 <p className="text-body mt-4 text-sm">{stat.label}</p>
 
                 {stat.attribution && (
-                  <p className="border-charcoal/10 text-muted mt-auto border-t pt-5 text-xs">
+                  <p className="border-navy/10 text-muted mt-auto border-t pt-5 text-xs">
                     {stat.attribution}
                   </p>
                 )}

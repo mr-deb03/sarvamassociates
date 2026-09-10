@@ -1,4 +1,4 @@
-import type { Pillar, ProcessStep, Service, Stat } from "./types";
+import type { Pillar, ProcessStep, Stat } from "./types";
 import { COMPANY } from "./company";
 
 /* ==========================================================================
@@ -243,47 +243,12 @@ export const SARVAM_METRICS: Stat[] = [
 ];
 
 /* --------------------------------------------------------------------------
-   CA services.
-
-   These link out to the existing practice site. No stub routes are created for
-   them — the source material provides service names and URLs but no page
-   content, and brief §7 forbids empty routes.
+   CA services now have real pages on this site, built from the practice own
+   copy. The data lives in ./services; re-exported here so existing imports
+   keep resolving.
    -------------------------------------------------------------------------- */
 
-export const SERVICES: Service[] = [
-  {
-    name: "Direct Tax Consulting",
-    description:
-      "Income tax planning, return filing, assessments and representation for individuals and businesses.",
-    href: `${COMPANY.legacySite}/service/direct-tax-consulting`,
-    icon: "Receipt",
-    external: true,
-  },
-  {
-    name: "GST & Indirect Taxation",
-    description:
-      "Registration, monthly and annual returns, reconciliation and advisory on indirect tax.",
-    href: `${COMPANY.legacySite}/service/indirect-taxation`,
-    icon: "FileSpreadsheet",
-    external: true,
-  },
-  {
-    name: "Audit & Assurance",
-    description:
-      "Statutory, internal and tax audit for businesses and professional practices.",
-    href: `${COMPANY.legacySite}/service/audit-assurance`,
-    icon: "ClipboardCheck",
-    external: true,
-  },
-  {
-    name: "Insurance Solutions",
-    description:
-      "Life, health and business protection, advised alongside the wealth plan rather than separately.",
-    href: `${COMPANY.legacySite}/service/insurance-solutions`,
-    icon: "Umbrella",
-    external: true,
-  },
-];
+export { SERVICES } from "./services";
 
 /* --------------------------------------------------------------------------
    FD vs Debt vs Bonds comparison (brief §22)

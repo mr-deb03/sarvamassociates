@@ -45,13 +45,13 @@ export function Comparison() {
               purpose.
             </caption>
             <thead>
-              <tr className="border-charcoal border-b">
+              <tr className="border-navy border-b">
                 <th scope="col" className="w-44 pb-6">
                   <span className="sr-only">Attribute</span>
                 </th>
                 {COMPARISON.columns.map((col) => (
                   <th key={col.name} scope="col" className="px-8 pb-6">
-                    <span className="font-display text-display-sm text-charcoal block">
+                    <span className="font-display text-display-sm text-navy block">
                       {col.name}
                     </span>
                   </th>
@@ -73,7 +73,7 @@ export function Comparison() {
                         // Stacked, not inline: column widths differ, so an
                         // inline chip wraps under some figures and not others.
                         <span className="flex flex-col items-start gap-2.5">
-                          <span className="font-sans text-stat-sm text-charcoal tnum">
+                          <span className="font-sans text-stat-sm text-navy tnum">
                             {col.yield}
                           </span>
                           <Chip tone="indicative">Indicative</Chip>
@@ -96,15 +96,15 @@ export function Comparison() {
               key={col.name}
               className={cn(
                 "border-line rounded-card border p-7",
-                col.highlight && "bg-sand",
+                col.highlight && "bg-mist",
               )}
             >
               <div className="border-line mb-6 border-b pb-6">
-                <h3 className="font-display text-display-sm text-charcoal">
+                <h3 className="font-display text-display-sm text-navy">
                   {col.name}
                 </h3>
                 <p className="mt-3 flex flex-wrap items-center gap-3">
-                  <span className="font-sans text-stat-sm text-charcoal tnum">
+                  <span className="font-sans text-stat-sm text-navy tnum">
                     {col.yield}
                   </span>
                   <Chip tone="indicative">Indicative</Chip>

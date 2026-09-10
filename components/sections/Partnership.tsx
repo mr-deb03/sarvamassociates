@@ -26,10 +26,10 @@ const POINTS = [
 
 export function Partnership() {
   return (
-    <section className="bg-charcoal grain section relative isolate overflow-hidden">
+    <section className="bg-navy grain section relative isolate overflow-hidden">
       <span
         aria-hidden
-        className="absolute -top-1/3 -right-[10%] size-[45vw] max-w-[40rem] rounded-full bg-[radial-gradient(circle,var(--color-forest-600)_0%,transparent_66%)] opacity-60"
+        className="absolute -top-1/3 -right-[10%] size-[45vw] max-w-[40rem] rounded-full bg-[radial-gradient(circle,var(--color-navy-600)_0%,transparent_66%)] opacity-60"
       />
 
       <div className="container-page relative">
@@ -51,9 +51,9 @@ export function Partnership() {
             </Reveal>
 
             <Reveal className="mt-14">
-              <ul className="border-ivory/12 divide-ivory/10 divide-y border-t">
+              <ul className="border-paper/12 divide-paper/10 divide-y border-t">
                 {POINTS.map((point) => (
-                  <li key={point} className="text-ivory/70 py-4 text-sm">
+                  <li key={point} className="text-paper/70 py-4 text-sm">
                     {point}
                   </li>
                 ))}
@@ -73,18 +73,18 @@ export function Partnership() {
 
           {/* Who does what */}
           <Reveal className="lg:pt-20">
-            <h3 className="text-eyebrow text-ivory/45 mb-8 flex items-center gap-3.5 uppercase">
+            <h3 className="text-eyebrow text-paper/45 mb-8 flex items-center gap-3.5 uppercase">
               <span aria-hidden className="accent-rule shrink-0" />
               Who does what
             </h3>
 
             <dl className="space-y-4">
-              <div className="border-ivory/12 bg-ivory/[0.04] rounded-card border p-8">
-                <dt className="font-display text-ivory text-display-sm">
+              <div className="border-paper/12 bg-paper/[0.04] rounded-card border p-8">
+                <dt className="font-display text-paper text-display-sm">
                   {PARTNER.legalName}
                 </dt>
-                <dd className="text-ivory/60 mt-4 text-sm">
-                  <span className="text-ivory/90 font-medium">
+                <dd className="text-paper/60 mt-4 text-sm">
+                  <span className="text-paper/90 font-medium">
                     Manufactures and issues the products.
                   </span>{" "}
                   Runs the investment strategies and makes every buy and sell
@@ -92,12 +92,12 @@ export function Partnership() {
                 </dd>
               </div>
 
-              <div className="border-ivory/12 bg-ivory/[0.04] rounded-card border p-8">
-                <dt className="font-display text-ivory text-display-sm">
+              <div className="border-paper/12 bg-paper/[0.04] rounded-card border p-8">
+                <dt className="font-display text-paper text-display-sm">
                   Sarvam Associates
                 </dt>
-                <dd className="text-ivory/60 mt-4 text-sm">
-                  <span className="text-ivory/90 font-medium">
+                <dd className="text-paper/60 mt-4 text-sm">
+                  <span className="text-paper/90 font-medium">
                     Distributes them, as an authorised partner.
                   </span>{" "}
                   Assesses whether a product suits you, handles onboarding and

@@ -57,7 +57,7 @@ export function MobileNav() {
         onClick={() => setOpen(true)}
         aria-expanded={open}
         aria-label="Open menu"
-        className="text-charcoal -mr-2 p-2 transition-opacity hover:opacity-60 xl:hidden"
+        className="text-navy -mr-2 p-2 transition-opacity hover:opacity-60 xl:hidden"
       >
         <Menu aria-hidden strokeWidth={1.75} className="size-6" />
       </button>
@@ -69,10 +69,10 @@ export function MobileNav() {
         aria-modal="true"
         aria-label="Site menu"
         hidden={!open}
-        className="bg-ivory fixed inset-0 z-100 overflow-y-auto outline-none xl:hidden"
+        className="bg-paper fixed inset-0 z-100 overflow-y-auto outline-none xl:hidden"
       >
         <div className="border-line flex h-20 items-center justify-between border-b px-6">
-          <span className="font-display text-charcoal text-display-sm">Menu</span>
+          <span className="font-display text-navy text-display-sm">Menu</span>
           <button
             type="button"
             onClick={() => {
@@ -80,7 +80,7 @@ export function MobileNav() {
               triggerRef.current?.focus();
             }}
             aria-label="Close menu"
-            className="text-charcoal -mr-2 p-2 transition-opacity hover:opacity-60"
+            className="text-navy -mr-2 p-2 transition-opacity hover:opacity-60"
           >
             <X aria-hidden strokeWidth={1.75} className="size-6" />
           </button>
@@ -104,7 +104,7 @@ export function MobileNav() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-charcoal flex items-center gap-2 py-4 text-base"
+                        className="text-navy flex items-center gap-2 py-4 text-base"
                       >
                         {link.label}
                         <ArrowUpRight
@@ -116,7 +116,7 @@ export function MobileNav() {
                     ) : (
                       <Link
                         href={link.href}
-                        className="text-charcoal block py-4 text-base"
+                        className="text-navy block py-4 text-base"
                       >
                         {link.label}
                       </Link>
@@ -133,7 +133,7 @@ export function MobileNav() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-charcoal block py-4 text-base"
+                    className="text-navy block py-4 text-base"
                   >
                     {link.label}
                   </Link>
@@ -144,7 +144,7 @@ export function MobileNav() {
 
           <Link
             href="/contact"
-            className="bg-charcoal text-ivory rounded-pill flex h-14 items-center justify-center px-8 text-base font-medium"
+            className="bg-navy text-paper rounded-pill flex h-14 items-center justify-center px-8 text-base font-medium"
           >
             Book a Consultation
           </Link>

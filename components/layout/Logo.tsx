@@ -1,63 +1,73 @@
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 /**
- * Wordmark.
+ * Brand lockup.
  *
- * No raster logo was supplied, so the mark is drawn in CSS — a charcoal plate
- * carrying a serif "S" beside the name. Swapping in a real logo later means
- * replacing the plate span only.
+ * Two files, same artwork. `sarvam_main.png` is the supplied original, used on
+ * light grounds. `sarvam-main-onnavy.png` is derived from it by
+ * `scripts/build-brand-assets.mjs`, which recolours the navy to paper — the
+ * wordmark is #00387A, exactly the footer's own ground, so the original is
+ * literally invisible down there. The orange is untouched in both.
  *
- * The plate is charcoal rather than champagne on purpose: a gold badge in the
- * top-left corner of every page is the single fastest way to turn a restrained
- * palette into a "gold and black" one.
+ * `sizes` is deliberately NOT set: with it, next/image emits the full
+ * viewport-width candidate list up to 3840w for a 945px source. Omitting it
+ * gives a plain 1x/2x srcset off the `width` prop, which is all a fixed-size
+ * logo can use.
+ *
+ * Display size is a CSS class rather than the width/height attributes, so it
+ * can step down on narrow screens. The attributes still carry the true aspect
+ * ratio, so the box is reserved before the image loads and CLS stays at zero.
  */
+
+const LOGO = {
+  light: "/image/sarvam_main.png",
+  onNavy: "/image/sarvam-main-onnavy.png",
+} as const;
+
+/** Artwork is 945×190 — a 4.97:1 ratio. */
+const BASE = { width: 219, height: 44 };
+
+const SIZES = {
+  /** Header: steps down at 320–360px, where the hamburger crowds it. */
+  header: "h-9 w-auto sm:h-11",
+  footer: "h-11 w-auto sm:h-13",
+} as const;
+
 export function Logo({
   onDark = false,
   className,
   href = "/",
+  variant = "header",
+  priority = false,
 }: {
   onDark?: boolean;
   className?: string;
   href?: string;
+  variant?: keyof typeof SIZES;
+  priority?: boolean;
 }) {
   return (
     <Link
       href={href}
-      className={cn("group flex items-center gap-3", className)}
+      className={cn(
+        "inline-flex shrink-0 items-center transition-opacity duration-300 hover:opacity-80",
+        className,
+      )}
       aria-label="Sarvam Associates — home"
     >
-      <span
-        aria-hidden
-        className={cn(
-          "font-display grid size-10 place-items-center rounded-input text-[1.15rem] leading-none font-semibold",
-          "transition-colors duration-300 ease-[var(--ease-editorial)]",
-          onDark
-            ? "bg-ivory text-charcoal group-hover:bg-sand"
-            : "bg-charcoal text-ivory group-hover:bg-forest",
-        )}
-      >
-        S
-      </span>
-
-      <span className="flex flex-col gap-1 leading-none">
-        <span
-          className={cn(
-            "font-display text-[1.2rem] leading-none font-semibold tracking-[-0.015em] whitespace-nowrap",
-            onDark ? "text-ivory" : "text-charcoal",
-          )}
-        >
-          Sarvam Associates
-        </span>
-        <span
-          className={cn(
-            "text-[0.6rem] leading-none tracking-[0.22em] whitespace-nowrap uppercase",
-            onDark ? "text-ivory/45" : "text-muted",
-          )}
-        >
-          Tax · Wealth · Protection
-        </span>
-      </span>
+      <Image
+        src={onDark ? LOGO.onNavy : LOGO.light}
+        // Empty on purpose: the link above already carries the accessible
+        // name. Repeating it here makes screen readers announce the brand
+        // twice for one control.
+        alt=""
+        width={BASE.width}
+        height={BASE.height}
+        priority={priority}
+        className={SIZES[variant]}
+      />
     </Link>
   );
 }

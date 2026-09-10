@@ -5,17 +5,17 @@ type Tone = "neutral" | "indicative" | "positive" | "error";
 
 const TONES: Record<Tone, { light: string; dark: string }> = {
   neutral: {
-    light: "bg-charcoal/[0.055] text-muted",
-    dark: "bg-ivory/[0.08] text-ivory/65",
+    light: "bg-navy/[0.055] text-muted",
+    dark: "bg-paper/[0.08] text-paper/65",
   },
   /**
-   * The one place champagne carries text. On ivory it uses the darkened
-   * champagne-ink (5.0:1); on dark grounds plain champagne is 6.6:1.
+   * The one place accent carries text. On paper it uses the darkened
+   * accent-ink (5.0:1); on dark grounds plain accent is 6.6:1.
    * Reserved for figures the source itself qualifies as indicative.
    */
   indicative: {
-    light: "bg-champagne/[0.14] text-champagne-ink",
-    dark: "bg-champagne/15 text-champagne",
+    light: "bg-accent/[0.14] text-accent-ink",
+    dark: "bg-accent/15 text-accent-light",
   },
   positive: {
     light: "bg-positive/10 text-positive",

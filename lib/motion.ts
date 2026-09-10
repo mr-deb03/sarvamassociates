@@ -36,7 +36,7 @@ export const scaleIn: Variants = {
 };
 
 /**
- * Reserved for display headings and champagne hairline rules. This is the motif
+ * Reserved for display headings and accent hairline rules. This is the motif
  * that reads "editorial" — using it everywhere destroys it. Two or three per
  * page, at most.
  */

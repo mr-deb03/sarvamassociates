@@ -42,7 +42,7 @@ export default function AboutPage() {
       />
 
       {/* The story */}
-      <section className="bg-ivory section">
+      <section className="bg-paper section">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.35fr] lg:gap-20">
             <Reveal>
@@ -59,7 +59,7 @@ export default function AboutPage() {
                 <p>
                   What changed was a question we kept hearing in March, once the
                   filing was done and the refund was through:{" "}
-                  <span className="text-charcoal font-medium">
+                  <span className="text-navy font-medium">
                     so what should I actually do with this money?
                   </span>
                 </p>
@@ -78,7 +78,7 @@ export default function AboutPage() {
                   already see what it does to your tax position, and what you
                   will need liquid next year.
                 </p>
-                <p className="text-charcoal font-medium">
+                <p className="text-navy font-medium">
                   That is the whole idea. Everything else on this site is
                   detail.
                 </p>
@@ -89,27 +89,27 @@ export default function AboutPage() {
       </section>
 
       {/* Metrics */}
-      <section className="bg-charcoal grain relative isolate overflow-hidden section-sm">
+      <section className="bg-navy grain relative isolate overflow-hidden section-sm">
         <div className="container-page relative">
           <Reveal preset="stagger">
             <ul className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
               {SARVAM_METRICS.map((stat) => (
                 <RevealItem key={stat.id} as="li">
-                  <p className="font-sans text-stat text-ivory tnum">
+                  <p className="font-sans text-stat text-paper tnum">
                     <AnimatedCounter
                       value={stat.value ?? 0}
                       prefix={stat.prefix}
                       suffix={stat.suffix}
                     />
                   </p>
-                  <p className="text-ivory/60 mt-2 text-sm">{stat.label}</p>
+                  <p className="text-paper/60 mt-2 text-sm">{stat.label}</p>
                 </RevealItem>
               ))}
               <RevealItem as="li">
-                <p className="font-sans text-stat text-ivory">
+                <p className="font-sans text-stat text-paper">
                   Bhandup
                 </p>
-                <p className="text-ivory/60 mt-2 text-sm">
+                <p className="text-paper/60 mt-2 text-sm">
                   A practice you can walk into, in {COMPANY.address.city}
                 </p>
               </RevealItem>
@@ -119,7 +119,7 @@ export default function AboutPage() {
       </section>
 
       {/* How we work */}
-      <section className="bg-sand section">
+      <section className="bg-mist section">
         <div className="container-page">
           <Reveal>
             <SectionHeader
@@ -135,15 +135,15 @@ export default function AboutPage() {
                 <RevealItem
                   key={pillar.index}
                   as="li"
-                  className="border-line rounded-card border bg-ivory p-7"
+                  className="border-line rounded-card border bg-card p-7"
                 >
                   <span
                     aria-hidden
-                    className="font-sans text-ivory/35 block text-sm tabular-nums"
+                    className="font-sans text-paper/35 block text-sm tabular-nums"
                   >
                     {String(pillar.index).padStart(2, "0")}
                   </span>
-                  <h3 className="text-charcoal border-line mt-3 border-t pt-4 text-base font-semibold">
+                  <h3 className="text-navy border-line mt-3 border-t pt-4 text-base font-semibold">
                     {pillar.title}
                   </h3>
                   <p className="text-body mt-2 text-sm leading-relaxed">

@@ -69,7 +69,7 @@ export default function FinancialSolutionsPage() {
       </PageHero>
 
       {/* Why this exists */}
-      <section className="bg-ivory section">
+      <section className="bg-paper section">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-[0.85fr_1.3fr] lg:gap-20">
             <Reveal>
@@ -93,7 +93,7 @@ export default function FinancialSolutionsPage() {
                   precisely the wrong moment. And once a long-term compounding
                   position is broken, most people never rebuild it.
                 </p>
-                <p className="text-charcoal font-medium">
+                <p className="text-navy font-medium">
                   Borrowing against the portfolio avoids both. But it introduces
                   a risk that selling does not have — and that risk is set out
                   below, not buried.
@@ -105,7 +105,7 @@ export default function FinancialSolutionsPage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-charcoal grain relative isolate overflow-hidden section">
+      <section className="bg-navy grain relative isolate overflow-hidden section">
         <div className="container-page relative">
           <Reveal>
             <SectionHeader
@@ -121,14 +121,14 @@ export default function FinancialSolutionsPage() {
                 <RevealItem key={step.title} as="li">
                   <span
                     aria-hidden
-                    className="font-sans text-ivory/35 block text-sm tabular-nums"
+                    className="font-sans text-paper/35 block text-sm tabular-nums"
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="text-ivory border-ivory/20 mt-3 border-t pt-4 text-base font-semibold">
+                  <h3 className="text-paper border-paper/20 mt-3 border-t pt-4 text-base font-semibold">
                     {step.title}
                   </h3>
-                  <p className="text-ivory/50 mt-2 text-sm leading-relaxed">
+                  <p className="text-paper/50 mt-2 text-sm leading-relaxed">
                     {step.body}
                   </p>
                 </RevealItem>
@@ -139,11 +139,11 @@ export default function FinancialSolutionsPage() {
       </section>
 
       {/* The margin call — deliberately its own section, not a footnote */}
-      <section className="bg-ivory section-sm">
+      <section className="bg-paper section-sm">
         <div className="container-page">
           <Reveal>
             <div className="border-error/30 bg-error/[0.05] rounded-card border p-8 lg:p-10">
-              <h2 className="font-display text-charcoal flex items-center gap-3 text-2xl font-semibold">
+              <h2 className="font-display text-navy flex items-center gap-3 text-2xl font-semibold">
                 <AlertTriangle
                   aria-hidden
                   className="text-error size-6 shrink-0"
@@ -155,7 +155,7 @@ export default function FinancialSolutionsPage() {
                 <p>
                   Your investments are pledged. If their value falls far enough
                   relative to what you have drawn, the lender can issue a{" "}
-                  <strong className="text-charcoal font-semibold">margin call</strong>{" "}
+                  <strong className="text-navy font-semibold">margin call</strong>{" "}
                   — a demand that you pledge more collateral or repay part of the
                   loan, usually at short notice.
                 </p>
@@ -165,7 +165,7 @@ export default function FinancialSolutionsPage() {
                   whatever the market price is on that day, which is not likely
                   to be a good one.
                 </p>
-                <p className="text-charcoal font-medium">
+                <p className="text-navy font-medium">
                   Market falls and cash-flow pressure tend to arrive together.
                   That correlation is the real risk of this product, and it is
                   why we will ask how you plan to repay before we discuss how
@@ -178,7 +178,7 @@ export default function FinancialSolutionsPage() {
       </section>
 
       {/* Products */}
-      <section className="bg-sand section">
+      <section className="bg-mist section">
         <div className="container-page">
           <Reveal>
             <SectionHeader
@@ -213,11 +213,11 @@ export default function FinancialSolutionsPage() {
       </section>
 
       {/* Honest counter-case */}
-      <section className="bg-ivory section-sm">
+      <section className="bg-paper section-sm">
         <div className="container-page">
           <Reveal>
-            <div className="border-line mx-auto max-w-3xl rounded-card border bg-ivory p-8 text-center lg:p-10">
-              <h2 className="font-display text-charcoal text-2xl font-semibold">
+            <div className="border-line mx-auto max-w-3xl rounded-card border bg-card p-8 text-center lg:p-10">
+              <h2 className="font-display text-navy text-2xl font-semibold">
                 When we&rsquo;ll tell you to just sell
               </h2>
               <p className="text-body mx-auto mt-4 max-w-2xl text-sm leading-relaxed">
