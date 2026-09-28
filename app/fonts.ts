@@ -12,7 +12,7 @@ import { Montserrat, Open_Sans } from "next/font/google";
  * set it against the roman.
  */
 export const montserrat = Montserrat({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   display: "swap",
   // Distinct from the `--font-display` theme token, which composes this with
   // its fallback stack. Naming them the same would be a circular var().
@@ -23,10 +23,23 @@ export const montserrat = Montserrat({
 /**
  * Interface face — body copy, labels, forms, tables and every figure.
  *
- * Also the face for every rupee value on the site. That rule predates this
- * change (it existed because Cormorant's ₹ coverage was unreliable) and still
- * holds: all ₹ amounts render through `font-sans`, and Open Sans covers U+20B9
- * and supports tabular figures, which the stat counters depend on.
+ * NOTE — Open Sans has no rupee glyph. Not "not in the latin subset": U+20B9
+ * is absent from the font entirely (so are ₽ and ₴), confirmed by reading the
+ * cmap of Google's full unsubsetted file. Left alone, the browser fell back to
+ * Arial for that one character, which CSS.getPlatformFontsForNode exposed as a
+ * stray 1-glyph Arial run inside every "₹500/month".
+ *
+ * The fix is the fallback order on `--font-sans` in globals.css, which names
+ * "Open Sans" directly rather than using this variable. `--font-open-sans`
+ * expands to `"Open Sans", "Open Sans Fallback"`, and that second family is
+ * `local(Arial)` with metric overrides — it has its own ₹, so it swallowed the
+ * glyph before any later family could be reached. (`adjustFontFallback: false`
+ * does not remove it in this Next version; it was tried.) Montserrat needs
+ * `latin-ext` for the same reason — that is the slice U+20B9 lives in.
+ *
+ * Open Sans earns the body role on other grounds: its digits are uniform-width
+ * in the raw metrics (all 0.5718em), so columns and count-up animations stay
+ * aligned even before `tabular-nums` applies.
  *
  * Normal only — every italic on the site is inside a display heading, so
  * there is no body italic to load a second file for.

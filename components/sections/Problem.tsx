@@ -30,12 +30,20 @@ export function Problem() {
           </Reveal>
 
           <Reveal preset="stagger" tall>
-            <ol className="border-line divide-line divide-y border-t">
+            {/*
+              The label column is sized by content (`max-content`) rather than a
+              fixed width, and the rows share it through `subgrid` so they still
+              line up. A hard `w-40` was here before: it fitted the old serif but
+              not Montserrat Bold, and "Investments" and "Protection" overflowed
+              straight across their note text. Content-sizing means the next font
+              or the next label cannot reintroduce that.
+            */}
+            <ol className="border-line divide-line grid divide-y border-t sm:grid-cols-[1.75rem_max-content_minmax(0,1fr)]">
               {PROBLEM.chain.map((link, i) => (
                 <RevealItem
                   key={link.label}
                   as="li"
-                  className="flex flex-wrap items-baseline gap-x-6 gap-y-1 py-6"
+                  className="grid grid-cols-[1.75rem_minmax(0,1fr)] items-baseline gap-x-6 gap-y-1 py-6 sm:col-span-3 sm:grid-cols-subgrid"
                 >
                   <span
                     aria-hidden
@@ -43,10 +51,10 @@ export function Problem() {
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-display text-display-sm text-navy w-40 shrink-0">
+                  <span className="font-display text-display-sm text-navy">
                     {link.label}
                   </span>
-                  <span className="text-body min-w-[14rem] flex-1 text-sm">
+                  <span className="text-body col-start-2 text-sm sm:col-start-3">
                     {link.note}
                   </span>
                 </RevealItem>

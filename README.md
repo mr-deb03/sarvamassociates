@@ -136,9 +136,23 @@ Montserrat normal, Montserrat italic, Open Sans normal. Open Sans normal only �
 every italic on the site sits inside a display heading, so there is no body
 italic to pay for.
 
-Every rupee figure renders through `font-sans`. That rule predates the font
-change (Cormorant's ₹ coverage was unreliable) and still holds: Open Sans
-covers U+20B9 and supports the tabular figures the stat counters depend on.
+> **Open Sans has no rupee glyph.** Not "missing from the latin subset" —
+> U+20B9 is absent from the font entirely (so are ₽ and ₴), confirmed by
+> reading the cmap of Google's full unsubsetted file. Left alone the browser
+> fell back to Arial for that one character, which `CSS.getPlatformFontsForNode`
+> exposed as a stray 1-glyph Arial run inside every "₹500/month".
+>
+> The fix is the fallback order of `--font-sans`, which names `"Open Sans"`
+> **directly** rather than using `var(--font-open-sans)`. That variable expands
+> to `"Open Sans", "Open Sans Fallback"`, and the second family is
+> `local(Arial)` with metric overrides — it has its own ₹ and swallowed the
+> glyph before anything later could be reached. (`adjustFontFallback: false`
+> does not remove it in this Next version; it was tried.) Montserrat now sits
+> next in the chain, so ₹ lands on the other brand face, and Montserrat carries
+> `latin-ext` because that is the slice U+20B9 lives in.
+>
+> **If you change either face, re-check this.** A body font without ₹ is a real
+> hazard on this site — prices are everywhere.
 
 The scale is defined once as Tailwind `--text-*` tokens with line-height,
 tracking and weight baked in: `text-display-hero` / `-lg` / `-md` / `-sm`,

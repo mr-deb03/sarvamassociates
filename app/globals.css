@@ -71,7 +71,14 @@
    * ------------------------------------------------------------------ */
 
   --font-display: var(--font-montserrat), "Segoe UI", system-ui, sans-serif;
-  --font-sans: var(--font-open-sans), system-ui, -apple-system, sans-serif;
+  /* "Open Sans" is named directly rather than via --font-open-sans, which
+     expands to `"Open Sans", "Open Sans Fallback"` — and that second family is
+     local(Arial) with metric overrides. Open Sans has no ₹ glyph at all
+     (U+20B9 is absent from the font, not just from the latin subset), so with
+     the Arial-backed fallback in the chain every rupee on the site rendered in
+     Arial. Montserrat sits next so ₹ lands on the other brand face. */
+  --font-sans: "Open Sans", var(--font-montserrat), system-ui, -apple-system,
+    sans-serif;
 
   /* Display scale. Fluid by design — never a shrunk desktop size.
 
@@ -81,7 +88,12 @@
      less negative. Weight sits at 700 for the two largest steps because a
      geometric sans at 500 reads limp above ~60px, and 700 is how the brand
      sets its own headlines. */
-  --text-display-hero: clamp(3.25rem, 6.5vw, 6.5rem);
+  /* The floor was 3.25rem, which is wider than a 320px content column can
+     hold: "guesswork" alone overflowed its box by 13px. A `vw + rem` term
+     instead of plain vw keeps phones legible (44px) while still reaching 96px
+     by 1440 — a plain-vw curve low enough to fit 320px would have left tablets
+     undersized. */
+  --text-display-hero: clamp(2.75rem, 5vw + 1.5rem, 6.5rem);
   --text-display-hero--line-height: 1.02;
   --text-display-hero--letter-spacing: -0.028em;
   --text-display-hero--font-weight: 700;

@@ -50,6 +50,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en-IN"
       className={`${montserrat.variable} ${openSans.variable}`}
+      // globals.css sets `scroll-behavior: smooth` for in-page anchors. Next
+      // temporarily forces `auto` during a route change so navigating to a new
+      // page jumps to the top instead of gliding there — but it only does that
+      // when this attribute is present. Without it, Next skips the override
+      // entirely (and warns in dev), so every route change smooth-scrolled.
+      // Hash-only navigation is exempt, so anchors still glide.
+      data-scroll-behavior="smooth"
       // The bootstrap script below adds `js` to this element before React
       // hydrates, so the server and client class lists differ by design.
       // Scoped to this element's own attributes only.
