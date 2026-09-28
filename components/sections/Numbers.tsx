@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
  *    with a visible INDICATIVE chip.
  * 3. The scoping disclaimer sits directly beneath the grid, not in the footer.
  *
- * Figures are set in Manrope, tight and tabular — precise and institutional
+ * Figures are set in Open Sans, tight and tabular — precise and institutional
  * rather than promotional. The display serif is for statements, not statistics.
  */
 export function Numbers() {

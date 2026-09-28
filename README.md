@@ -126,22 +126,34 @@ each colour actually lands on:
 
 ### Type
 
-**Cormorant Garamond** for display, **Manrope** for everything else — including
-every rupee figure, because Cormorant's ₹ coverage is unreliable and a missing
-glyph falls back silently mid-word.
+**Montserrat** for display, **Open Sans** for everything else. Montserrat is
+the face the practice already uses on sarvamassociates.com and in the logo
+wordmark, so the site's headings and its own mark are now the same typeface.
+
+Both load as variable fonts (no `weight` array), covering the full axis in one
+file per style instead of one per weight. Three files ship per page, ~112 KB:
+Montserrat normal, Montserrat italic, Open Sans normal. Open Sans normal only —
+every italic on the site sits inside a display heading, so there is no body
+italic to pay for.
+
+Every rupee figure renders through `font-sans`. That rule predates the font
+change (Cormorant's ₹ coverage was unreliable) and still holds: Open Sans
+covers U+20B9 and supports the tabular figures the stat counters depend on.
 
 The scale is defined once as Tailwind `--text-*` tokens with line-height,
 tracking and weight baked in: `text-display-hero` / `-lg` / `-md` / `-sm`,
 `text-card`, `text-body-lg`, `text-eyebrow`, `text-stat` / `-sm`. Use those —
 never an ad-hoc `text-[clamp(...)]`.
 
-Statistics are Manrope 700, tight and tabular; the serif is for statements, not
-figures.
-
-The live site uses **Montserrat** throughout. That was left in place rather than
-copied — the brief that set this typography was explicit and separate from the
-colour request. Switching is a two-line change in
-[app/fonts.ts](app/fonts.ts) if you want the sites to match on type as well.
+> **The scale was recut for the new faces, not just repointed.** The previous
+> numbers were cut for a high-contrast serif and are actively wrong for a
+> geometric sans: Montserrat's x-height is far larger and its forms wider, so
+> the old `0.96` hero line-height collides across lines and `-0.035em` runs the
+> letters together at 104px. Display weight moved `500 → 700` for the two
+> largest steps, because a geometric sans at medium weight reads limp above
+> ~60px and 700 is how the brand sets its own headlines. Stat tracking relaxed
+> from `-0.045em` to `-0.028em` — Open Sans has noticeably wider digits than
+> Manrope. If you swap either face again, these need revisiting.
 
 > **Gotcha worth knowing.** `tailwind-merge` classifies any unfamiliar `text-*`
 > as a colour, so `cn("text-display-lg", "text-navy")` silently dropped the

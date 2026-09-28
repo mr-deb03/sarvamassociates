@@ -5,7 +5,7 @@ import { MobileCta } from "@/components/layout/MobileCta";
 import { RevealObserver } from "@/components/motion/RevealObserver";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { SITE, SITE_URL } from "@/lib/seo";
-import { cormorant, manrope } from "./fonts";
+import { montserrat, openSans } from "./fonts";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -49,7 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en-IN"
-      className={`${cormorant.variable} ${manrope.variable}`}
+      className={`${montserrat.variable} ${openSans.variable}`}
       // The bootstrap script below adds `js` to this element before React
       // hydrates, so the server and client class lists differ by design.
       // Scoped to this element's own attributes only.

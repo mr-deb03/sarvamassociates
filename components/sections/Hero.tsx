@@ -15,9 +15,9 @@ import { HeroBackdrop } from "./HeroVisual";
  * as painted until hydration runs, which pushes LCP by hundreds of
  * milliseconds. Only the backdrop moves.
  *
- * Typographic contrast carries the composition: the Hinglish line in Cormorant
- * italic against the roman second line, then precise Manrope underneath. No
- * colour trick, no chart, no gold.
+ * Typographic contrast carries the composition: the Hinglish line in Montserrat
+ * italic against the roman second line, then Open Sans underneath. No colour
+ * trick, no chart, no orange.
  */
 export function Hero() {
   return (

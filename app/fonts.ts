@@ -1,32 +1,38 @@
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Montserrat, Open_Sans } from "next/font/google";
 
 /**
- * Display face — the editorial voice.
+ * Display face — headings, the hero, pull quotes.
  *
- * Weights are deliberately restricted to 400/500/600. Cormorant offers 300 and
- * lighter, but at the hero's 60–104px those weights go spindly and read as
- * fashion-editorial rather than financial-editorial. 500 is the primary
- * display weight; 600 is for emphasis only.
+ * Montserrat is the face the practice already uses on sarvamassociates.com, so
+ * the two sites now agree on type as well as colour.
+ *
+ * Loaded as a variable font (no `weight` array), which covers the whole
+ * 100–900 axis in a single file instead of one per weight. Italic is a second
+ * file and is genuinely used: the hero's Hinglish line and both pull quotes
+ * set it against the roman.
  */
-export const cormorant = Cormorant_Garamond({
+export const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
   // Distinct from the `--font-display` theme token, which composes this with
   // its fallback stack. Naming them the same would be a circular var().
-  variable: "--font-cormorant",
-  weight: ["400", "500", "600"],
+  variable: "--font-montserrat",
   style: ["normal", "italic"],
 });
 
 /**
- * Interface face — the precise digital layer underneath the serif.
+ * Interface face — body copy, labels, forms, tables and every figure.
  *
- * This is also the face for every rupee figure on the site. Cormorant's ₹
- * coverage is unreliable and a missing glyph falls back silently mid-word, so
- * `₹50 Lakh`, `₹1 Crore` and `₹500/month` all render in Manrope.
+ * Also the face for every rupee value on the site. That rule predates this
+ * change (it existed because Cormorant's ₹ coverage was unreliable) and still
+ * holds: all ₹ amounts render through `font-sans`, and Open Sans covers U+20B9
+ * and supports tabular figures, which the stat counters depend on.
+ *
+ * Normal only — every italic on the site is inside a display heading, so
+ * there is no body italic to load a second file for.
  */
-export const manrope = Manrope({
+export const openSans = Open_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-manrope",
+  variable: "--font-open-sans",
 });
