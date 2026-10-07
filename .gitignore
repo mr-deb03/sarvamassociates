@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...except the template, which documents every variable the site needs
+# and holds no secrets. Without this negation `.env*` swallows it.
+!.env.example
 
 # vercel
 .vercel
@@ -42,3 +45,6 @@ next-env.d.ts
 
 # Client source material — reference only, not a build input
 /_source
+
+# Plan submissions — personal financial data, never committed
+/.data

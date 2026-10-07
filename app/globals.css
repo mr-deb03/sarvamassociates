@@ -435,3 +435,91 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ==========================================================================
+   Print
+
+   The financial plan is a document people will save and send on, so the
+   printed form is a first-class output rather than an afterthought. These
+   rules restyle the plan page itself instead of duplicating it into a
+   separate template — one layout, one set of figures, nothing to drift.
+
+   See components/plan/PrintButton.tsx for why PDF generation goes through the
+   browser's own print pipeline rather than a server-side renderer.
+   ========================================================================== */
+
+@media print {
+  /* Chrome and Safari strip backgrounds by default, which would flatten every
+     panel on the page into the same white block. */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    margin: 14mm 12mm;
+  }
+
+  html,
+  body {
+    background: #fff;
+  }
+
+  /* Site chrome has no business on a printed plan. */
+  header[class*="fixed"],
+  footer,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* The page is already inside the print margin; a second one wastes a third
+     of the sheet. */
+  .container-page {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  .section,
+  .section-sm,
+  .section-lg {
+    padding-block: 0;
+  }
+
+  /* Anything waiting on the intersection observer must be visible on paper —
+     printing does not scroll, so nothing would ever reveal. Disclaimers are
+     inside revealed sections, which makes this a compliance rule, not a
+     cosmetic one. */
+  html.js [data-reveal],
+  html.js [data-reveal-item] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .grain::after,
+  .grain::before {
+    display: none !important;
+  }
+
+  .plan-report {
+    font-size: 10.5pt;
+  }
+
+  /* Keep a heading with the content it introduces, and never split a figure
+     away from its label. */
+  .plan-section h2,
+  .plan-section h3 {
+    break-after: avoid;
+  }
+
+  .plan-section table {
+    break-inside: auto;
+  }
+
+  .plan-section tr {
+    break-inside: avoid;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}

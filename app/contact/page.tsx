@@ -3,6 +3,7 @@ import { Clock, Mail, MapPin } from "lucide-react";
 import { ConsultationForm } from "@/components/forms/ConsultationForm";
 import { PageHero } from "@/components/sections/PageHero";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
+import { ButtonLink } from "@/components/ui/Button";
 import { Disclaimer } from "@/components/ui/Disclaimer";
 import { COMPANY } from "@/lib/content/company";
 import { PROCESS } from "@/lib/content/homepage";
@@ -37,10 +38,63 @@ export default function ContactPage() {
         crumbs={[{ label: "Contact" }]}
       />
 
+      {/*
+        Two ways in, and the planner leads.
+
+        A consultation form asks someone to spend their time before they have
+        seen anything; the planner gives them a document first and asks for
+        fifteen minutes afterwards. The form stays because plenty of people
+        arrive already knowing what they want to ask.
+      */}
+      <section className="bg-paper pt-4">
+        <div className="container-page">
+          <div className="bg-navy grain rounded-panel relative isolate overflow-hidden p-8 sm:p-10 lg:p-12">
+            <span
+              aria-hidden
+              className="absolute -top-[40%] -right-[5%] size-[40vw] max-w-[32rem] rounded-full bg-[radial-gradient(circle,var(--color-navy-600)_0%,transparent_65%)] opacity-70"
+            />
+
+            <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-16">
+              <div>
+                <p className="text-eyebrow text-paper/50 uppercase">
+                  Before you book
+                </p>
+                <h2 className="font-display text-paper text-display-sm mt-4 max-w-[22ch]">
+                  Build your financial plan first. It takes ten minutes.
+                </h2>
+                <p className="text-paper/65 measure mt-5 text-sm leading-relaxed">
+                  Map your income, your goals and what you already hold, and
+                  see what each goal is projected to cost by the time it
+                  arrives — and what your current saving will actually cover.
+                  You get the document whether or not you ever call us.
+                </p>
+                <p className="text-paper/45 mt-4 text-xs leading-relaxed">
+                  No PAN, no Aadhaar, no bank details. An illustration built
+                  from your own figures, not investment advice.
+                </p>
+              </div>
+
+              <ButtonLink
+                href="/financial-plan"
+                variant="primaryOnDark"
+                size="lg"
+                withArrow
+                className="shrink-0"
+              >
+                Start my plan
+              </ButtonLink>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-paper section-sm">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-[1.3fr_0.85fr] lg:gap-16">
             <div>
+              <h2 className="font-display text-navy text-display-sm mb-6">
+                Or just book a call
+              </h2>
               <ConsultationForm />
             </div>
 

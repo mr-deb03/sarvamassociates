@@ -26,8 +26,20 @@ const LOGO = {
   onNavy: "/image/sarvam-main-onnavy.png",
 } as const;
 
-/** Artwork is 945×190 — a 4.97:1 ratio. */
-const BASE = { width: 219, height: 44 };
+/**
+ * 945:190 reduced by its GCD of 5 — the artwork's exact ratio, not an
+ * approximation of it.
+ *
+ * These are only a ratio and a srcset hint; CSS sets the real size. The pair
+ * must not coincide with any rendered size, and does not: the rendered heights
+ * are 36/44/52, never 38. That matters because next/image warns when exactly
+ * one of width/height differs from its attribute, and `w-auto` derives the
+ * width from the *served* image — which Next rounds to integers (945×190
+ * became 256×51, a 5.0196 ratio rather than 4.9737). A previous 219×44 left
+ * height matching at `h-11` while width came back 221, tripping that warning.
+ * With 189×38 both always differ, at every breakpoint.
+ */
+const BASE = { width: 189, height: 38 };
 
 const SIZES = {
   /** Header: steps down at 320–360px, where the hamburger crowds it. */

@@ -117,6 +117,30 @@ export const DISCLAIMERS = {
     body: "This calculator is an illustration only. It assumes a constant rate of return, which real investments do not deliver. Actual returns will vary and may be negative. It is not a projection, a promise, or investment advice.",
   },
 
+  "plan-illustration": {
+    id: "plan-illustration",
+    label: "About this plan",
+    severity: "regulatory",
+    // The planner's central caveat. It appears on the wizard, on the plan
+    // itself and on every printed page, because the output looks like a
+    // document produced by a professional and must not be mistaken for one.
+    body: "This plan is an illustration generated from the figures and assumptions you entered. It assumes a constant rate of return, which no real investment delivers, and it reflects only what you told us. It is not investment advice, not a projection of what you will achieve, and not a recommendation of any product. Actual outcomes will differ, and may be worse.",
+  },
+
+  "plan-assumptions-are-yours": {
+    id: "plan-assumptions-are-yours",
+    label: "Your assumptions",
+    severity: "regulatory",
+    body: "The inflation and return rates used throughout this plan were chosen by you. The figures seeded into the form are neutral starting points, not Sarvam Associates' view of what any asset will return.",
+  },
+
+  "plan-data-handling": {
+    id: "plan-data-handling",
+    label: "What we do with these details",
+    severity: "standard",
+    body: "The details you enter are sent to Sarvam Associates so an advisor can discuss the plan with you. We do not ask for a PAN, an Aadhaar number, bank details or account numbers at any point, and nothing here is sold or passed to a third party.",
+  },
+
   "not-investment-advice": {
     id: "not-investment-advice",
     label: "Not investment advice",

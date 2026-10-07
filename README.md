@@ -25,6 +25,10 @@ supplied. Each is a single constant.
 | **Phone number** | `COMPANY.phone` in `lib/content/company.ts` | `null`. **No phone number appears in any source document.** Contact surfaces render email-only and the LocalBusiness JSON-LD omits `telephone` rather than inventing one. |
 | **Real testimonials** | `lib/content/testimonials.ts` | All six entries are `placeholder: true` — the source document heads them "Dummy Reviews". A visible notice tells readers they are illustrative. See that file's header for the swap procedure. |
 | **Lead delivery** | `LEAD_WEBHOOK_URL` env var, consumed by `lib/forms/deliver.ts` | Unset. Submissions validate and return success but are delivered nowhere. |
+| **Signing key** | `PLAN_SECRET` env var | Unset. Signs the plan-access and admin cookies and hashes OTP codes. Development generates a throwaway key per process; **production refuses to serve the planner without it**. Needs ≥32 characters — `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. |
+| **Admin password** | `ADMIN_PASSWORD` env var | Unset. `/admin` returns "not set up yet" until it is supplied. Minimum 8 characters. |
+| **SMS provider** | `SMS_PROVIDER` + credentials | Unset. Verification codes are logged to the terminal in development and **will not send at all in production**, so nobody can open a plan. See `.env.example`. |
+| **Durable plan storage** | `getStore()` in `lib/plan/store.ts` | File-backed, writing to `.data/plans`. Durable on a VPS or a container with a volume; **discarded on every deploy** on Vercel, Netlify or Lambda. Swap the adapter before taking real enquiries on those hosts. |
 
 ---
 
@@ -191,6 +195,210 @@ Radii are capped and named: `rounded-input` 10px, `rounded-card` 14px,
 
 ---
 
+## The financial planner
+
+`/financial-plan` is the site's main lead capture. A visitor maps their income,
+expenses, goals and holdings across five steps; the server computes a plan,
+stores it, and texts a six-digit code. Entering the code opens the plan, which
+they can read on screen or save as a PDF. Every submission lands in `/admin`.
+
+The field set is lifted from the planning worksheet the practice already uses
+internally, so a plan generated on the site maps field-for-field onto what the
+advisor has on their desk.
+
+### The flow, and where the data is captured
+
+```
+step 1  About you          name, DOB, gender, marital status, retirement ages,
+                           risk profile, target mix (five editable figures)
+step 2  Income & expenses  2 income lines, 11 expense lines, savings already
+                           running, emergency buffer, household split
+step 3  Goals & liabilities 8 goal types; each carries its own cost, target
+                           year, inflation, return, existing saving, step-up
+step 4  Assets & mapping   holdings, each optionally earmarked against a goal
+step 5  Review & verify    three plan-level assumptions, THEN email and mobile,
+                           consent, submit
+                              │
+                              ▼
+                     POST /api/plan ──► record written  (pending-verification)
+                              │         OTP issued and texted
+                              ▼
+                     POST /api/plan/verify ──► status: verified
+                                               sa_plan cookie set
+                              │
+                              ▼
+                     /financial-plan/<id>   the plan, and the PDF
+```
+
+**Contact details are asked for last, not first.** Nothing on step 1 is a way
+of reaching anybody — the date of birth sets the retirement horizon, marital
+status frames the household split. The email and mobile are collected on step 5,
+where the visitor has already spent ten minutes on their own figures and the
+number buys them the result. Asking up front would have been worse for
+conversion and a worse bargain. Step 1 says so in as many words, because a
+visitor who has just landed wants to know it before they start typing.
+
+**The record is written before the code is entered, deliberately.** The visitor
+has already pressed a button under a consent line naming Sarvam Associates, so
+the enquiry is complete at that moment. Verification gates sight of the
+*result*, not capture of the enquiry — an abandoned verification still reaches
+the practice, flagged `pending-verification` so nobody mistakes an unconfirmed
+number for one that answered.
+
+That is the "indirect data collection" the planner is for, and it only works
+honestly if the trade is visible. It is: step 5 states where the details go
+before the submit button, and `plan-data-handling` in the disclaimer registry
+restates it on the page.
+
+### What is never asked for
+
+No PAN, no Aadhaar, no bank or folio details, no account numbers. The practice's
+own worksheet opens with a "Search Client / PAN" box because it is an internal
+tool looking up an existing client; a public form asking an unauthenticated
+visitor for the same thing is a different proposition, and brief §26 forbids it.
+`lib/plan/catalog.ts` records the omission at the point where it would otherwise
+have been added.
+
+### The arithmetic
+
+`lib/plan/calc.ts` — pure functions, no React, no I/O. Compound arithmetic over
+the figures the visitor typed, at the rates the visitor chose, and nothing more.
+
+| | |
+|---|---|
+| Goal cost | `currentCost × (1 + inflation)^years` |
+| Existing provision | lump sum, stepped SIP and earmarked holdings, each compounded to the target year |
+| Required contribution | FV-annuity solve on the shortfall, plus the lump-sum equivalent |
+| Retirement corpus | present value at retirement of an inflation-rising income, discounted at the **real** rate — `(1+nominal)/(1+inflation) − 1` — as an annuity due |
+| Indicators | five named checks against stated thresholds, not one score |
+
+Three deliberate choices:
+
+- **Retirement assumes expenses continue at today's level in real terms.** The
+  conventional 70–80% replacement ratio would have been invented; the
+  conservative assumption needs no source and the report states it.
+- **Returns and inflation are the visitor's own.** The seeds — 6% inflation
+  (top of the RBI tolerance band), 10% return (a round number below long-run
+  equity and above long-run debt) — are labelled as starting points everywhere
+  they appear, and the plan prints every one of them back in the assumptions
+  section.
+- **No single score.** Five indicators with named thresholds, because a score
+  out of a hundred compresses unrelated facts into something that reads as a
+  verdict.
+
+The engine is checked against the practice's own worksheet in
+`scripts/verify-plan-math.mjs` — wired into `npm run check` — with 20
+assertions, including the two totals the worksheet computes itself (₹35,000 family income, ₹13,000 expenses from the
+same eleven lines).
+
+### Compliance
+
+The planner produces a document that looks professionally prepared, so the
+caveat has to be unmissable rather than buried. Three registry entries carry it:
+
+| Key | Appears |
+|---|---|
+| `plan-illustration` | the wizard, the plan, every printed page |
+| `plan-assumptions-are-yours` | the plan, the assumptions section |
+| `plan-data-handling` | the wizard, before submit |
+
+The protection section renders only when the visitor ticks the box, shows its
+three input lines openly, is labelled a reference rather than a recommendation,
+and carries the IRDAI solicitation notice.
+
+### The PDF
+
+A print stylesheet, not a server-side renderer. `PrintButton` calls
+`window.print()`; the rules at the foot of `app/globals.css` restyle the plan
+page itself, so the PDF is the document the visitor is already looking at —
+same typography, same figures, selectable text.
+
+The decisive argument is the ₹ glyph. It is absent from Open Sans and has
+already caused trouble on this site; going through the browser's own print
+pipeline means the plan uses the fonts the page has already loaded, with no
+second font-embedding problem to solve. Verified: 9 A4 pages, correct margins,
+backgrounds preserved, reveal-on-scroll sections forced visible (they would
+otherwise never fire on paper, and disclaimers sit inside them — a compliance
+rule, not a cosmetic one).
+
+If a server-rendered PDF is ever needed, point headless Chrome at the same
+route rather than building a second layout.
+
+### Storage, and what it will not survive
+
+`lib/plan/store.ts` defines a `PlanStore` port with a file-backed adapter
+writing one JSON file per submission to `.data/plans` (gitignored). Atomic
+writes via temp-file-and-rename. No credentials, no migration, no second
+service, and the practice can open a submission in Notepad.
+
+**It does not survive an ephemeral filesystem.** On Vercel, Netlify Functions
+or Lambda, every deploy and cold start discards the directory —
+`assertDurableStorage()` logs exactly that in production. On a VPS, a container
+with a mounted volume, or a plain `next start`, it is durable. Moving to
+Postgres is one new adapter and one line in `getStore()`; no page or route
+handler changes.
+
+**This directory holds personal financial data.** Keep it off any public path,
+restrict it to the service account, and back it up.
+
+### Admin
+
+`/admin` — one shared password, which is the right weight for one office. List,
+search, filter, CSV export, full plan view, permanent delete.
+
+**A trap worth knowing about.** The session check started life in
+`app/admin/layout.tsx`, rendering a sign-in form in place of `children`. That is
+not a security boundary: a layout does not stop its page from running. Next
+renders the page segment regardless, so the page fetched every submission and
+serialised the lot — names, mobile numbers, incomes — into the flight payload of
+a response whose visible content was a password box. The HTML said "sign in";
+the bytes underneath held the data. It was caught by diffing a signed-out
+response, not by reading the code.
+
+The gate now sits on the data instead, in `lib/plan/admin-data.ts`:
+
+```ts
+export async function adminStore(): Promise<PlanStore | null> {
+  return (await isAdmin()) ? getStore() : null;
+}
+```
+
+Nullable, so authorisation is not something a new admin page has to remember —
+it is something TypeScript will not let it skip. **Admin pages must not call
+`getStore()` directly.**
+
+### Access control
+
+| | |
+|---|---|
+| Plan id | 12 random bytes, base64url — unguessable |
+| `sa_plan` cookie | HMAC-signed, httpOnly, names one plan id, 7 days |
+| `sa_admin` cookie | HMAC-signed, httpOnly, `sameSite: strict`, 8 hours |
+| OTP | stored as an HMAC keyed with the plan id, never in the clear; cleared on success |
+| Brute force | 5 guesses per code, 3 resends per plan, 45s cooldown, plus per-IP limits |
+| Admin login | 5 attempts per IP per 15 minutes; one message for wrong and unset alike |
+
+A leaked link is not enough on its own: the id in the URL and the signed cookie
+must agree, so a plan pasted into a group chat opens the locked screen. Admin
+routes return **404, not 401**, when signed out, so an unauthenticated caller
+cannot use them to discover whether a reference exists.
+
+Generated plans are `noindex, nofollow, nocache` and `Disallow`ed in
+`robots.txt`; `/financial-plan` itself stays indexable.
+
+### SMS
+
+`lib/plan/sms.ts` — one function, four providers: `msg91` (India, needs a
+DLT-approved template containing `##OTP##`), `twilio`, `webhook`, `console`.
+
+Unconfigured, development logs the code to the terminal and shows it on the
+verification screen, so the whole flow is testable without an SMS account.
+**Production refuses to pretend**: an unconfigured provider returns a failure
+rather than silently dropping the message, because a visitor waiting for a code
+that was never sent is worse than an honest error.
+
+---
+
 ## Compliance architecture
 
 This is the part that most distinguishes the codebase from a generic marketing
@@ -318,17 +526,23 @@ revert.
 ## Architecture
 
 ```
-app/                 routes; all static except /api/consultation
+app/                 routes; static except /api/*, /admin/* and a generated plan
+  financial-plan/    the planner, and /[id] for a generated plan
+  admin/             submissions list and detail, behind one password
 components/
   ui/                primitives — Button, Chip, Disclaimer, RiskMeter, Faq…
   sections/          homepage sections
   products/          ProductCard, ProductFinder
   forms/             ConsultationForm (3 steps, RHF + zod)
+  plan/              the 5-step wizard, the OTP gate, the plan document
+  admin/             login, submissions table, delete
   layout/            Header, Footer, nav
   motion/            Reveal (server) + RevealObserver (one IO for the page)
 lib/content/         all content as typed data — never inline in JSX
-lib/forms/           schema + delivery
-scripts/             the claim guard
+lib/forms/           consultation schema + delivery
+lib/plan/            planner domain — catalog, schema, calc, store, otp,
+                     sms, crypto, access, admin-data
+scripts/             the claim guard, brand assets, plan-math verification
 ```
 
 **Server-first.** Only genuine interactivity is `"use client"`: nav state, the
@@ -357,3 +571,23 @@ both a card and the filter without the two ever drifting.
 - Form: valid submit, `+91`/`0` prefix normalisation, invalid-mobile rejection,
   missing-consent rejection, silent honeypot, rate limit at 5/min
 - Claim guard passes; no stale palette hexes remain in source
+
+**Financial planner**
+
+- Plan arithmetic checked against the practice's own worksheet — 20 assertions,
+  including the two totals the worksheet computes itself. Runs as part of
+  `npm run check`, so a change to the formulas has to answer for itself
+- Full flow end to end: submit → record stored `pending-verification` → wrong
+  code counted down → correct code → `sa_plan` cookie → plan renders
+- Gate holds: an unverified plan URL shows the locked screen and leaks nothing
+  but a masked mobile number
+- **Admin leak found and closed** — the signed-out `/admin/plans` response
+  carried every submission in its flight payload while displaying a password
+  box. Re-verified: zero occurrences of any name, number, email or figure
+- Admin routes return 404 rather than 401 when signed out
+- PDF: 9 A4 pages, correct geometry, backgrounds preserved, revealed sections
+  forced visible
+- Header re-measured after adding a nav item — the CTA overflowed by 42px at
+  exactly 1280px, so `FAQ` gave up its slot; now clears at every width from
+  320 to 1920
+- No horizontal scroll on the wizard or the plan at 390 or 1280; console clean
