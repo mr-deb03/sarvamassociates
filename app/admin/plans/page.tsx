@@ -1,6 +1,12 @@
 import { PlansTable } from "@/components/admin/PlansTable";
+import { StorageError } from "@/components/admin/StorageError";
 import { adminStore } from "@/lib/plan/admin-data";
 import { smsConfigured } from "@/lib/plan/sms";
+import {
+  describeStoreError,
+  storageLocation,
+  type PlanSummary,
+} from "@/lib/plan/store";
 
 /**
  * Every plan submission, newest first.
@@ -17,7 +23,19 @@ export default async function AdminPlansPage() {
   const store = await adminStore();
   if (!store) return null;
 
-  const items = await store.list();
+  // A store that cannot be reached is a first-class state here, not an
+  // exception. This panel is where someone goes to find out why the site is
+  // misbehaving, so it has to render even when the database is down — which,
+  // for a database on an office machine behind a tunnel, is a normal Tuesday.
+  let items: PlanSummary[] = [];
+  let storeError: string | null = null;
+
+  try {
+    items = await store.list();
+  } catch (error) {
+    storeError = describeStoreError(error);
+    console.error("[plan] admin list could not read the store:", error);
+  }
 
   return (
     <section className="section-sm">
@@ -40,7 +58,12 @@ export default async function AdminPlansPage() {
           </p>
         )}
 
-        <PlansTable items={items} />
+        {/* `!== null`, not truthiness — see describeStoreError. */}
+        {storeError !== null ? (
+          <StorageError target={storageLocation()} detail={storeError} />
+        ) : (
+          <PlansTable items={items} />
+        )}
       </div>
     </section>
   );

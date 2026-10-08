@@ -26,5 +26,5 @@ import { getStore, type PlanStore } from "./store";
    ========================================================================== */
 
 export async function adminStore(): Promise<PlanStore | null> {
-  return (await isAdmin()) ? getStore() : null;
+  return (await isAdmin()) ? await getStore() : null;
 }

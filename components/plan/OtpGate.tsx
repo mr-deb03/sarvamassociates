@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { CircleAlert, Loader2, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { COMPANY } from "@/lib/content/company";
+import { postJson } from "@/lib/plan/post-json";
 import { cn } from "@/lib/utils";
 
 /* ==========================================================================
@@ -63,33 +64,27 @@ export function OtpGate({
     setError(null);
     setNotice(null);
 
-    try {
-      const response = await fetch("/api/plan/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planId, code: value }),
-      });
-      const result = await response.json();
+    const result = await postJson(
+      "/api/plan/verify",
+      { planId, code: value },
+      COMPANY.email,
+    );
 
-      if (!response.ok || !result.ok) {
-        setError(result.error ?? "That did not work. Please try again.");
-        setState("idle");
-        setCode("");
-        inputRef.current?.focus();
-        return;
-      }
-
-      setState("done");
-      // refresh() first, so the router cache cannot serve a render from before
-      // the access cookie existed. The cookie itself is already in place: the
-      // browser applies Set-Cookie when the response headers arrive, which is
-      // before the body above resolves.
-      router.refresh();
-      router.push(`/financial-plan/${planId}`);
-    } catch {
-      setError("We could not reach the server. Check your connection and try again.");
+    if (!result.ok) {
+      setError(result.error);
       setState("idle");
+      setCode("");
+      inputRef.current?.focus();
+      return;
     }
+
+    setState("done");
+    // refresh() first, so the router cache cannot serve a render from before
+    // the access cookie existed. The cookie itself is already in place: the
+    // browser applies Set-Cookie when the response headers arrive, which is
+    // before the body above resolves.
+    router.refresh();
+    router.push(`/financial-plan/${planId}`);
   };
 
   const resend = async () => {
@@ -97,26 +92,18 @@ export function OtpGate({
     setError(null);
     setNotice(null);
 
-    try {
-      const response = await fetch("/api/plan/resend", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planId }),
-      });
-      const result = await response.json();
+    const result = await postJson("/api/plan/resend", { planId }, COMPANY.email);
 
-      if (!response.ok || !result.ok) {
-        setError(result.error ?? "We could not send another code just now.");
-      } else {
-        setNotice("A new code is on its way.");
-        setDevCode(result.devCode);
-        setCooldown(RESEND_COOLDOWN_SECONDS);
-      }
-    } catch {
-      setError("We could not reach the server. Please try again.");
-    } finally {
-      setState("idle");
+    if (!result.ok) {
+      setError(result.error);
+    } else {
+      const code = result.payload?.devCode;
+      setNotice("A new code is on its way.");
+      setDevCode(typeof code === "string" ? code : undefined);
+      setCooldown(RESEND_COOLDOWN_SECONDS);
     }
+
+    setState("idle");
   };
 
   const handleChange = (raw: string) => {

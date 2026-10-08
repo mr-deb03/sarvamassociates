@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { grantAdminSession, revokeAdminSession } from "@/lib/plan/access";
-import { ADMIN_CONFIGURED, adminPasswordMatches } from "@/lib/plan/crypto";
+import {
+  ADMIN_CONFIGURED,
+  adminPasswordMatches,
+  secretConfigured,
+} from "@/lib/plan/crypto";
 import { clientIp, rateLimit } from "@/lib/plan/rate-limit";
 
 /**
@@ -24,12 +28,23 @@ export async function POST(request: Request) {
     );
   }
 
+  if (!secretConfigured()) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "PLAN_SECRET is not set on this deployment, so sessions cannot be signed. Set it to at least 32 random characters and redeploy. Nothing that needs a signed cookie — the admin panel, or opening a plan — works without it.",
+      },
+      { status: 503 },
+    );
+  }
+
   if (!ADMIN_CONFIGURED()) {
     return NextResponse.json(
       {
         ok: false,
         error:
-          "The admin panel is not set up yet. Set ADMIN_PASSWORD (at least 8 characters) and restart the server.",
+          "The admin panel is not set up yet. Set ADMIN_PASSWORD (at least 8 characters) and redeploy.",
       },
       { status: 503 },
     );

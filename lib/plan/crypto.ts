@@ -122,7 +122,19 @@ export function verifyToken(
 
   const [body, signature] = token.split(".");
   if (!body || !signature) return null;
-  if (!safeEqual(hmac(body), signature)) return null;
+
+  // getSecret() throws in production when PLAN_SECRET is unset. Treat that as
+  // "this token is not valid" rather than letting it escape: a page that
+  // cannot verify a session should show a signed-out state, not a 500. The
+  // admin login route reports the missing key in words someone can act on.
+  let expected: string;
+  try {
+    expected = hmac(body);
+  } catch {
+    return null;
+  }
+
+  if (!safeEqual(expected, signature)) return null;
 
   let payload: TokenPayload;
   try {
@@ -154,3 +166,20 @@ export const ADMIN_CONFIGURED = () => {
   const p = process.env.ADMIN_PASSWORD;
   return Boolean(p && p.length >= 8);
 };
+
+/**
+ * Whether a usable signing key is present.
+ *
+ * Without one, nothing that depends on a signed cookie can work: no plan can
+ * be opened and nobody can sign into the admin panel. Checked up front so the
+ * login route can say which setting is missing, rather than failing somewhere
+ * the deployer will only ever see as a 500.
+ */
+export function secretConfigured(): boolean {
+  try {
+    getSecret();
+    return true;
+  } catch {
+    return false;
+  }
+}

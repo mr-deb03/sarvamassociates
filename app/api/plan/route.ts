@@ -75,24 +75,71 @@ export async function POST(request: Request) {
   const now = new Date();
   const result = computePlan(plan, ALLOCATION_LABELS, now);
 
-  await getStore().create({
-    id,
-    createdAt: now.toISOString(),
-    updatedAt: now.toISOString(),
-    status: "pending-verification",
-    verifiedAt: null,
-    input: plan,
-    result,
-    contact: { name: plan.name, phone: plan.phone, email: plan.email },
-    meta: {
-      ip,
-      userAgent: request.headers.get("user-agent"),
-      referer: request.headers.get("referer"),
-    },
-    otp: null,
-  });
+  /*
+     Storage is the failure that actually happens in production, so it gets its
+     own catch and its own message.
 
-  const otp = await issueOtp(id);
+     An unhandled throw here returns a 500 with an EMPTY body, which the
+     browser cannot parse as JSON — and every client that did `await
+     response.json()` inside a try reported it as "check your connection". A
+     live deployment chased a network problem for exactly this reason. The real
+     cause was the file store calling mkdir under a read-only filesystem
+     (EROFS on Vercel, where process.cwd() is /var/task).
+
+     A route handler must always answer in JSON, even when it is failing.
+  */
+  try {
+    const store = await getStore();
+    await store.create({
+      id,
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+      status: "pending-verification",
+      verifiedAt: null,
+      input: plan,
+      result,
+      contact: { name: plan.name, phone: plan.phone, email: plan.email },
+      meta: {
+        ip,
+        userAgent: request.headers.get("user-agent"),
+        referer: request.headers.get("referer"),
+      },
+      otp: null,
+    });
+  } catch (error) {
+    console.error(
+      "[plan] could not store the submission. If this is EROFS or EACCES, the " +
+        "host has a read-only filesystem and getStore() in lib/plan/store.ts " +
+        "needs an adapter that is not the local file store.",
+      error,
+    );
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "We could not save your plan just now. This is a problem at our end, not yours. Please try again shortly, or email us and we will build it with you directly.",
+      },
+      { status: 503 },
+    );
+  }
+
+  let otp;
+  try {
+    otp = await issueOtp(id);
+  } catch (error) {
+    // getSecret() throws in production when PLAN_SECRET is unset or too short,
+    // and that throw lands here rather than anywhere the visitor can act on.
+    console.error("[plan] could not issue a verification code:", error);
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "Your plan was saved, but we could not send a verification code. Please email us quoting this reference and we will send the plan across: " +
+          id,
+      },
+      { status: 503 },
+    );
+  }
 
   return NextResponse.json({
     ok: true,

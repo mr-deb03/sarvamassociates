@@ -11,7 +11,8 @@
     "check:claims": "node scripts/check-claims.mjs",
     "check": "npm run check:claims && npm run check:plan-math && npm run typecheck && npm run lint",
     "build:assets": "node scripts/build-brand-assets.mjs",
-    "check:plan-math": "node --no-warnings scripts/verify-plan-math.mjs"
+    "check:plan-math": "node --no-warnings scripts/verify-plan-math.mjs",
+    "check:db": "node --env-file-if-exists=.env.local scripts/check-db.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
@@ -19,6 +20,7 @@
     "lucide-react": "^1.43.0",
     "motion": "^13.2.0",
     "next": "16.3.4",
+    "pg": "^8.23.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-hook-form": "^7.87.0",
@@ -29,6 +31,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

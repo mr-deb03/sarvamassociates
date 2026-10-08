@@ -28,7 +28,7 @@ supplied. Each is a single constant.
 | **Signing key** | `PLAN_SECRET` env var | Unset. Signs the plan-access and admin cookies and hashes OTP codes. Development generates a throwaway key per process; **production refuses to serve the planner without it**. Needs ≥32 characters — `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. |
 | **Admin password** | `ADMIN_PASSWORD` env var | Unset. `/admin` returns "not set up yet" until it is supplied. Minimum 8 characters. |
 | **SMS provider** | `SMS_PROVIDER` + credentials | Unset. Verification codes are logged to the terminal in development and **will not send at all in production**, so nobody can open a plan. See `.env.example`. |
-| **Durable plan storage** | `getStore()` in `lib/plan/store.ts` | File-backed, writing to `.data/plans`. Durable on a VPS or a container with a volume; **discarded on every deploy** on Vercel, Netlify or Lambda. Swap the adapter before taking real enquiries on those hosts. |
+| **Database** | `DATABASE_URL` env var | Unset. Without it the planner writes local JSON files, which **cannot work on Vercel, Netlify or Lambda** — those filesystems are read-only and the first submission fails with `EROFS`. Set it to a Postgres connection string the deployment can actually reach; `npm run check:db` tests it. |
 
 ---
 
@@ -324,22 +324,182 @@ rule, not a cosmetic one).
 If a server-rendered PDF is ever needed, point headless Chrome at the same
 route rather than building a second layout.
 
-### Storage, and what it will not survive
+### Storage
 
-`lib/plan/store.ts` defines a `PlanStore` port with a file-backed adapter
-writing one JSON file per submission to `.data/plans` (gitignored). Atomic
-writes via temp-file-and-rename. No credentials, no migration, no second
-service, and the practice can open a submission in Notepad.
+`lib/plan/store.ts` defines a `PlanStore` port with two adapters, chosen by one
+rule and no flag:
 
-**It does not survive an ephemeral filesystem.** On Vercel, Netlify Functions
-or Lambda, every deploy and cold start discards the directory —
-`assertDurableStorage()` logs exactly that in production. On a VPS, a container
-with a mounted volume, or a plain `next start`, it is durable. Moving to
-Postgres is one new adapter and one line in `getStore()`; no page or route
-handler changes.
+| `DATABASE_URL` | Adapter |
+|---|---|
+| set | **Postgres** (`store-postgres.ts`) — plain `pg` against any connection string |
+| blank | **Local files** — one JSON per submission in `.data/plans`, gitignored |
 
-**This directory holds personal financial data.** Keep it off any public path,
-restrict it to the service account, and back it up.
+The Postgres table is created on first use; a plan form is not worth a
+migration step. One row per submission: the whole record in a `jsonb` column —
+byte-for-byte what the file adapter writes to disk — with the fields the admin
+list needs lifted into real columns beside it. The record format is therefore
+identical across both adapters, and the list view is one indexed query rather
+than a read of every submission.
+
+The Postgres adapter does one thing the file store cannot: `update()` runs
+inside a transaction with `SELECT … FOR UPDATE`. That matters because the OTP
+attempt counter lives on the record, and two wrong codes arriving together
+would otherwise each read the same count and write back the same increment —
+a free guess for anyone who double-submits.
+
+`npm run check:db` connects, creates the table and counts rows, with an
+explanatory message for each of the usual failures (wrong password, missing
+database, firewall, self-signed certificate).
+
+### Hosting — the thing that actually bit
+
+**The first Vercel deployment failed on every submission**, showing the visitor
+"We could not reach the server. Check your connection and try again."
+
+Three faults in a row:
+
+1. `process.cwd()` on Vercel is `/var/task`, which is **read-only**. The file
+   store's `mkdir` threw `EROFS`.
+2. The route handler had no catch, so Next returned **500 with an empty body**.
+3. Every client did `await response.json()` *inside* the try. An empty body
+   fails to parse, the catch fires, and the visitor is told to check their
+   internet — while the real fault is a server-side exception nobody has been
+   shown.
+
+All three are fixed. `lib/plan/post-json.ts` now owns every browser-to-API
+call: the fetch is the only thing inside the try, the body is read as text and
+parsed defensively, and a server fault is reported as a server fault, naming
+the status so it can be quoted in an email. Route handlers that fail return
+JSON with an actionable message, never an empty 500.
+
+**A database on your own machine is not reachable from a cloud host.**
+`localhost` inside a Vercel function means Vercel's server, not yours. Pick
+one:
+
+| | |
+|---|---|
+| Hosted Postgres | Neon, Supabase, Railway. Change `DATABASE_URL`, nothing else. |
+| Your Postgres, exposed | A TCP tunnel. Doable — see the next section for what it really costs. |
+| Host the app beside the database | A VPS, Render, Railway, or your own server. The file store also works here. |
+
+`assertDurableStorage()` logs a specific warning in production when a
+serverless host is detected with no `DATABASE_URL`, instead of waiting for the
+first submission to fail.
+
+`vercel.json` pins functions to `bom1` (Mumbai). Vercel defaults to
+Washington, which is the wrong side of the planet for an audience in Mumbai and
+for a database that may be sitting in Bhandup.
+
+### Running the live site against Postgres on your own machine
+
+It can be done, and the code supports it — `DATABASE_URL` is just a connection
+string. What follows is what it actually costs, because the setup looks
+cheaper than it is.
+
+**Three things have to be true at once:**
+
+1. The machine is powered on, awake and online whenever the website is. A
+   Windows laptop that sleeps takes the planner down with it.
+2. The database has a stable address reachable from the public internet.
+3. Postgres is configured to accept remote, TLS-encrypted connections.
+
+#### Getting a public address
+
+| Method | Works behind CGNAT | Cost | Notes |
+|---|---|---|---|
+| **ngrok TCP** — `ngrok tcp 5432` | yes | free tier gives a random address that changes on every restart; a reserved address needs a paid plan | simplest to try |
+| **Reverse SSH tunnel to a small VPS** | yes | ~$4/month | stable address you control; the VPS forwards a port back down the tunnel |
+| **Router port-forward + dynamic DNS** | **no** | free | needs a real public IP. Most Indian home broadband is behind CGNAT, which makes this impossible |
+
+**Cloudflare Tunnel and Tailscale do not help here**, which is worth saying
+because they are the first two suggestions anyone offers. Both need a client
+daemon at the *consuming* end — `cloudflared access tcp`, or a tailnet member —
+and a Vercel function cannot run either. Neither gives you a plain
+`postgres://` address a serverless function can dial.
+
+#### What it costs
+
+- **Latency.** Every query crosses the internet to a home connection, and
+  opening a Postgres connection is several round trips before any query runs.
+  Serverless opens connections often. Pages will feel slower, and that is not
+  something tuning fixes. `vercel.json` pins functions to `bom1` (Mumbai) to
+  make the hop as short as it can be.
+- **Availability.** The site is only as reliable as that machine and that
+  broadband line.
+- **Exposure.** Vercel's egress IPs are not static on Hobby or Pro, so **you
+  cannot restrict the database by IP**. It is open to the whole internet with a
+  password and TLS as the only defence, and it will be found by scanners within
+  hours of going up.
+
+#### If you do it anyway
+
+Give the app its own role rather than using `postgres`:
+
+```sql
+CREATE DATABASE sarvam;
+CREATE ROLE sarvam_app LOGIN PASSWORD '<long random string>';
+GRANT CONNECT ON DATABASE sarvam TO sarvam_app;
+\c sarvam
+GRANT USAGE, CREATE ON SCHEMA public TO sarvam_app;
+```
+
+`CREATE` on the schema is needed because the adapter creates its own table on
+first use.
+
+In `postgresql.conf` (Windows: `C:\Program Files\PostgreSQL\18\data\`):
+
+```
+listen_addresses = '*'
+ssl = on
+```
+
+In `pg_hba.conf` — `hostssl`, not `host`, so an unencrypted connection is
+refused outright:
+
+```
+hostssl  sarvam  sarvam_app  0.0.0.0/0  scram-sha-256
+```
+
+Then `Restart-Service postgresql-x64-18`, start the tunnel, and set:
+
+```
+DATABASE_URL=postgresql://sarvam_app:PASSWORD@<public-host>:<port>/sarvam?sslmode=require
+```
+
+**One wrinkle on certificates.** Postgres's default certificate is self-signed
+and will not match the tunnel's public hostname, so verification fails and you
+need `DATABASE_SSL_NO_VERIFY=true`. That keeps the traffic encrypted but stops
+authenticating the server, which means the connection is no longer protected
+against interception at the tunnel's edge. The honest fix is a certificate
+issued for the public hostname; the honest alternative is not to route client
+financial data over a tunnel you cannot verify.
+
+#### The recommendation
+
+Use hosted Postgres for the live site and keep the local one for development.
+It is the same `DATABASE_URL` variable and no code change — set the local
+string in `.env.local`, the hosted one in Vercel, and `npm run check:db` tests
+whichever machine you run it on. Neon and Supabase free tiers are far larger
+than this site will need, and the site stops depending on a PC being awake.
+
+#### When the connection drops
+
+It will, and the code is built for it rather than against it:
+
+- A submission returns **HTTP 503 with a readable message**, never an empty 500.
+- A visitor opening their plan link gets a short "we cannot open your plan just
+  now, it has not been lost" page.
+- `/admin/plans` renders a diagnostic panel naming the host it tried, the exact
+  error, and the usual causes — instead of an empty table. That last part
+  matters more than it sounds: an earlier version showed "No plans have been
+  submitted yet" during an outage, because Node's `AggregateError` carries an
+  empty `message` and the falsy check fell through. A practice would have read
+  that as a quiet week. `describeStoreError()` in `lib/plan/store.ts` exists
+  for exactly that, and the call sites test `!== null`.
+
+**These rows hold personal financial data.** Back them up, keep the data
+directory off any public path, and restrict database access to the service
+account.
 
 ### Admin
 
@@ -591,3 +751,11 @@ both a card and the filter without the two ever drifting.
   exactly 1280px, so `FAQ` gave up its slot; now clears at every width from
   320 to 1920
 - No horizontal scroll on the wizard or the plan at 390 or 1280; console clean
+- **Postgres adapter exercised end to end in production mode** against a real
+  Postgres 18: table auto-created, submission stored, OTP dispatched through a
+  live HTTP SMS provider, wrong code counted down, correct code verified, plan
+  rendered from the database, admin list and CSV export served from it, and the
+  OTP hash confirmed cleared from the row on success
+- The Vercel failure reproduced locally (unwritable data directory) and
+  re-tested after the fix: HTTP 503 with an actionable JSON message instead of
+  an empty 500 reported as a network error

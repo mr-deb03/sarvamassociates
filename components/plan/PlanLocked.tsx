@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CircleAlert, Loader2, Lock } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { COMPANY } from "@/lib/content/company";
+import { postJson } from "@/lib/plan/post-json";
 import { OtpGate } from "./OtpGate";
 
 /**
@@ -35,24 +36,16 @@ export function PlanLocked({
     setSending(true);
     setError(null);
 
-    try {
-      const response = await fetch("/api/plan/resend", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planId }),
-      });
-      const result = await response.json();
+    const result = await postJson("/api/plan/resend", { planId }, COMPANY.email);
 
-      if (!response.ok || !result.ok) {
-        setError(result.error ?? "We could not send a code just now.");
-      } else {
-        setSent({ devCode: result.devCode });
-      }
-    } catch {
-      setError("We could not reach the server. Please try again.");
-    } finally {
-      setSending(false);
+    if (!result.ok) {
+      setError(result.error);
+    } else {
+      const code = result.payload?.devCode;
+      setSent({ devCode: typeof code === "string" ? code : undefined });
     }
+
+    setSending(false);
   };
 
   return (

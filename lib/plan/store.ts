@@ -221,13 +221,91 @@ export function toSummary(record: PlanRecord): PlanSummary {
   };
 }
 
-export function getStore(): PlanStore {
-  return fileStore;
+/* ==========================================================================
+   Choosing an adapter
+
+   DATABASE_URL (or POSTGRES_URL) present -> Postgres. Absent -> the file store.
+
+   That one rule covers every case without a flag to remember: a laptop with no
+   database keeps working exactly as before, and a deployment that has one uses
+   it. It is also the fix for the failure that took the first Vercel release
+   down — process.cwd() there is /var/task, which is read-only, so the file
+   store's mkdir throws EROFS on the first submission.
+
+   `pg` is only imported when a connection string exists, so a file-store
+   deployment never loads the driver.
+   ========================================================================== */
+
+export function databaseUrl(): string | null {
+  const url = process.env.DATABASE_URL ?? process.env.POSTGRES_URL;
+  return url && url.trim().length > 0 ? url.trim() : null;
 }
 
-/** Where records are being written. Shown in the admin panel. */
+let cached: PlanStore | null = null;
+
+export async function getStore(): Promise<PlanStore> {
+  if (cached) return cached;
+
+  const url = databaseUrl();
+  if (url) {
+    const { createPostgresStore } = await import("./store-postgres");
+    cached = createPostgresStore(url);
+  } else {
+    cached = fileStore;
+  }
+
+  return cached;
+}
+
+/**
+ * Turn a thrown store error into something worth printing.
+ *
+ * `error.message` is not enough on its own. Node raises an **AggregateError**
+ * when a hostname resolves to several addresses and every connection fails —
+ * "localhost" resolving to both ::1 and 127.0.0.1 is the everyday case — and
+ * an AggregateError's own `message` is an EMPTY STRING. The real detail sits
+ * in `.errors`.
+ *
+ * That is not a cosmetic problem. The admin page used `storeError ? ... : ...`
+ * and an empty message is falsy, so a database that was refusing every
+ * connection rendered the normal table with zero rows: "No plans have been
+ * submitted yet." A practice would have read that as a quiet week rather than
+ * an outage. Hence this function, and hence the `!== null` checks at the call
+ * sites.
+ */
+export function describeStoreError(error: unknown): string {
+  if (error instanceof AggregateError && error.errors.length > 0) {
+    const inner = [
+      ...new Set(error.errors.map(describeStoreError).filter(Boolean)),
+    ];
+    if (inner.length > 0) return inner.join("; ");
+  }
+
+  if (error instanceof Error) {
+    const code = (error as NodeJS.ErrnoException).code;
+    const message = error.message.trim();
+    if (message && code) return `${message} (${code})`;
+    if (message) return message;
+    if (code) return `${error.name}: ${code}`;
+    return error.name;
+  }
+
+  return String(error).trim() || "unknown error";
+}
+
+/** Which backend is in use, and where. Shown in the admin panel. */
 export function storageLocation(): string {
-  return DATA_DIR;
+  const url = databaseUrl();
+  if (!url) return `local files in ${DATA_DIR}`;
+
+  // Never print the password. The admin panel is behind a login, but a
+  // connection string in a screenshot is a connection string in the wild.
+  try {
+    const parsed = new URL(url);
+    return `Postgres at ${parsed.hostname}${parsed.port ? `:${parsed.port}` : ""}${parsed.pathname}`;
+  } catch {
+    return "Postgres";
+  }
 }
 
 /**
@@ -238,6 +316,7 @@ export function storageLocation(): string {
 let warned = false;
 export function assertDurableStorage(): void {
   if (warned || process.env.NODE_ENV !== "production") return;
+  if (databaseUrl()) return; // Postgres — durable by definition.
   warned = true;
 
   const ephemeral =
@@ -247,9 +326,10 @@ export function assertDurableStorage(): void {
 
   if (ephemeral) {
     console.error(
-      "[plan] Submissions are being written to a filesystem this host does not " +
-        "keep. They will be lost on the next deploy or cold start. Point " +
-        "getStore() in lib/plan/store.ts at a database before taking real enquiries.",
+      "[plan] No DATABASE_URL is set, so submissions are going to the local " +
+        "filesystem — which this host does not keep, and may not even let us " +
+        "write to. Expect EROFS on the first submission. Set DATABASE_URL to a " +
+        "Postgres connection string this deployment can actually reach.",
     );
   }
 }

@@ -14,12 +14,14 @@ import {
   EXPENSE_FIELDS,
   RISK_PROFILE_META,
 } from "@/lib/plan/catalog";
+import { postJson } from "@/lib/plan/post-json";
 import {
   PLAN_STEPS,
   STEP_FIELD_PATHS,
   planSchema,
   type PlanFormValues,
 } from "@/lib/plan/schema";
+import { COMPANY } from "@/lib/content/company";
 import { cn } from "@/lib/utils";
 import { OtpGate } from "./OtpGate";
 import { StepAssets } from "./steps/StepAssets";
@@ -214,35 +216,27 @@ export function PlanWizard() {
     setSubmitting(true);
     setServerError(null);
 
-    try {
-      const response = await fetch("/api/plan", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      const result = await response.json();
+    const result = await postJson("/api/plan", values, COMPANY.email);
 
-      if (!response.ok || !result.ok) {
-        setServerError(result.error ?? "Something went wrong. Please try again.");
-        setSubmitting(false);
-        return;
-      }
-
-      clearDraft();
-      setPhase({
-        name: "verify",
-        planId: result.planId,
-        phone: String(values.phone),
-        devCode: result.devCode,
-        otpError: result.otpError,
-      });
-    } catch {
-      setServerError(
-        "We could not reach the server. Check your connection and try again.",
-      );
-    } finally {
+    if (!result.ok) {
+      setServerError(result.error);
       setSubmitting(false);
+      return;
     }
+
+    const payload = result.payload ?? {};
+
+    // The draft is only cleared once the submission is genuinely stored. A
+    // failed submit that wiped ninety fields would be unforgivable.
+    clearDraft();
+    setSubmitting(false);
+    setPhase({
+      name: "verify",
+      planId: String(payload.planId),
+      phone: String(values.phone),
+      devCode: typeof payload.devCode === "string" ? payload.devCode : undefined,
+      otpError: typeof payload.otpError === "string" ? payload.otpError : undefined,
+    });
   };
 
   /* ------------------------------------------------------------ verify */

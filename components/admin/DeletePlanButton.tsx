@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Trash2 } from "lucide-react";
+import { COMPANY } from "@/lib/content/company";
+import { deleteJson } from "@/lib/plan/post-json";
 import { cn } from "@/lib/utils";
 
 /**
@@ -21,24 +23,19 @@ export function DeletePlanButton({ planId }: { planId: string }) {
     setBusy(true);
     setError(null);
 
-    try {
-      const response = await fetch(`/api/admin/plans/${planId}`, {
-        method: "DELETE",
-      });
-      const result = await response.json();
+    const result = await deleteJson(
+      `/api/admin/plans/${planId}`,
+      COMPANY.email,
+    );
 
-      if (!response.ok || !result.ok) {
-        setError(result.error ?? "That did not work.");
-        setBusy(false);
-        return;
-      }
-
-      router.push("/admin/plans");
-      router.refresh();
-    } catch {
-      setError("We could not reach the server.");
+    if (!result.ok) {
+      setError(result.error);
       setBusy(false);
+      return;
     }
+
+    router.push("/admin/plans");
+    router.refresh();
   };
 
   if (!armed) {

@@ -28,7 +28,7 @@ export interface IssueResult {
 }
 
 export async function issueOtp(planId: string): Promise<IssueResult> {
-  const store = getStore();
+  const store = await getStore();
   const record = await store.get(planId);
 
   if (!record) return { ok: false, error: "That plan could not be found." };
@@ -101,7 +101,7 @@ export async function verifyOtp(
   planId: string,
   code: string,
 ): Promise<VerifyResult> {
-  const store = getStore();
+  const store = await getStore();
   const record = await store.get(planId);
 
   if (!record) return { ok: false, error: "That plan could not be found." };
