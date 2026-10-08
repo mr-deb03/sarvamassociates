@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { AdminBar } from "@/components/admin/AdminBar";
 import { AdminLogin } from "@/components/admin/AdminLogin";
 import { isAdmin } from "@/lib/plan/access";
-import { storageLocation } from "@/lib/plan/store";
 
 /**
  * Admin shell.
@@ -33,7 +32,7 @@ export default async function AdminLayout({
 
   return (
     <>
-      <AdminBar storagePath={storageLocation()} />
+      <AdminBar />
       {children}
     </>
   );

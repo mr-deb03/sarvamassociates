@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Download, Search } from "lucide-react";
+import { ArrowRight, Download, FileText, Search } from "lucide-react";
 import { dateTimeDisplay, phoneDisplay, rupees } from "@/lib/plan/format";
 import type { PlanSummary } from "@/lib/plan/store";
 import { cn } from "@/lib/utils";
@@ -114,7 +114,7 @@ export function PlansTable({ items }: { items: PlanSummary[] }) {
         </p>
       ) : (
         <div className="border-line rounded-card overflow-x-auto border">
-          <table className="w-full min-w-[46rem] text-sm">
+          <table className="w-full min-w-[52rem] text-sm">
             <thead>
               <tr className="border-line bg-mist border-b">
                 <Th>Received</Th>
@@ -124,6 +124,7 @@ export function PlansTable({ items }: { items: PlanSummary[] }) {
                 <Th align="right">Goals</Th>
                 <Th align="right">Needs/mo</Th>
                 <Th>Status</Th>
+                <Th align="right">Plan</Th>
               </tr>
             </thead>
             <tbody className="divide-line divide-y">
@@ -162,6 +163,25 @@ export function PlansTable({ items }: { items: PlanSummary[] }) {
                   </td>
                   <td className="px-4 py-3">
                     <StatusChip status={item.status} />
+                  </td>
+                  {/*
+                    An explicit way into the plan. The name above is a link
+                    too, but a name does not look like one of these, and the
+                    whole point of the panel is the document behind the row.
+                  */}
+                  <td className="px-4 py-3 text-right">
+                    <Link
+                      href={`/admin/plans/${item.id}`}
+                      className="text-navy hover:text-accent-ink group inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap transition-colors"
+                    >
+                      <FileText strokeWidth={1.75} aria-hidden className="size-3.5" />
+                      Open
+                      <ArrowRight
+                        aria-hidden
+                        strokeWidth={2}
+                        className="size-3 transition-transform group-hover:translate-x-0.5"
+                      />
+                    </Link>
                   </td>
                 </tr>
               ))}
