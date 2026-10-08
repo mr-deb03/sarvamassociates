@@ -9,10 +9,11 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "check:claims": "node scripts/check-claims.mjs",
-    "check": "npm run check:claims && npm run check:plan-math && npm run typecheck && npm run lint",
+    "check": "npm run check:claims && npm run check:env && npm run check:plan-math && npm run typecheck && npm run lint",
     "build:assets": "node scripts/build-brand-assets.mjs",
     "check:plan-math": "node --no-warnings scripts/verify-plan-math.mjs",
-    "check:db": "node --env-file-if-exists=.env.local scripts/check-db.mjs"
+    "check:db": "node --env-file-if-exists=.env.local scripts/check-db.mjs",
+    "check:env": "node --no-warnings scripts/check-env.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

@@ -7,7 +7,6 @@ import {
   INCOME_FIELDS,
 } from "@/lib/plan/catalog";
 import type { PlanFormValues } from "@/lib/plan/schema";
-import { cn } from "@/lib/utils";
 import {
   Field,
   MoneyInput,
@@ -170,9 +169,4 @@ export function StepCashflow() {
       </StepSection>
     </div>
   );
-}
-
-/** Kept here so the surplus colour logic has one home if it ever grows. */
-export function surplusTone(value: number): string {
-  return cn(value < 0 ? "text-error" : "text-positive");
 }

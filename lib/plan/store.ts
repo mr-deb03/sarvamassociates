@@ -3,6 +3,7 @@ import { mkdir, readFile, readdir, rename, unlink, writeFile } from "node:fs/pro
 import path from "node:path";
 import type { PlanResult } from "./calc";
 import type { PlanData } from "./schema";
+import { describeDatabase, selectDatabaseUrl } from "./store-config";
 
 /* ==========================================================================
    Plan submission storage.
@@ -237,8 +238,19 @@ export function toSummary(record: PlanRecord): PlanSummary {
    ========================================================================== */
 
 export function databaseUrl(): string | null {
-  const url = process.env.DATABASE_URL ?? process.env.POSTGRES_URL;
-  return url && url.trim().length > 0 ? url.trim() : null;
+  return selectDatabaseUrl(process.env)?.url ?? null;
+}
+
+/** Logged once per process so a misconfigured deployment is visible early. */
+let announced = false;
+function announce(choice: ReturnType<typeof selectDatabaseUrl>): void {
+  if (announced) return;
+  announced = true;
+  if (choice) {
+    console.info(
+      `[plan] submissions -> ${describeDatabase(choice.url)} (from ${choice.source})`,
+    );
+  }
 }
 
 let cached: PlanStore | null = null;
@@ -246,10 +258,12 @@ let cached: PlanStore | null = null;
 export async function getStore(): Promise<PlanStore> {
   if (cached) return cached;
 
-  const url = databaseUrl();
-  if (url) {
+  const choice = selectDatabaseUrl(process.env);
+  announce(choice);
+
+  if (choice) {
     const { createPostgresStore } = await import("./store-postgres");
-    cached = createPostgresStore(url);
+    cached = createPostgresStore(choice.url);
   } else {
     cached = fileStore;
   }
@@ -296,16 +310,9 @@ export function describeStoreError(error: unknown): string {
 /** Which backend is in use, and where. Shown in the admin panel. */
 export function storageLocation(): string {
   const url = databaseUrl();
-  if (!url) return `local files in ${DATA_DIR}`;
-
-  // Never print the password. The admin panel is behind a login, but a
-  // connection string in a screenshot is a connection string in the wild.
-  try {
-    const parsed = new URL(url);
-    return `Postgres at ${parsed.hostname}${parsed.port ? `:${parsed.port}` : ""}${parsed.pathname}`;
-  } catch {
-    return "Postgres";
-  }
+  // describeDatabase never prints the password. The admin panel is behind a
+  // login, but a connection string in a screenshot is one in the wild.
+  return url ? describeDatabase(url) : `local files in ${DATA_DIR}`;
 }
 
 /**

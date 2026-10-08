@@ -59,11 +59,6 @@ export async function hasPlanAccess(planId: string): Promise<boolean> {
   return payload?.subject === planId;
 }
 
-export async function revokePlanAccess(): Promise<void> {
-  const jar = await cookies();
-  jar.delete(PLAN_COOKIE);
-}
-
 /* ---------------------------------------------------------------- admin */
 
 export async function grantAdminSession(): Promise<void> {

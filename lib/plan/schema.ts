@@ -107,9 +107,6 @@ export const goalSchema = z.object({
   protect: z.coerce.boolean().default(false),
 });
 
-export type GoalInput = z.input<typeof goalSchema>;
-export type GoalData = z.output<typeof goalSchema>;
-
 /* -------------------------------------------------- liabilities and assets */
 
 export const liabilitySchema = z.object({
@@ -134,11 +131,6 @@ export const assetSchema = z.object({
    */
   mappedGoalId: z.string().nullable().default(null),
 });
-
-export type LiabilityInput = z.input<typeof liabilitySchema>;
-export type LiabilityData = z.output<typeof liabilitySchema>;
-export type AssetInput = z.input<typeof assetSchema>;
-export type AssetData = z.output<typeof assetSchema>;
 
 /* ------------------------------------------------------------------ expenses */
 
@@ -274,7 +266,6 @@ export const planSchema = z.object({
   company: z.string().optional(),
 });
 
-export type PlanInput = z.input<typeof planSchema>;
 export type PlanData = z.output<typeof planSchema>;
 
 /**

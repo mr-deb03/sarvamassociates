@@ -238,17 +238,6 @@
 }
 
 /* Long-form editorial measure — 45–75 characters. */
-@utility container-prose {
-  margin-inline: auto;
-  width: 100%;
-  max-width: 44rem;
-  padding-inline: 1.5rem;
-
-  @media (width >= 48rem) {
-    padding-inline: 2rem;
-  }
-}
-
 /* Vertical rhythm. Generous by default — premium design needs breathing room. */
 @utility section-sm {
   padding-block: 3rem;
@@ -261,13 +250,6 @@
   padding-block: 4.5rem;
   @media (width >= 48rem) {
     padding-block: 7.5rem;
-  }
-}
-
-@utility section-lg {
-  padding-block: 6rem;
-  @media (width >= 48rem) {
-    padding-block: 10rem;
   }
 }
 
@@ -480,8 +462,7 @@
   }
 
   .section,
-  .section-sm,
-  .section-lg {
+  .section-sm {
     padding-block: 0;
   }
 

@@ -386,9 +386,18 @@ one:
 serverless host is detected with no `DATABASE_URL`, instead of waiting for the
 first submission to fail.
 
-`vercel.json` pins functions to `bom1` (Mumbai). Vercel defaults to
-Washington, which is the wrong side of the planet for an audience in Mumbai and
-for a database that may be sitting in Bhandup.
+`vercel.json` pins functions to **`sin1` (Singapore)**, and it must match
+whichever region the database is in. Vercel defaults to Washington, which is
+the wrong side of the planet for this audience.
+
+Singapore rather than Mumbai (`bom1`) because Neon has no Indian region, and
+**co-locating the function with the database beats co-locating it with the
+visitor**. A page render makes several database round trips but only one
+response to the browser, so 50ms between function and database is paid many
+times over while 50ms between Mumbai and Singapore is paid once. Static pages
+are served from the CDN edge regardless and are unaffected either way.
+
+If the database ends up somewhere else, change this to match it.
 
 ### Running the live site against Postgres on your own machine
 

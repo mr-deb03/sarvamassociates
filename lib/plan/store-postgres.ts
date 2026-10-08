@@ -1,5 +1,6 @@
 import "server-only";
 import { Pool, type PoolClient } from "pg";
+import { sslForUrl } from "./store-config";
 import type { PlanRecord, PlanStore, PlanSummary } from "./store";
 
 /* ==========================================================================
@@ -25,35 +26,6 @@ import type { PlanRecord, PlanStore, PlanSummary } from "./store";
 
 const TABLE = "plan_submissions";
 
-/**
- * TLS policy.
- *
- * Verified by default, because these rows hold someone's income, expenses and
- * goals and the connection may well cross the public internet. A local socket
- * does not need it; a self-signed certificate needs the explicit opt-out, so
- * that turning verification off is a decision somebody made rather than a
- * default nobody noticed.
- */
-function sslFor(url: string): false | { rejectUnauthorized: boolean } {
-  if (/[?&]sslmode=disable\b/.test(url)) return false;
-
-  let host = "";
-  try {
-    host = new URL(url).hostname;
-  } catch {
-    /* unparseable — fall through to the safe default */
-  }
-
-  const isLocal =
-    host === "localhost" || host === "127.0.0.1" || host === "::1" || host === "";
-  if (isLocal && !/[?&]sslmode=require\b/.test(url)) return false;
-
-  if (process.env.DATABASE_SSL_NO_VERIFY === "true") {
-    return { rejectUnauthorized: false };
-  }
-  return { rejectUnauthorized: true };
-}
-
 let pool: Pool | null = null;
 let schemaReady: Promise<void> | null = null;
 
@@ -62,7 +34,7 @@ function getPool(url: string): Pool {
 
   pool = new Pool({
     connectionString: url,
-    ssl: sslFor(url),
+    ssl: sslForUrl(url, process.env),
     // Serverless runs many short-lived instances, each with its own pool, so a
     // large per-instance pool is how a small database runs out of connections.
     max: Number(process.env.DATABASE_POOL_MAX ?? 3),
@@ -255,20 +227,4 @@ export function createPostgresStore(url: string): PlanStore {
       return (result.rowCount ?? 0) > 0;
     },
   };
-}
-
-/** Round-trips a query, so setup problems surface as words rather than a 500. */
-export async function postgresReachable(
-  url: string,
-): Promise<{ ok: true } | { ok: false; detail: string }> {
-  try {
-    await ensureSchema(url);
-    await getPool(url).query("SELECT 1");
-    return { ok: true };
-  } catch (error) {
-    return {
-      ok: false,
-      detail: error instanceof Error ? error.message : "unknown database error",
-    };
-  }
 }

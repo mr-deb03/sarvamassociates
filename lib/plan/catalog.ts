@@ -127,7 +127,6 @@ export const INCOME_FIELDS = [
   { key: "salary", label: "Salary / Business / Profession" },
   { key: "rental", label: "Rental / Other income" },
 ] as const;
-export type IncomeKey = (typeof INCOME_FIELDS)[number]["key"];
 
 export const EXPENSE_FIELDS = [
   { key: "groceries", label: "Groceries" },

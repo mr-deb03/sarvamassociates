@@ -22,19 +22,54 @@
  * orange untouched and catches every anti-aliased navy edge pixel. Alpha is
  * preserved byte for byte, so edges stay smooth on any background.
  */
-import sharp from "sharp";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 
+/*
+   sharp is loaded dynamically, and deliberately not declared as a dependency.
+
+   It is ~30MB of platform binaries needed by this one script, which runs only
+   when the logo changes — the assets it produces are committed, so a normal
+   install and build never touch it. Declaring it would put that download in
+   front of every `npm install` for nothing.
+
+   A static `import` would have resolved anyway today, because Next hoists its
+   own copy of sharp for image optimization. That is luck, not a contract: the
+   day Next stops bundling it, a static import fails at parse time with a
+   module-not-found trace. This fails with a sentence instead.
+*/
+let sharp;
+try {
+  ({ default: sharp } = await import("sharp"));
+} catch {
+  console.error(
+    "\nThis script needs sharp, which is not a dependency of this project.\n" +
+      "It is only required when regenerating brand assets:\n\n" +
+      "  npm install --no-save sharp\n" +
+      "  npm run build:assets\n",
+  );
+  process.exit(1);
+}
+
 const ROOT = join(import.meta.dirname, "..");
 const OUT = join(ROOT, "public", "image");
+
+/*
+   The square mark lives beside this script, NOT in public/.
+
+   It is a build input and nothing serves it, but while it sat in public/image
+   every deploy shipped 122KB of it to the CDN and anyone could fetch
+   /image/sarvam_logo.png. The horizontal lockup below stays in public/ because
+   the site genuinely renders it.
+*/
+const SRC = join(import.meta.dirname, "brand");
 mkdirSync(OUT, { recursive: true });
 
 const PAPER = [0xf4, 0xf8, 0xff]; // --color-paper
 
 /* ----------------------------------------------------------------- favicon */
 
-const mark = sharp(join(OUT, "sarvam_logo.png")).trim();
+const mark = sharp(join(SRC, "sarvam_logo.png")).trim();
 
 await mark
   .clone()

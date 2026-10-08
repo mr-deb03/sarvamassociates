@@ -131,10 +131,3 @@ export const CATEGORIES: Category[] = [
 export const getCategory = (slug: string): Category | undefined =>
   CATEGORIES.find((c) => c.slug === slug);
 
-export const INVESTMENT_CATEGORIES = CATEGORIES.filter(
-  (c) => c.domain === "investment",
-);
-
-export const FINANCIAL_SOLUTION_CATEGORIES = CATEGORIES.filter(
-  (c) => c.domain === "financial-solution",
-);

@@ -152,8 +152,6 @@ export const DISCLAIMERS = {
 /** Narrow union of valid keys — mistyping one fails the build. */
 export type DisclaimerId = keyof typeof DISCLAIMERS;
 
-export const getDisclaimer = (id: DisclaimerId): Disclaimer => DISCLAIMERS[id];
-
 export const getDisclaimers = (ids: readonly DisclaimerId[]): Disclaimer[] =>
   ids.map((id) => DISCLAIMERS[id]);
 

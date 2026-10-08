@@ -1,6 +1,6 @@
 import { CATEGORIES } from "./categories";
 import { PRODUCTS } from "./products";
-import type { CategorySlug, Domain, Goal, Product } from "./types";
+import type { CategorySlug, Domain, Product } from "./types";
 
 export * from "./types";
 export * from "./disclaimers";
@@ -28,9 +28,6 @@ export const getProductsByDomain = (domain: Domain): Product[] => {
   );
   return PRODUCTS.filter((p) => slugs.has(p.category));
 };
-
-export const getProductsByGoal = (goal: Goal): Product[] =>
-  PRODUCTS.filter((p) => p.goals.includes(goal));
 
 /** Every product slug — feeds generateStaticParams for /products/[slug]. */
 export const ALL_PRODUCT_SLUGS = PRODUCTS.map((p) => p.slug);

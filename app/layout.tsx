@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   applicationName: SITE.name,
   authors: [{ name: SITE.name }],
   formatDetection: { telephone: false },
-  // Both derived from public/image/sarvam_logo.png by
+  // Both derived from scripts/brand/sarvam_logo.png by
   // scripts/build-brand-assets.mjs. The supplied original is 3157×2481 and
   // 119 KB — far too heavy for a tab icon, and not square, so it would be
   // squashed. icon-512 is the mark trimmed to its true square and resized;
