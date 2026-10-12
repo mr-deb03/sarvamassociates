@@ -568,6 +568,51 @@ that was never sent is worse than an honest error.
 
 ---
 
+## Pre-launch holding page
+
+Until the launch moment, `proxy.ts` rewrites every public path to
+`/coming-soon`. After it, the gate stops matching and the site is simply
+itself — no switch to flip, nothing to undo.
+
+**The date is fixed, not relative.** "Seven days from deploy" cannot be
+expressed on a serverless host: every instance is cold and nothing persists
+between them, so there is no agreed answer to "when did this go up". The
+moment lives in `lib/launch.ts` (currently midnight IST on 19 October 2026)
+and `LAUNCH_AT` overrides it on the host — bring it forward to open early,
+push it back to hold longer.
+
+It is **not** a `NEXT_PUBLIC_` name on purpose. Those are substituted into the
+bundle at build time, which would freeze the date at whatever it was when the
+build ran. Nothing client-side needs it: the countdown is handed the date as
+a prop.
+
+**A rewrite, not a redirect.** The requested URL stays in the address bar and
+the response is a plain 200. A redirect would leave `/coming-soon` in browser
+histories and proxy caches, and a 301 in particular outlives the thing that
+caused it.
+
+| Still reachable while held | Why |
+|---|---|
+| `/admin`, `/api/admin` | Enquiries do not stop arriving because the front door is shut |
+| `/robots.txt`, `/sitemap.xml` | Excluded by the matcher; robots has to be readable to tell crawlers to wait |
+| `/_next/*`, `/public` | The holding page is made of them |
+
+Two ways past it: `?preview=<PREVIEW_TOKEN>`, which swaps the token for a
+cookie and drops it from the URL so a link only has to be used once; or an
+admin session, because whoever is reading submissions built the thing.
+
+`app/robots.ts` is `force-dynamic` and disallows everything while held. Static
+generation would have frozen that answer into the build and kept crawlers away
+long after launch, with only a rebuild to clear it.
+
+The holding page is a `fixed inset-0 z-150` panel rather than a page inside the
+usual chrome — the site header links to pages that all lead back to it, and a
+nav where every item is the same page is worse than no nav. Covering the
+chrome this way avoids the alternative, which was having the root layout read a
+proxy-set header and so making all 50 pages dynamic for the sake of one week.
+
+---
+
 ## Withdrawn: loans against securities
 
 The practice no longer offers lending against a portfolio, so the whole line is
