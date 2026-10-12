@@ -8,6 +8,12 @@ import { COMPANY } from "./content/company";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sarvamassociates.com";
 
+/**
+ * Google Analytics 4 property, carried over from the WordPress site. Not a
+ * secret — it is printed in the page source of every site that uses one.
+ */
+export const GA_MEASUREMENT_ID = "G-1Z7WLC77B7";
+
 export const SITE = {
   name: COMPANY.name,
   url: SITE_URL,

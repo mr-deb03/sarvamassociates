@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MobileCta } from "@/components/layout/MobileCta";
 import { RevealObserver } from "@/components/motion/RevealObserver";
+import { Analytics } from "@/components/seo/Analytics";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { SITE, SITE_URL } from "@/lib/seo";
 import { montserrat, openSans } from "./fonts";
@@ -100,6 +101,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Footer />
           <MobileCta />
         </Providers>
+
+        <Analytics />
       </body>
     </html>
   );
