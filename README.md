@@ -8,7 +8,7 @@ Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 · Motion.
 
 ```bash
 npm run dev      # http://localhost:3000
-npm run build    # 49 routes, all prerendered
+npm run build    # 51 routes
 npm run check    # claim guard + typecheck + lint  ← run before every commit
 ```
 
@@ -568,6 +568,38 @@ that was never sent is worse than an honest error.
 
 ---
 
+## Withdrawn: loans against securities
+
+The practice no longer offers lending against a portfolio, so the whole line is
+gone: three products (Loan Against Mutual Funds / Shares / PMS & Bonds), the
+Smart Liquidity category, `/financial-solutions`, its navigation group and
+footer column, the "Loan against securities" option on the consultation form,
+the "Access liquidity" goal in the product finder, and the `las-collateral`
+disclaimer.
+
+Two things followed that are worth knowing:
+
+**The `domain` field went with it.** It existed only to route one category to
+`/financial-solutions` instead of `/investments`. With that category gone every
+remaining one is an investment, so the field said nothing and a dozen
+`c.domain === "investment"` filters were just noise. `Category.domain`, the
+`Domain` type and `getProductsByDomain()` are all removed.
+
+**Ten redirects, not four.** The four withdrawn URLs were live on this site and
+are in its sitemap history, so they 301 to `/investments`. But six entries in
+the legacy WordPress map — `/service/business-loan`, `/service/home-loan`,
+`/service/loan-against-property` and the financing-consultation pages — already
+pointed at `/financial-solutions`, and deleting it would have turned six
+working redirects into 404s. Those now go to `/contact`: someone searching
+"Sarvam business loan" wants to ask a person, and a catalogue of mutual funds
+is not an answer to that.
+
+What stayed: the planner still asks what a client owes. A home loan or a car
+loan is the client's own liability, and net worth, the EMI-burden indicator and
+the protection figure are all computed from it.
+
+---
+
 ## Compliance architecture
 
 This is the part that most distinguishes the codebase from a generic marketing
@@ -729,7 +761,7 @@ both a card and the filter without the two ever drifting.
 
 ## Verified
 
-- `npm run check` and `npm run build` both exit 0 — 49 routes prerendered, zero
+- `npm run check` and `npm run build` both exit 0 — 51 routes, zero
   TypeScript errors, zero lint warnings
 - Zero hydration errors
 - Zero broken internal links (3,295 hrefs crawled across 44 pages)

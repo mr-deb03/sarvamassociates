@@ -42,7 +42,7 @@ export default function TermsPage() {
         {
           heading: "No guarantee of outcomes",
           paragraphs: [
-            "We do not guarantee any investment return, capital protection, approval of any loan or facility, or any timeline for sanction or disbursement. Those are decisions of product manufacturers and lenders, not ours.",
+            "We do not guarantee any investment return, capital protection, or any timeline for processing, allotment or settlement. Those rest with the product manufacturers and platforms, not with us.",
           ],
         },
         {

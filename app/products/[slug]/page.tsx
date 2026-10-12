@@ -47,10 +47,7 @@ export default async function ProductPage({
   const category = getCategory(product.category);
   if (!category) notFound();
 
-  const isLiquidity = category.domain === "financial-solution";
-  const categoryHref = isLiquidity
-    ? "/financial-solutions"
-    : `/investments/${category.slug}`;
+  const categoryHref = `/investments/${category.slug}`;
 
   const related = getProductsByCategory(product.category)
     .filter((p) => p.slug !== product.slug)
@@ -62,10 +59,7 @@ export default async function ProductPage({
       <BreadcrumbJsonLd
         items={[
           { name: "Home", path: "/" },
-          {
-            name: isLiquidity ? "Financial Solutions" : "Investments",
-            path: isLiquidity ? "/financial-solutions" : "/investments",
-          },
+          { name: "Investments", path: "/investments" },
           { name: category.shortName, path: categoryHref },
           { name: product.name, path: `/products/${product.slug}` },
         ]}
@@ -78,10 +72,7 @@ export default async function ProductPage({
         title={product.name}
         lede={product.summary}
         crumbs={[
-          {
-            label: isLiquidity ? "Financial Solutions" : "Investments",
-            href: isLiquidity ? "/financial-solutions" : "/investments",
-          },
+          { label: "Investments", href: "/investments" },
           { label: category.shortName, href: categoryHref },
           { label: product.name },
         ]}

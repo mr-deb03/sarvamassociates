@@ -17,45 +17,16 @@ export interface NavGroup {
   footer?: { label: string; href: string };
 }
 
-const investmentCategories = CATEGORIES.filter(
-  (c) => c.domain === "investment",
-);
-const liquidityCategories = CATEGORIES.filter(
-  (c) => c.domain === "financial-solution",
-);
-
 export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Investments",
     href: "/investments",
-    links: investmentCategories.map((c) => ({
+    links: CATEGORIES.map((c) => ({
       label: c.name,
       href: `/investments/${c.slug}`,
       description: c.tagline,
     })),
     footer: { label: "Compare all solutions", href: "/investments" },
-  },
-  {
-    label: "Financial Solutions",
-    href: "/financial-solutions",
-    links: liquidityCategories.flatMap(() => [
-      {
-        label: "Loan Against Mutual Funds",
-        href: "/products/loan-against-mutual-funds",
-        description: "Liquidity without selling your units",
-      },
-      {
-        label: "Loan Against Shares",
-        href: "/products/loan-against-shares",
-        description: "Keep ownership, dividends and voting rights",
-      },
-      {
-        label: "Loan Against PMS & Bonds",
-        href: "/products/loan-against-pms-bonds",
-        description: "Working capital without exiting a strategy",
-      },
-    ]),
-    footer: { label: "How lending against a portfolio works", href: "/financial-solutions" },
   },
   {
     label: "Services",
@@ -89,19 +60,10 @@ export const NAV_LINKS: NavLink[] = [
 export const FOOTER_COLUMNS: { title: string; links: NavLink[] }[] = [
   {
     title: "Investments",
-    links: investmentCategories.map((c) => ({
+    links: CATEGORIES.map((c) => ({
       label: c.shortName,
       href: `/investments/${c.slug}`,
     })),
-  },
-  {
-    title: "Financial Solutions",
-    links: [
-      { label: "Loan Against Mutual Funds", href: "/products/loan-against-mutual-funds" },
-      { label: "Loan Against Shares", href: "/products/loan-against-shares" },
-      { label: "Loan Against PMS & Bonds", href: "/products/loan-against-pms-bonds" },
-      { label: "How it works", href: "/financial-solutions" },
-    ],
   },
   {
     title: "CA Services",

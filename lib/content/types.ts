@@ -28,7 +28,6 @@ export const GOALS = [
   "grow-wealth",
   "generate-income",
   "protect-wealth",
-  "access-liquidity",
   "plan-retirement",
   "reduce-tax",
 ] as const;
@@ -45,20 +44,11 @@ export const CATEGORY_SLUGS = [
   "aif",
   "stable-income",
   "wealth-protection",
-  "smart-liquidity",
 ] as const;
 export type CategorySlug = (typeof CATEGORY_SLUGS)[number];
 
-/**
- * Which route a category lives under.
- *  - "investment"        -> /investments/[slug]
- *  - "financial-solution"-> /financial-solutions  (liquidity / lending, brief §21)
- */
-export type Domain = "investment" | "financial-solution";
-
 export interface Category {
   slug: CategorySlug;
-  domain: Domain;
   /** Section number as shown in the source catalogue. */
   index: number;
   name: string;
@@ -94,7 +84,7 @@ export interface KeyDetail {
 export interface Product {
   slug: string;
   category: CategorySlug;
-  /** Uppercase chip on the card — "SIP", "CAT II AIF", "LAS — EQUITY". */
+  /** Uppercase chip on the card — "SIP", "CAT II AIF", "PMS". */
   badge: string;
   name: string;
   /** One line for cards and search results. */

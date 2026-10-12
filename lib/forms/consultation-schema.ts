@@ -16,7 +16,6 @@ export const INTERESTS = [
   "investment",
   "tax-planning",
   "insurance",
-  "loan-liquidity",
   "wealth-planning",
   "other",
 ] as const;
@@ -26,7 +25,6 @@ export const INTEREST_LABELS: Record<Interest, string> = {
   investment: "Investing & wealth creation",
   "tax-planning": "Tax planning & compliance",
   insurance: "Insurance & protection",
-  "loan-liquidity": "Loan against securities",
   "wealth-planning": "Overall financial planning",
   other: "Something else",
 };

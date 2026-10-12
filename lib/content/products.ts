@@ -254,9 +254,9 @@ export const PRODUCTS: Product[] = [
     badge: "Multi-Asset",
     name: "Multi-Asset Funds",
     summary:
-      "Balanced allocation across equity, debt, accent and international assets for a smoother ride.",
+      "Balanced allocation across equity, debt, gold and international assets for a smoother ride.",
     overview: [
-      "A multi-asset fund holds several asset classes at once, and rebalances between them inside the fund. When equity falls, accent or debt often does not, and the blend cushions the fall.",
+      "A multi-asset fund holds several asset classes at once, and rebalances between them inside the fund. When equity falls, gold or debt often does not, and the blend cushions the fall.",
       "The trade-off is symmetrical and worth stating plainly: the same blend that softens the falls also caps the rises. These funds are chosen for a steadier path, not a higher destination.",
     ],
     minInvestment: { amount: 5000, cadence: "one-time", label: "₹5,000" },
@@ -282,14 +282,14 @@ export const PRODUCTS: Product[] = [
     ],
     details: [
       { label: "Minimum", value: "₹5,000" },
-      { label: "Assets", value: "Equity, debt, accent, international" },
+      { label: "Assets", value: "Equity, debt, gold, international" },
       { label: "Rebalancing", value: "Managed inside the fund" },
     ],
     disclaimerIds: ["mf-market-risk", "past-performance", "distributor-role"],
     seo: {
-      title: "Multi-Asset Funds — equity, debt, accent and international",
+      title: "Multi-Asset Funds — equity, debt, gold and international",
       description:
-        "Multi-asset funds blending equity, debt, accent and international exposure for a steadier path. From ₹5,000. Subject to market risk.",
+        "Multi-asset funds blending equity, debt, gold and international exposure for a steadier path. From ₹5,000. Subject to market risk.",
     },
   },
   {
@@ -1082,230 +1082,6 @@ export const PRODUCTS: Product[] = [
       title: "Business & Asset Insurance — keyman, shop and property",
       description:
         "Keyman insurance, shop and property cover and vehicle policies for business owners, coordinated with the personal wealth plan.",
-    },
-  },
-
-  /* ====================================================================
-     07 — SMART LIQUIDITY (financial solutions)
-     ==================================================================== */
-  {
-    slug: "loan-against-mutual-funds",
-    category: "smart-liquidity",
-    badge: "LAS — Mutual Funds",
-    name: "Loan Against Mutual Funds",
-    summary:
-      "Pledge your mutual fund units for a line of credit. Interest is charged only on what you actually use.",
-    overview: [
-      "Selling investments to raise cash has two costs that are easy to overlook: you crystallise capital gains tax, and you step out of the market — often at exactly the wrong moment.",
-      "A loan against mutual funds avoids both. You pledge your units as collateral and receive an overdraft-style limit against them. The units stay in your name, stay invested, and continue to participate in the market. You draw only what you need, and interest accrues only on the drawn amount.",
-      "This is genuinely useful for short-term, defined needs — a business working-capital gap, a tax payment, a bridging requirement before a receivable lands. It is a poor substitute for a long-term loan, and it is not free money.",
-    ],
-    minInvestment: { amount: 100000, cadence: "one-time", label: "₹1 Lakh" },
-    risk: "moderately-high",
-    liquidity: "high",
-    goals: ["access-liquidity"],
-    benefits: [
-      "Your investments stay invested and keep compounding.",
-      "No capital gains event, because nothing is sold.",
-      "Interest accrues only on the amount you actually draw, not the sanctioned limit.",
-      "Typically faster than an unsecured loan, because the pledge is the security.",
-      "Repay and redraw within the limit as your cash flow allows.",
-    ],
-    audience: [
-      "Business owners bridging a short-term working-capital gap",
-      "Investors facing a tax or one-off payment who would rather not sell",
-      "Anyone with a receivable arriving on a known future date",
-      "Investors with a substantial portfolio and a temporary liquidity need",
-    ],
-    risks: [
-      "Your investments are pledged. If you default, the lender can sell them to recover the outstanding amount.",
-      "A fall in the value of pledged units can trigger a margin call, requiring you to add collateral or repay part of the loan at short notice — and market falls and cash-flow pressure often arrive together.",
-      "Interest accrues whether or not the underlying investment performs. If the portfolio returns less than the interest rate, you are worse off than if you had sold.",
-      "Loan-to-value, interest rate, sanction and disbursement timelines are entirely at the lender's discretion and subject to approval.",
-      "Pledged units cannot be redeemed, switched or transferred until the pledge is released.",
-      "Borrowing against investments to invest further magnifies both gains and losses and is rarely appropriate.",
-    ],
-    details: [
-      { label: "From", value: "₹1,00,000" },
-      { label: "Collateral", value: "Mutual fund units, pledged and held in your name" },
-      { label: "Interest", value: "Charged only on the amount drawn" },
-      {
-        label: "Indicative interest range",
-        value: "8–12% p.a.",
-        indicative: true,
-      },
-      { label: "Typical loan-to-value", value: "Up to 80% of eligible portfolio value" },
-      { label: "Disbursement", value: "Subject to approval and pledge confirmation" },
-    ],
-    howItWorks: [
-      {
-        title: "Understand",
-        description:
-          "We look at what the money is actually for and how it will be repaid. If selling a holding is genuinely the better answer, we say so.",
-      },
-      {
-        title: "Evaluate",
-        description:
-          "We assess which of your holdings are eligible for pledge, the likely loan-to-value, and the indicative rate.",
-      },
-      {
-        title: "Apply",
-        description:
-          "Pledge request, lender documentation and sanction. Disbursement follows pledge confirmation and lender approval.",
-      },
-      {
-        title: "Review",
-        description:
-          "We track the pledged value against the drawn amount so a margin call is anticipated rather than a surprise.",
-      },
-    ],
-    disclaimerIds: [
-      "las-collateral",
-      "indicative-yield",
-      "mf-market-risk",
-      "distributor-role",
-    ],
-    faqs: [
-      {
-        question: "Do I stay invested while the loan is outstanding?",
-        answer:
-          "Yes. The units remain in your name and continue to participate in the market. They are pledged, which means you cannot redeem, switch or transfer them until the pledge is released, but the investment itself continues.",
-      },
-      {
-        question: "What is a margin call, and what happens if I get one?",
-        answer:
-          "If the value of your pledged units falls far enough relative to what you have drawn, the lender can require you to pledge more units or repay part of the loan, usually at short notice. If you cannot, the lender may sell the pledged units to recover its dues. This is the main risk of the product and it tends to arise precisely when markets are falling.",
-      },
-      {
-        question: "How quickly is the money disbursed?",
-        answer:
-          "It is generally faster than an unsecured loan because the pledge provides the security. We do not promise a timeline: sanction and disbursement are at the lender's discretion and follow approval and pledge confirmation.",
-      },
-      {
-        question: "Is this cheaper than just selling my investments?",
-        answer:
-          "Sometimes. You avoid capital gains tax and stay invested, but you pay interest. If your portfolio returns less than the interest rate over the period, selling would have been cheaper. For a short, defined need it usually works out well; as a long-term borrowing it usually does not.",
-      },
-    ],
-    seo: {
-      title: "Loan Against Mutual Funds — liquidity without selling",
-      description:
-        "Pledge mutual fund units for an overdraft-style credit line from ₹1,00,000. Stay invested, avoid a capital gains event, pay interest only on what you draw.",
-    },
-  },
-  {
-    slug: "loan-against-shares",
-    category: "smart-liquidity",
-    badge: "LAS — Equity",
-    name: "Loan Against Shares",
-    summary:
-      "Secured credit against your equity portfolio. Keep ownership, keep dividends, get liquidity.",
-    overview: [
-      "The mechanism matches a loan against mutual funds, with shares as the collateral instead of fund units. You keep ownership, you keep voting rights, and dividends continue to reach you.",
-      "Because individual shares are more volatile than a diversified fund, lenders apply a lower loan-to-value and margin calls arrive sooner. Concentrated single-stock holdings are treated most conservatively of all.",
-    ],
-    minInvestment: { amount: 500000, cadence: "one-time", label: "₹5 Lakh" },
-    risk: "high",
-    liquidity: "high",
-    goals: ["access-liquidity"],
-    benefits: [
-      "Retain ownership, voting rights and dividend income.",
-      "No capital gains event, because nothing is sold.",
-      "Interest charged only on the drawn amount.",
-      "Useful where a holding is deliberately being held long term.",
-    ],
-    audience: [
-      "Investors with a substantial listed equity portfolio",
-      "Promoters and long-term holders unwilling to sell a position",
-      "Business owners with a short-term liquidity requirement",
-    ],
-    risks: [
-      "Shares are more volatile than diversified funds, so margin calls are triggered more readily and loan-to-value ratios are lower.",
-      "A concentrated single-stock position is treated conservatively and can be sharply repriced by the lender.",
-      "On default, the lender can sell your pledged shares, potentially at a market low.",
-      "Lenders maintain an approved-securities list; not every share is eligible, and a security can be removed from the list.",
-      "Interest accrues regardless of how the shares perform.",
-      "Sanction, rate and disbursement are at the lender's discretion and subject to approval.",
-    ],
-    details: [
-      { label: "From", value: "₹5,00,000" },
-      { label: "Collateral", value: "Listed shares from the lender's approved list" },
-      { label: "Retained", value: "Ownership, voting rights and dividends" },
-      {
-        label: "Indicative interest range",
-        value: "8–12% p.a.",
-        indicative: true,
-      },
-      { label: "Disbursement", value: "Subject to approval and pledge confirmation" },
-    ],
-    disclaimerIds: [
-      "las-collateral",
-      "indicative-yield",
-      "securities-market-risk",
-      "distributor-role",
-    ],
-    seo: {
-      title: "Loan Against Shares — liquidity from your equity portfolio",
-      description:
-        "Secured credit against listed shares from ₹5,00,000. Keep ownership, voting rights and dividends. Subject to margin calls and lender approval.",
-    },
-  },
-  {
-    slug: "loan-against-pms-bonds",
-    category: "smart-liquidity",
-    badge: "LAS — Bonds/PMS",
-    name: "Loan Against PMS & Bonds",
-    summary:
-      "For investors with significant PMS or bond holdings — working capital without exiting a premium strategy.",
-    overview: [
-      "Exiting a PMS mandate or a held-to-maturity bond position to raise cash is expensive. You may crystallise gains, break a strategy mid-cycle, or sell a bond into a thin secondary market at a discount.",
-      "Borrowing against those holdings avoids all three. Because the collateral is more complex to value and less liquid than a mutual fund unit, the minimum is higher and assessment takes longer.",
-    ],
-    minInvestment: { amount: 5000000, cadence: "one-time", label: "₹50 Lakh" },
-    risk: "high",
-    liquidity: "moderate",
-    goals: ["access-liquidity"],
-    benefits: [
-      "A PMS strategy continues uninterrupted through its cycle.",
-      "Avoids selling bonds into a thin secondary market at a discount.",
-      "No capital gains event.",
-      "Sized for substantial working-capital requirements.",
-    ],
-    audience: [
-      "Investors with PMS mandates or significant bond portfolios",
-      "HNIs with a large, time-bound working-capital need",
-      "Business owners with substantial holdings they intend to keep",
-    ],
-    risks: [
-      "PMS and bond collateral is less liquid and harder to value, so lenders apply lower loan-to-value ratios and take longer to assess.",
-      "A fall in the value of pledged holdings can trigger a margin call.",
-      "On default, the lender can liquidate the pledged PMS holdings or bonds, potentially at unfavourable prices given thin markets.",
-      "Not every PMS strategy or bond is acceptable as collateral, and eligibility is entirely at the lender's discretion.",
-      "Interest accrues regardless of how the underlying holdings perform.",
-      "Sanction, rate and disbursement are at the lender's discretion and subject to approval.",
-    ],
-    details: [
-      { label: "From", value: "₹50,00,000" },
-      { label: "Collateral", value: "PMS holdings and bonds, subject to eligibility" },
-      {
-        label: "Indicative interest range",
-        value: "8–12% p.a.",
-        indicative: true,
-      },
-      { label: "Assessment", value: "Longer than for mutual fund collateral" },
-      { label: "Disbursement", value: "Subject to approval and pledge confirmation" },
-    ],
-    disclaimerIds: [
-      "las-collateral",
-      "indicative-yield",
-      "securities-market-risk",
-      "pms-eligibility",
-      "distributor-role",
-    ],
-    seo: {
-      title: "Loan Against PMS & Bonds — from ₹50 lakh",
-      description:
-        "Working capital against PMS mandates and bond holdings from ₹50,00,000, without exiting the strategy. Subject to margin calls and lender approval.",
     },
   },
 ];

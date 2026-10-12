@@ -12,11 +12,9 @@ import { getProductsByCategory } from "@/lib/content";
 import type { DisclaimerId } from "@/lib/content/disclaimers";
 import { buildMetadata } from "@/lib/seo";
 
-/** Only the six investment-domain categories route here. */
+/** Every category routes here.*/
 export function generateStaticParams() {
-  return CATEGORIES.filter((c) => c.domain === "investment").map((c) => ({
-    slug: c.slug,
-  }));
+  return CATEGORIES.map((c) => ({ slug: c.slug }));
 }
 
 /** An unknown slug 404s at build time rather than attempting a runtime render. */
@@ -41,7 +39,7 @@ export default async function CategoryPage({
   const { slug } = await params;
   const category = getCategory(slug);
 
-  if (!category || category.domain !== "investment") notFound();
+  if (!category) notFound();
 
   const products = getProductsByCategory(category.slug);
 
@@ -108,9 +106,7 @@ export default async function CategoryPage({
 }
 
 function OtherCategories({ currentSlug }: { currentSlug: string }) {
-  const others = CATEGORIES.filter(
-    (c) => c.slug !== currentSlug && c.domain === "investment",
-  );
+  const others = CATEGORIES.filter((c) => c.slug !== currentSlug);
 
   return (
     <section className="bg-mist border-line border-t section-sm">
@@ -130,11 +126,6 @@ function OtherCategories({ currentSlug }: { currentSlug: string }) {
               </ButtonLink>
             </li>
           ))}
-          <li>
-            <ButtonLink href="/financial-solutions" variant="secondary" size="sm">
-              Smart Liquidity
-            </ButtonLink>
-          </li>
         </ul>
       </div>
     </section>

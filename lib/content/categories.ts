@@ -2,14 +2,14 @@ import type { Category } from "./types";
 
 /* ==========================================================================
    The seven solution categories, in the order the source catalogue presents
-   them. Six sit under /investments; "smart-liquidity" is lending rather than
-   investing, so it lives under /financial-solutions (brief §21).
+   All of them sit under /investments. There was a seventh, "smart-liquidity",
+   covering loans against securities; the practice withdrew that line, and with
+   it the `domain` field that existed only to route it elsewhere.
    ========================================================================== */
 
 export const CATEGORIES: Category[] = [
   {
     slug: "goal-based-investing",
-    domain: "investment",
     index: 1,
     name: "Goal-Based Investing",
     shortName: "Goal-Based",
@@ -26,7 +26,6 @@ export const CATEGORIES: Category[] = [
   },
   {
     slug: "wealth-creation",
-    domain: "investment",
     index: 2,
     name: "Wealth Creation Portfolios",
     shortName: "Wealth Creation",
@@ -43,7 +42,6 @@ export const CATEGORIES: Category[] = [
   },
   {
     slug: "pms",
-    domain: "investment",
     index: 3,
     name: "Portfolio Management Services",
     shortName: "PMS",
@@ -60,7 +58,6 @@ export const CATEGORIES: Category[] = [
   },
   {
     slug: "aif",
-    domain: "investment",
     index: 4,
     name: "Alternative Investment Funds",
     shortName: "AIF",
@@ -77,7 +74,6 @@ export const CATEGORIES: Category[] = [
   },
   {
     slug: "stable-income",
-    domain: "investment",
     index: 5,
     name: "Stable Income Solutions",
     shortName: "Stable Income",
@@ -94,7 +90,6 @@ export const CATEGORIES: Category[] = [
   },
   {
     slug: "wealth-protection",
-    domain: "investment",
     index: 6,
     name: "Wealth Protection Planning",
     shortName: "Protection",
@@ -107,23 +102,6 @@ export const CATEGORIES: Category[] = [
       title: "Wealth Protection — Term, Health & Family Insurance Planning",
       description:
         "Term life, health, family and business protection planning integrated with your wealth plan. Advised by Sarvam Associates, Mumbai.",
-    },
-  },
-  {
-    slug: "smart-liquidity",
-    domain: "financial-solution",
-    index: 7,
-    name: "Smart Liquidity Solutions",
-    shortName: "Liquidity",
-    tagline: "Need cash? Don't sell your investments.",
-    description:
-      "Borrow against the portfolio you already own. A loan against securities releases liquidity while your investments stay invested — used by HNIs to manage cash flow without breaking a long-term plan.",
-    icon: "Zap",
-    goals: ["access-liquidity"],
-    seo: {
-      title: "Loan Against Securities — Mutual Funds, Shares, PMS & Bonds",
-      description:
-        "Unlock liquidity from your portfolio without selling. Loans against mutual funds, shares, PMS and bonds, arranged through Sarvam Associates, Mumbai.",
     },
   },
 ];

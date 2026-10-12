@@ -96,12 +96,6 @@ export const DISCLAIMERS = {
     body: "Base capital protection is a feature of select market-linked debenture structures only. It is subject to the issuer meeting its obligations and is not a guarantee. Returns on market-linked debentures are linked to an underlying reference and are not assured.",
   },
 
-  "las-collateral": {
-    id: "las-collateral",
-    label: "Loan against securities",
-    severity: "regulatory",
-    body: "Loans against securities are secured against pledged investments. A fall in the value of pledged securities may trigger a margin call requiring additional collateral or partial repayment, and pledged securities may be liquidated to recover dues. Sanction, loan-to-value, interest rate and disbursement timelines are at the lender's discretion and subject to approval.",
-  },
 
   "insurance-irdai": {
     id: "insurance-irdai",

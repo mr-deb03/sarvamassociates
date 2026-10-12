@@ -44,15 +44,10 @@ export function SolutionsSection() {
                 .filter((m) => m !== null)
                 .sort((a, b) => a.amount - b.amount)[0];
 
-              const href =
-                category.domain === "investment"
-                  ? `/investments/${category.slug}`
-                  : "/financial-solutions";
-
               return (
                 <RevealItem key={category.slug} as="li">
                   <Link
-                    href={href}
+                    href={`/investments/${category.slug}`}
                     className="group border-line bg-card rounded-card hover:border-navy/25 flex h-full flex-col border p-8 transition-[border-color,transform] duration-400 ease-[var(--ease-editorial)] hover:-translate-y-0.5"
                   >
                     <CategoryIcon

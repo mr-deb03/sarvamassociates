@@ -61,7 +61,6 @@ export function OrganizationJsonLd() {
           "Mutual fund distribution",
           "Portfolio Management Services",
           "Alternative Investment Funds",
-          "Loan against securities",
         ],
       }}
     />

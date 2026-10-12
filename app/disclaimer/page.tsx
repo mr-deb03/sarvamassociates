@@ -74,10 +74,6 @@ export default function DisclaimerPage() {
           ],
         },
         {
-          heading: "Borrowing against securities",
-          paragraphs: [DISCLAIMERS["las-collateral"].body],
-        },
-        {
           heading: "Insurance",
           paragraphs: [DISCLAIMERS["insurance-irdai"].body],
         },

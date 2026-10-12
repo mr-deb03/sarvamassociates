@@ -54,12 +54,18 @@ const LEGACY_REDIRECTS: ReadonlyArray<readonly [source: string, destination: str
   ["/service/investment-advisory", "/investments"],
   ["/service/investment-consulting", "/investments"],
   ["/service/financial-advisory", "/investments"],
-  ["/service/business-loan", "/financial-solutions"],
-  ["/service/home-loan", "/financial-solutions"],
-  ["/service/loan-against-property", "/financial-solutions"],
-  ["/service/financing-consultation", "/financial-solutions"],
-  ["/service/financing-consultation-2", "/financial-solutions"],
-  ["/service/financing-consultation-3", "/financial-solutions"],
+  /*
+     Financing is no longer offered, and these six used to land on
+     /financial-solutions, which has been removed. They go to /contact rather
+     than a listing: someone searching "Sarvam business loan" wants to ask a
+     person, and a catalogue of mutual funds is not an answer to that.
+  */
+  ["/service/business-loan", "/contact"],
+  ["/service/home-loan", "/contact"],
+  ["/service/loan-against-property", "/contact"],
+  ["/service/financing-consultation", "/contact"],
+  ["/service/financing-consultation-2", "/contact"],
+  ["/service/financing-consultation-3", "/contact"],
   ["/service/:slug*", "/services"],
 
   ["/service_cat/direct-tax-consulting", "/services/direct-tax-consulting"],
@@ -67,7 +73,7 @@ const LEGACY_REDIRECTS: ReadonlyArray<readonly [source: string, destination: str
   ["/service_cat/audit-and-assurance", "/services/audit-assurance"],
   ["/service_cat/insurance-advising", "/services/insurance-solutions"],
   ["/service_cat/investment-consulting", "/investments"],
-  ["/service_cat/financing-consultation", "/financial-solutions"],
+  ["/service_cat/financing-consultation", "/contact"],
   ["/service_cat/:slug*", "/services"],
 
   /* ------------------------------------ theme demo content, never real */
@@ -86,6 +92,16 @@ const LEGACY_REDIRECTS: ReadonlyArray<readonly [source: string, destination: str
 
   /* Search engines keep fetching the old sitemap address until told otherwise. */
   ["/sitemap_index.xml", "/sitemap.xml"],
+
+  /* ------------------------------------------- withdrawn: loans against
+     securities. These four were live on THIS site and are in its sitemap
+     history, so a 301 passes on whatever ranking they had. They point at the
+     investment catalogue because that is the nearest surviving section — the
+     visitor was browsing products, not filling in an enquiry. */
+  ["/financial-solutions", "/investments"],
+  ["/products/loan-against-mutual-funds", "/investments"],
+  ["/products/loan-against-shares", "/investments"],
+  ["/products/loan-against-pms-bonds", "/investments"],
 ];
 
 const nextConfig: NextConfig = {

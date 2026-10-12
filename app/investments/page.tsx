@@ -4,18 +4,18 @@ import { CtaSection } from "@/components/sections/CtaSection";
 import { PageHero } from "@/components/sections/PageHero";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { Disclaimer } from "@/components/ui/Disclaimer";
-import { getProductsByDomain } from "@/lib/content";
+import { PRODUCTS } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
   title: "Investment Solutions",
   description:
-    "Nineteen investment solutions across seven categories — from a ₹500 monthly SIP to PMS and alternative strategies. Each states plainly who it is for, and its risks.",
+    "Nineteen investment solutions across six categories — from a ₹500 monthly SIP to PMS and alternative strategies. Each states plainly who it is for, and its risks.",
   path: "/investments",
 });
 
 export default function InvestmentsPage() {
-  const products = getProductsByDomain("investment");
+  const products = PRODUCTS;
 
   return (
     <>

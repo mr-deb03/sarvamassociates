@@ -11,7 +11,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "", priority: 1 },
     { path: "/investments", priority: 0.9 },
     { path: "/services", priority: 0.9 },
-    { path: "/financial-solutions", priority: 0.9 },
     { path: "/how-it-works", priority: 0.7 },
     { path: "/about", priority: 0.7 },
     { path: "/contact", priority: 0.8 },
@@ -31,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority,
     })),
 
-    ...CATEGORIES.filter((c) => c.domain === "investment").map((c) => ({
+    ...CATEGORIES.map((c) => ({
       url: `${SITE_URL}/investments/${c.slug}`,
       lastModified,
       changeFrequency: "monthly" as const,

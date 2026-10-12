@@ -69,7 +69,6 @@ export const GOAL_LABELS: Record<Goal, string> = {
   "grow-wealth": "Grow my wealth",
   "generate-income": "Generate income",
   "protect-wealth": "Protect what I have",
-  "access-liquidity": "Access liquidity",
   "plan-retirement": "Plan for retirement",
   "reduce-tax": "Be more tax-efficient",
 };
