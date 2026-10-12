@@ -16,9 +16,17 @@ import { Reveal } from "@/components/motion/Reveal";
 import { FaqList } from "@/components/ui/Faq";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { GENERAL_FAQS } from "@/lib/content/faqs";
+import { VERIFIED_TESTIMONIALS } from "@/lib/content/testimonials";
+import { cn } from "@/lib/utils";
 
 /** The six questions most likely to block a first conversation. */
 const HOME_FAQS = GENERAL_FAQS.slice(0, 6);
+
+/**
+ * Client stories stay off the page until real, consented quotes exist. Setting
+ * `placeholder: false` on an entry in the content file brings the section back.
+ */
+const SHOW_TESTIMONIALS = VERIFIED_TESTIMONIALS.length > 0;
 
 export default function HomePage() {
   return (
@@ -38,11 +46,12 @@ export default function HomePage() {
       <Numbers />
       <ProcessTimeline />
       <Comparison />
-      <Testimonials allowPlaceholders />
+      {SHOW_TESTIMONIALS && <Testimonials />}
 
-      {/* Paper, not mist — Testimonials directly above is already mist, and two
-          mist sections in a row erase the light/tinted alternation. */}
-      <section className="section">
+      {/* Paper when Testimonials sits directly above, because that is already
+          mist and two mist sections in a row erase the light/tinted
+          alternation. Mist when it is absent, because Comparison is paper. */}
+      <section className={cn("section", !SHOW_TESTIMONIALS && "bg-mist")}>
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.4fr] lg:gap-20">
             <Reveal>

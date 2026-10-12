@@ -16,8 +16,9 @@ import type { Testimonial } from "./types";
    1. No star ratings render anywhere on the site. The mockup showed ★★★★★ on
       every card; presenting an invented rating as a verified one is exactly
       what brief §23 and §47 prohibit.
-   2. The testimonials section renders a visible note that these are
-      illustrative until real quotes replace them.
+   2. The home page leaves the section out while every entry is a placeholder.
+      Anywhere that does show them must pass `allowPlaceholders`, which adds a
+      visible note that they are illustrative.
    3. `<Testimonials>` refuses to render entries where `placeholder` is true
       unless explicitly passed `allowPlaceholders`.
 
