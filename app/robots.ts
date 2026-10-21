@@ -1,14 +1,13 @@
 import type { MetadataRoute } from "next";
-import { isBeforeLaunch } from "@/lib/launch";
+import { isSiteLive } from "@/lib/launch";
 import { SITE_URL } from "@/lib/seo";
 
 /*
    Evaluated per request, not at build time.
 
    A statically generated robots.txt would freeze whichever answer was true
-   when the build ran: hold the site back and it would keep telling crawlers
-   to stay away long after launch, with nothing but a rebuild to clear it.
-   One tiny dynamic route is a fair price for that not happening.
+   when the build ran, and SITE_LIVE can change without this file changing.
+   One tiny dynamic route is a fair price for the two never disagreeing.
 */
 export const dynamic = "force-dynamic";
 
@@ -19,7 +18,7 @@ export default function robots(): MetadataRoute.Robots {
      "opening soon" for as long as the index takes to refresh — long after it
      has opened. Better to be absent for a week than wrong for a month.
   */
-  if (isBeforeLaunch()) {
+  if (!isSiteLive()) {
     return {
       rules: { userAgent: "*", disallow: "/" },
       sitemap: `${SITE_URL}/sitemap.xml`,

@@ -1,61 +1,47 @@
 /* ==========================================================================
-   When the site opens.
+   Whether the site is open to the public.
 
-   A FIXED MOMENT, not "seven days from deploy".
+   A SWITCH, NOT A DATE.
 
-   There is no such thing as "when this was deployed" on a serverless host:
-   every instance is cold, nothing persists between them, and a counter stored
-   in memory restarts on each request. A launch date is the only definition of
-   "seven days" that every instance agrees on.
+   This started as a launch timestamp — hold for seven days, then open by
+   itself. That was wrong in the way timers usually are: the date passed while
+   the work was still going on, and the site let itself out. A deadline nobody
+   is watching is not a decision, it is an accident waiting for a calendar.
+
+   So the holding page now stays up for as long as it takes, and opening is
+   something a person does once, on purpose.
+
+   The default is HELD. An unset variable, a typo, a fresh environment, a
+   forgotten setting on a new deployment — every one of those keeps the front
+   door shut, which is the direction that cannot embarrass anybody.
 
    No `server-only` here: proxy.ts imports it, and that runs before the React
    runtime exists.
    ========================================================================== */
 
 /**
- * Midnight IST on the day the site opens.
+ * Open the site by setting `SITE_LIVE=true` on the host, then redeploying.
  *
- * Editable two ways. Change this constant, or set `LAUNCH_AT` on the host to
- * any value `Date.parse` understands — bring it forward to go live early,
- * push it back to hold longer. Keep the offset: without `+05:30` a bare date
- * is parsed as UTC and the site opens at 05:30 local.
+ * Trimmed and lower-cased first, so `true`, `TRUE` and ` True ` all open it —
+ * a stray space or a capital letter in a dashboard field should not be the
+ * difference between a live site and a holding page.
+ *
+ * Everything else keeps it held: `1`, `yes`, `on`, an empty value, or nothing
+ * at all. Verified, not assumed. That is deliberately unforgiving — "is this
+ * site public" should have one unambiguous answer, and a near-miss should
+ * fail closed rather than guess.
  *
  * Deliberately NOT a NEXT_PUBLIC_ name. Those are substituted into the bundle
- * at build time, so the value would be frozen at whatever it was when the
- * build ran. This one is read from the environment on each request, and no
- * client code needs it — the countdown is handed the date as a prop.
+ * at build time; this is read from the environment on each request, and no
+ * client code needs it.
  */
-const DEFAULT_LAUNCH_AT = "2026-10-19T00:00:00+05:30";
-
-export function launchAt(): number {
-  const raw = process.env.LAUNCH_AT?.trim();
-  if (raw) {
-    const parsed = Date.parse(raw);
-    if (!Number.isNaN(parsed)) return parsed;
-    // A typo here would silently open the site or hold it forever, so say so.
-    console.warn(
-      `[launch] LAUNCH_AT is not a date Date.parse understands: ${raw}. Falling back to ${DEFAULT_LAUNCH_AT}.`,
-    );
-  }
-  return Date.parse(DEFAULT_LAUNCH_AT);
+export function isSiteLive(): boolean {
+  return process.env.SITE_LIVE?.trim().toLowerCase() === "true";
 }
 
-export function isBeforeLaunch(now: number = Date.now()): boolean {
-  return now < launchAt();
-}
-
-/** ISO string, for passing the moment into a client component. */
-export function launchAtIso(): string {
-  return new Date(launchAt()).toISOString();
-}
-
-export function launchDateDisplay(): string {
-  return new Date(launchAt()).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "Asia/Kolkata",
-  });
+/** The holding page is up. */
+export function isHeldBack(): boolean {
+  return !isSiteLive();
 }
 
 /* ==========================================================================

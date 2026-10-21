@@ -2,8 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import {
   PREVIEW_COOKIE,
   PREVIEW_PARAM,
-  isBeforeLaunch,
   isOpenPath,
+  isSiteLive,
 } from "@/lib/launch";
 
 /* ==========================================================================
@@ -18,19 +18,19 @@ import {
    REWRITE, NOT REDIRECT. The URL the visitor typed stays in the bar and the
    response is a plain 200. A redirect would put /coming-soon in browser
    histories and proxy caches, and 301s in particular outlive the thing that
-   caused them. After the launch moment passes, this function stops matching
-   and every URL resolves to its real page with nothing to undo.
+   caused them. Set SITE_LIVE=true and this function stops matching: every URL
+   resolves to its real page, with nothing cached to undo.
 
    Three ways past it:
-     - the launch moment has passed, which needs no action from anyone;
-     - a correct ?preview= token, for showing the client before go-live;
+     - SITE_LIVE=true, which is the deliberate act of going public;
+     - a correct ?preview= token, for showing the client beforehand;
      - an admin session, because whoever is reading submissions built this.
    ========================================================================== */
 
 const PREVIEW_MAX_AGE = 60 * 60 * 24 * 14; // two weeks
 
 export function proxy(request: NextRequest) {
-  if (!isBeforeLaunch()) return NextResponse.next();
+  if (isSiteLive()) return NextResponse.next();
 
   const { pathname, searchParams } = request.nextUrl;
 

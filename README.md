@@ -568,28 +568,35 @@ that was never sent is worse than an honest error.
 
 ---
 
-## Pre-launch holding page
+## Holding page
 
-Until the launch moment, `proxy.ts` rewrites every public path to
-`/coming-soon`. After it, the gate stops matching and the site is simply
-itself — no switch to flip, nothing to undo.
+Until the site is explicitly opened, `proxy.ts` rewrites every public path to
+`/coming-soon`.
 
-**The date is fixed, not relative.** "Seven days from deploy" cannot be
-expressed on a serverless host: every instance is cold and nothing persists
-between them, so there is no agreed answer to "when did this go up". The
-moment lives in `lib/launch.ts` (currently midnight IST on 19 October 2026)
-and `LAUNCH_AT` overrides it on the host — bring it forward to open early,
-push it back to hold longer.
+**It is a switch, not a timer.** The first version was a launch date — hold for
+seven days, then open by itself. The date passed while the work was still
+going on and the site let itself out. A deadline nobody is watching is not a
+decision; it is an accident waiting for a calendar. So the holding page stays
+up for as long as it takes, and opening is something a person does on purpose:
 
-It is **not** a `NEXT_PUBLIC_` name on purpose. Those are substituted into the
-bundle at build time, which would freeze the date at whatever it was when the
-build ran. Nothing client-side needs it: the countdown is handed the date as
-a prop.
+```
+SITE_LIVE=true     # on the host, then redeploy
+```
+
+**The default is held.** An unset variable, a typo, a fresh environment or a
+forgotten setting on a new deployment all keep the front door shut — the only
+direction that cannot embarrass anybody. The value is trimmed and lower-cased,
+so `true`, `TRUE` and ` True ` all work; `1`, `yes` and `on` do not, and that
+is checked rather than assumed. It is not a `NEXT_PUBLIC_` name, so it is read
+per request rather than frozen into the bundle at build time.
 
 **A rewrite, not a redirect.** The requested URL stays in the address bar and
 the response is a plain 200. A redirect would leave `/coming-soon` in browser
-histories and proxy caches, and a 301 in particular outlives the thing that
-caused it.
+histories and proxy caches, and a 301 outlives the thing that caused it.
+
+**No date on the page, and no countdown.** There was one. A promised date is a
+promise this page cannot keep, and a visible clock running out costs something
+when the work runs long; "shortly" costs nothing.
 
 | Still reachable while held | Why |
 |---|---|
@@ -601,15 +608,19 @@ Two ways past it: `?preview=<PREVIEW_TOKEN>`, which swaps the token for a
 cookie and drops it from the URL so a link only has to be used once; or an
 admin session, because whoever is reading submissions built the thing.
 
-`app/robots.ts` is `force-dynamic` and disallows everything while held. Static
-generation would have frozen that answer into the build and kept crawlers away
-long after launch, with only a rebuild to clear it.
+`app/robots.ts` is `force-dynamic` and disallows everything while held, so the
+practice's own name cannot turn up a page that says "opening soon" for weeks
+after it has opened. Static generation would have frozen that answer into the
+build.
+
+Because the one failure mode of a switch is forgetting which way it is set,
+the admin panel carries a banner whenever the public site is still held.
 
 The holding page is a `fixed inset-0 z-150` panel rather than a page inside the
 usual chrome — the site header links to pages that all lead back to it, and a
-nav where every item is the same page is worse than no nav. Covering the
-chrome this way avoids the alternative, which was having the root layout read a
-proxy-set header and so making all 50 pages dynamic for the sake of one week.
+nav where every item is the same page is worse than no nav. Covering the chrome
+this way avoids the alternative, which was having the root layout read a
+proxy-set header and so making all 50 pages dynamic.
 
 ---
 
